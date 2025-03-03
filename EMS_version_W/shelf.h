@@ -13,13 +13,13 @@ Shelf* addShelf(int type, int capacity);
 Shelf* findShelfById(int shelfId);
 
 // 查找合适的货架放置包裹
-Shelf* findSuitableShelf(int packageSize, int packageNote);
+int findSuitableShelf(int packageSize, int packageNote);
 
 // 更新货架信息
 int updateShelf(int shelfId, int capacity);
 
 // 更新货架当前存放数量
-int updateShelfCount(int shelfId, int countChange);
+void updateShelfCount(int shelfId, int countChange);
 
 // 检查货架是否满载
 int isShelfFull(int shelfId);

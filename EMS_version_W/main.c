@@ -13,6 +13,59 @@
 #include "storage.h"
 #include "util.h"
 
+// 系统操作函数
+void clearScreen();
+void waitForKeyPress();
+void initSystem();
+void showMainMenu();
+void showAdminMenu();
+void showUserMenu();
+
+// 登录和用户系统函数
+void handleLogin();
+void handleRegister();
+void handleAdminSystem();
+void handleUserSystem();
+
+// 用户管理函数
+void handleUserManagement();
+void displayAllUsers();
+void handleAddUser();
+void handleEditUser();
+void handleDeleteUser();
+
+// 包裹管理函数
+void handlePackageManagement();
+void displayAllPackages();
+void handleAddPackage();
+void handleEditPackage();
+void handleMarkPackagePickedUp();
+void handleMarkPackageAbnormal();
+void handleSearchPackage();
+
+// 货架管理函数
+void handleShelfManagement();
+void displayAllShelves();
+void handleAddShelf();
+void handleShelfWarning();
+void handleInventoryCheck();
+
+// 统计分析函数
+void handleStatistics();
+void handleDailyReport();
+void handleWeeklyReport();
+void handleMonthlyReport();
+void handlePackageFlowAnalysis();
+void handleIncomeAnalysis();
+
+// 用户功能函数
+void handleViewMyPackages();
+void handlePickupPackage();
+void handleSendPackage();
+void handleViewMemberInfo();
+void handleAccountSettings();
+void handleTransactionRecords();
+
 // 清屏函数
 void clearScreen() {
 #ifdef _WIN32
@@ -875,4 +928,175 @@ int main() {
     saveAllData();
 
     return 0;
+}
+void handleEditPackage() {
+    clearScreen();
+    printf("=================================\n");
+    printf("           编辑包裹             \n");
+    printf("=================================\n");
+
+    int packageId;
+    printf("请输入包裹ID: ");
+    scanf("%d", &packageId);
+
+    Package* package = findPackageById(packageId);
+    if (package == NULL) {
+        printf("包裹不存在！\n");
+        waitForKeyPress();
+        return;
+    }
+
+    printf("当前包裹信息：\n");
+    printf("用户ID: %d\n", package->userId);
+    printf("大小: %d\n", package->size);
+    printf("重量: %d\n", package->weight);
+    printf("备注: %d\n", package->note);
+    printf("运输方式: %d\n", package->transportMethod);
+    printf("价值: %.2f\n", package->value);
+    printf("状态: %d\n\n", package->status);
+
+    printf("功能开发中...\n");
+    waitForKeyPress();
+}
+
+void handleMarkPackagePickedUp() {
+    clearScreen();
+    printf("=================================\n");
+    printf("         标记包裹已取出         \n");
+    printf("=================================\n");
+
+    int packageId;
+    printf("请输入包裹ID: ");
+    scanf("%d", &packageId);
+
+    if (markPackageAsPickedUp(packageId)) {
+        printf("包裹已成功标记为已取出！\n");
+        savePackagesToFile("packages.txt");
+        saveShelvesToFile("shelves.txt");
+    }
+    else {
+        printf("操作失败，包裹可能不存在或已经取出！\n");
+    }
+
+    waitForKeyPress();
+}
+
+void handleMarkPackageAbnormal() {
+    clearScreen();
+    printf("=================================\n");
+    printf("         标记包裹异常           \n");
+    printf("=================================\n");
+
+    int packageId;
+    printf("请输入包裹ID: ");
+    scanf("%d", &packageId);
+
+    char reason[100];
+    printf("异常原因: ");
+    scanf(" %[^\n]", reason);
+
+    if (markPackageAsAbnormal(packageId, reason)) {
+        printf("包裹已成功标记为异常！\n");
+        savePackagesToFile("packages.txt");
+    }
+    else {
+        printf("操作失败，包裹可能不存在或已经不在待取状态！\n");
+    }
+
+    waitForKeyPress();
+}
+
+// 添加其他缺失的函数实现...
+void handleSearchPackage() {
+    clearScreen();
+    printf("=================================\n");
+    printf("           搜索包裹             \n");
+    printf("=================================\n");
+
+    printf("1. 按ID搜索\n");
+    printf("2. 按取件码搜索\n");
+    printf("请选择搜索方式: ");
+
+    int choice;
+    scanf("%d", &choice);
+
+    if (choice == 1) {
+        int packageId;
+        printf("请输入包裹ID: ");
+        scanf("%d", &packageId);
+
+        Package* package = findPackageById(packageId);
+        if (package == NULL) {
+            printf("未找到包裹！\n");
+        }
+        else {
+            printf("\n找到包裹：\n");
+            printf("ID: %d\n", package->id);
+            printf("取件码: %s\n", package->pickupCode);
+            printf("用户ID: %d\n", package->userId);
+            printf("状态: %d\n", package->status);
+            printf("创建时间: %s\n", package->createTime);
+        }
+    }
+    else if (choice == 2) {
+        char pickupCode[20];
+        printf("请输入取件码: ");
+        scanf("%s", pickupCode);
+
+        Package* package = findPackageByCode(pickupCode);
+        if (package == NULL) {
+            printf("未找到包裹！\n");
+        }
+        else {
+            printf("\n找到包裹：\n");
+            printf("ID: %d\n", package->id);
+            printf("取件码: %s\n", package->pickupCode);
+            printf("用户ID: %d\n", package->userId);
+            printf("状态: %d\n", package->status);
+            printf("创建时间: %s\n", package->createTime);
+        }
+    }
+    else {
+        printf("无效的选择！\n");
+    }
+
+    waitForKeyPress();
+}
+
+void handleAddShelf() {
+    clearScreen();
+    printf("=================================\n");
+    printf("           添加货架             \n");
+    printf("=================================\n");
+
+    int type;
+    printf("货架类型 (0-极小包裹, 1-小包裹, 2-中包裹, 3-大包裹, 4-极大包裹, 5-易碎品, 6-冷鲜): ");
+    scanf("%d", &type);
+
+    if (type < 0 || type > 6) {
+        printf("无效的货架类型！\n");
+        waitForKeyPress();
+        return;
+    }
+
+    int capacity;
+    printf("货架容量: ");
+    scanf("%d", &capacity);
+
+    if (capacity <= 0) {
+        printf("货架容量必须大于0！\n");
+        waitForKeyPress();
+        return;
+    }
+
+    Shelf* newShelf = addShelf(type, capacity);
+    if (newShelf == NULL) {
+        printf("添加货架失败！\n");
+    }
+    else {
+        printf("添加货架成功！货架ID: %d\n", newShelf->id);
+        saveShelvesToFile("shelves.txt");
+    }
+
+    waitForKeyPress();
 }

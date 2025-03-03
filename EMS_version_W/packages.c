@@ -67,7 +67,7 @@ struct tm* tm_info = localtime(&t);
 sprintf(dateStr, "%02d", tm_info->tm_mday);
 sprintf(shelfStr, "%02d", package->shelfId % 100);
 
-unsigned int hash = hashString((char*)&(package->id), sizeof(int)) % 10000;
+unsigned int hash = hashString((char*)&(package->id)) % 10000;
 sprintf(hashStr, "%04d", hash);
 
 sprintf(package->pickupCode, "%s%s%s", dateStr, shelfStr, hashStr);
