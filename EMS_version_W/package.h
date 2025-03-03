@@ -1,0 +1,49 @@
+#ifndef PACKAGE_H
+#define PACKAGE_H
+
+#include "main.h"
+
+// 初始化包裹链表
+void initPackageList();
+
+// 添加包裹
+Package* addPackage(int userId, int size, int weight, int note, int transportMethod,
+    double value, int shelfId);
+
+// 查找包裹（通过ID）
+Package* findPackageById(int packageId);
+
+// 查找包裹（通过取件码）
+Package* findPackageByPickupCode(const char* pickupCode);
+
+// 查询用户的所有包裹
+Package** getUserPackages(int userId, int* count);
+
+// 查询用户的待取包裹
+Package** getUserWaitingPackages(int userId, int* count);
+
+// 更新包裹状态
+int updatePackageStatus(int packageId, int status);
+
+// 处理包裹出库
+int processPackagePickup(const char* pickupCode);
+
+// 生成取件码
+void generatePickupCode(Package* package);
+
+// 计算包裹保存费
+double calculateStorageFee(Package* package);
+
+// 计算包裹邮费
+double calculateShippingFee(Package* package, User* user);
+
+// 保存包裹数据到文件
+void savePackagesToFile(const char* filename);
+
+// 从文件加载包裹数据
+void loadPackagesFromFile(const char* filename);
+
+// 释放包裹链表内存
+void freePackageList();
+
+#endif /* PACKAGE_H */
