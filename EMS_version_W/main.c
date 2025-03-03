@@ -13,6 +13,11 @@
 #include "storage.h"
 #include "util.h"
 
+// 临时声明
+int markPackageAsPickedUp(int packageId);
+int markPackageAsAbnormal(int packageId, const char* reason);
+double calculatePackageFee(int size, int weight, int transportMethod);
+
 // 系统操作函数
 void clearScreen();
 void waitForKeyPress();
@@ -22,10 +27,8 @@ void showAdminMenu();
 void showUserMenu();
 
 // 登录和用户系统函数
-void handleLogin();
 void handleRegister();
-void handleAdminSystem();
-void handleUserSystem();
+void handleLogin();
 
 // 用户管理函数
 void handleUserManagement();
@@ -44,27 +47,9 @@ void handleMarkPackageAbnormal();
 void handleSearchPackage();
 
 // 货架管理函数
-void handleShelfManagement();
 void displayAllShelves();
 void handleAddShelf();
-void handleShelfWarning();
-void handleInventoryCheck();
-
-// 统计分析函数
-void handleStatistics();
-void handleDailyReport();
-void handleWeeklyReport();
-void handleMonthlyReport();
-void handlePackageFlowAnalysis();
-void handleIncomeAnalysis();
-
-// 用户功能函数
-void handleViewMyPackages();
-void handlePickupPackage();
-void handleSendPackage();
-void handleViewMemberInfo();
-void handleAccountSettings();
-void handleTransactionRecords();
+void handleShelfManagement();
 
 // 清屏函数
 void clearScreen() {
@@ -79,7 +64,7 @@ void clearScreen() {
 void waitForKeyPress() {
     printf("\n按任意键继续...");
     getchar();
-    getchar(); // 捕获两次以确保清除输入缓冲
+    getchar(); //清输入区
 }
 
 // 初始化系统
@@ -113,6 +98,9 @@ void initSystem() {
     }
 }
 
+
+
+
 // 显示主菜单
 void showMainMenu() {
     clearScreen();
@@ -127,6 +115,7 @@ void showMainMenu() {
 
 // 显示管理员菜单
 void showAdminMenu() {
+    int choice;
     clearScreen();
     printf("=================================\n");
     printf("    快递驿站管理系统 - 管理员    \n");
@@ -138,10 +127,35 @@ void showAdminMenu() {
     printf("5. 交易记录\n");
     printf("0. 登出\n");
     printf("请选择操作：");
+    scanf("%d", &choice);
+	switch (choice) {
+	case 1:
+		handleUserManagement();
+		break;
+	case 2:
+		handlePackageManagement();
+		break;
+	case 3:
+		handleShelfManagement();
+		break;
+	case 4:
+		//handleStatistics();
+		break;
+	case 5:
+		//handleTransactions();
+		break;
+	case 0:
+		logout();
+		break;
+	default:
+		printf("无效选择，请重新输入！\n");
+		waitForKeyPress();
+	}
 }
 
 // 显示用户菜单
 void showUserMenu() {
+    int choice;
     clearScreen();
     User* currentUser = findUserById(g_currentUserId);
 
@@ -171,48 +185,63 @@ void showUserMenu() {
     printf("5. 账户设置\n");
     printf("0. 登出\n");
     printf("请选择操作：");
+	scanf("%d", &choice);
+    switch (choice) {
+    case 1:
+        //displayMyPackages();
+        break;
+    case 0:
+        logout();
+        break;
+    default:
+        printf("无效选择，请重新输入！\n");
+        waitForKeyPress();
+    }
 }
 
 // 处理登录
-void handleLogin() {
-    clearScreen();
-    printf("=================================\n");
-    printf("             登录               \n");
-    printf("=================================\n");
+    
+    void handleLogin() {
+        clearScreen();
+        printf("=================================\n");
+        printf("             登录               \n");
+        printf("=================================\n");
 
-    char username[50];
-    char password[50];
+        char username[50];
+        char password[50];
 
-    printf("账户: ");
-    scanf("%s", username);
-    printf("密码: ");
-    scanf("%s", password);
+        printf("账户: ");
+        scanf("%s", username);
+        printf("密码: ");
+        scanf("%s", password);
 
-    int result = login(username, password);
+        int result = login(username, password);
 
-    if (result == 1) {
-        printf("管理员登录成功！\n");
-        waitForKeyPress();
-        handleAdminSystem();
+        if (result == 1) {
+            printf("管理员登录成功！\n");
+            waitForKeyPress();
+            showAdminMenu();
+        }
+        else if (result == 2) {
+            printf("用户登录成功！\n");
+            waitForKeyPress();
+            showUserMenu();
+        }
+        else if (result == -1) {
+            printf("账户不存在！\n");
+            waitForKeyPress();
+        }
+        else if (result == 0) {
+            printf("密码错误！\n");
+            waitForKeyPress();
+        }
+        else {
+            printf("登录失败！\n");
+            waitForKeyPress();
+        }
     }
-    else if (result == 2) {
-        printf("用户登录成功！\n");
-        waitForKeyPress();
-        handleUserSystem();
-    }
-    else if (result == -1) {
-        printf("账户不存在！\n");
-        waitForKeyPress();
-    }
-    else if (result == 0) {
-        printf("密码错误！\n");
-        waitForKeyPress();
-    }
-    else {
-        printf("登录失败！\n");
-        waitForKeyPress();
-    }
-}
+
+
 
 // 处理注册
 void handleRegister() {
@@ -259,77 +288,7 @@ void handleRegister() {
     waitForKeyPress();
 }
 
-// 管理员系统处理
-void handleAdminSystem() {
-    int running = 1;
-    while (running && g_currentUserType == USER_TYPE_ADMIN) {
-        showAdminMenu();
 
-        int choice;
-        scanf("%d", &choice);
-
-        switch (choice) {
-        case 1:
-            handleUserManagement();
-            break;
-        case 2:
-            handlePackageManagement();
-            break;
-        case 3:
-            handleShelfManagement();
-            break;
-        case 4:
-            handleStatistics();
-            break;
-        case 5:
-            handleTransactionRecords();
-            break;
-        case 0:
-            logout();
-            running = 0;
-            break;
-        default:
-            printf("无效选择，请重新输入！\n");
-            waitForKeyPress();
-        }
-    }
-}
-
-// 用户系统处理
-void handleUserSystem() {
-    int running = 1;
-    while (running && g_currentUserType == USER_TYPE_NORMAL) {
-        showUserMenu();
-
-        int choice;
-        scanf("%d", &choice);
-
-        switch (choice) {
-        case 1:
-            handleViewMyPackages();
-            break;
-        case 2:
-            handlePickupPackage();
-            break;
-        case 3:
-            handleSendPackage();
-            break;
-        case 4:
-            handleViewMemberInfo();
-            break;
-        case 5:
-            handleAccountSettings();
-            break;
-        case 0:
-            logout();
-            running = 0;
-            break;
-        default:
-            printf("无效选择，请重新输入！\n");
-            waitForKeyPress();
-        }
-    }
-}
 
 // 用户管理
 void handleUserManagement() {
@@ -364,7 +323,7 @@ void handleUserManagement() {
             handleDeleteUser();
             break;
         case 0:
-            running = 0;
+            showAdminMenu();
             break;
         default:
             printf("无效选择，请重新输入！\n");
@@ -586,7 +545,7 @@ void handlePackageManagement() {
             handleSearchPackage();
             break;
         case 0:
-            running = 0;
+            showAdminMenu();
             break;
         default:
             printf("无效选择，请重新输入！\n");
@@ -777,13 +736,13 @@ void handleShelfManagement() {
             handleAddShelf();
             break;
         case 3:
-            handleShelfWarning();
+            //handleShelfWarning();
             break;
         case 4:
-            handleInventoryCheck();
+            //handleInventoryCheck();
             break;
         case 0:
-            running = 0;
+            showAdminMenu();
             break;
         default:
             printf("无效选择，请重新输入！\n");
@@ -850,49 +809,6 @@ void displayAllShelves() {
 }
 
 // 统计分析
-void handleStatistics() {
-    int running = 1;
-    while (running) {
-        clearScreen();
-        printf("=================================\n");
-        printf("         数据分析与报表         \n");
-        printf("=================================\n");
-        printf("1. 生成日报\n");
-        printf("2. 生成周报\n");
-        printf("3. 生成月报\n");
-        printf("4. 包裹流量分析\n");
-        printf("5. 收入分析\n");
-        printf("0. 返回\n");
-        printf("请选择操作：");
-
-        int choice;
-        scanf("%d", &choice);
-
-        switch (choice) {
-        case 1:
-            handleDailyReport();
-            break;
-        case 2:
-            handleWeeklyReport();
-            break;
-        case 3:
-            handleMonthlyReport();
-            break;
-        case 4:
-            handlePackageFlowAnalysis();
-            break;
-        case 5:
-            handleIncomeAnalysis();
-            break;
-        case 0:
-            running = 0;
-            break;
-        default:
-            printf("无效选择，请重新输入！\n");
-            waitForKeyPress();
-        }
-    }
-}
 
 // 主函数
 int main() {
@@ -1006,7 +922,6 @@ void handleMarkPackageAbnormal() {
     waitForKeyPress();
 }
 
-// 添加其他缺失的函数实现...
 void handleSearchPackage() {
     clearScreen();
     printf("=================================\n");

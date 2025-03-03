@@ -5,8 +5,8 @@
 #include "auth.h"
 #include "user.h"
 
-// 全局当前登录用户信息
-int g_currentUserId = -1;    // -1表示未登录
+// 登录信息
+int g_currentUserId = -1;    // -1未登录
 int g_currentUserType = -1;  // 用户类型：0普通用户，1管理员
 
 // 用户登录

@@ -12,7 +12,6 @@
 
 // 全局包裹链表
 Package* g_packageList = NULL;
-
 // 初始化包裹链表
 void initPackageList() {
 g_packageList = NULL;

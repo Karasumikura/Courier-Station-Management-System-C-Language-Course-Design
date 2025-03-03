@@ -30,4 +30,4 @@ unsigned int hashString(const char* str);
 // 获取下一个工作日
 void getNextWorkDay(const char* date, char* nextWorkDay);
 
-#endif /* UTIL_H */#pragma once
+#endif /* UTIL_H */
