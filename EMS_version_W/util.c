@@ -24,7 +24,7 @@ void getCurrentTimeString(char* timeStr) {
 }
 
 // ×Ö·û´®¹þÏ£º¯Êý
-unsigned int hashString(const void* key, size_t len) {
+/*unsigned int hashString(const void* key, size_t len) {
     const unsigned char* str = (const unsigned char*)key;
     unsigned int hash = 5381;
 
@@ -33,4 +33,4 @@ unsigned int hashString(const void* key, size_t len) {
     }
 
     return hash;
-}
+}*/

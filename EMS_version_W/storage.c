@@ -15,7 +15,7 @@ void initDataStorage() {
 // 保存所有数据
 void saveAllData() {
 	saveUsersToFile("users.txt");
-	savePackagesToFile("packages.txt");
+	savePackages_File("packages.txt");
 	saveShelvesToFile("shelves.txt");
 	saveTransactionsToFile("transactions.txt");
 }

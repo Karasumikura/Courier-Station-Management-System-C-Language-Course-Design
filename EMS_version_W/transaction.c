@@ -15,7 +15,7 @@ void initTransactionList() {
 }
 
 // 添加交易记录
-Transaction* addTransaction(int type, int subType, double amount, const char* description) {
+Transaction* add_Transaction(int type, int subType, double amount, const char* description) {
     // 创建新交易记录
     Transaction* newTransaction = (Transaction*)malloc(sizeof(Transaction));
     if (newTransaction == NULL) {
@@ -150,7 +150,6 @@ void loadTransactionsFromFile(const char* filename) {
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
         printf("交易记录数据文件 %s 不存在，将创建新文件\n", filename);
-        return;
     }
 
     // 清空现有链表

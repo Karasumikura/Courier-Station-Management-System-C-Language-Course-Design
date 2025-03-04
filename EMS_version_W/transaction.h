@@ -7,7 +7,7 @@
 void initTransactionList();
 
 // 添加交易记录
-Transaction* addTransaction(int type, int subType, double amount, const char* description);
+Transaction* add_Transaction(int type, int subType, double amount, const char* description);
 
 // 查找交易记录（通过ID）
 Transaction* findTransactionById(int transactionId);
@@ -35,5 +35,6 @@ void loadTransactionsFromFile(const char* filename);
 
 // 释放交易记录链表内存
 void freeTransactionList();
+
 
 #endif /* TRANSACTION_H */

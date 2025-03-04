@@ -66,7 +66,7 @@ struct tm* tm_info = localtime(&t);
 sprintf(dateStr, "%02d", tm_info->tm_mday);
 sprintf(shelfStr, "%02d", package->shelfId % 100);
 
-unsigned int hash = hashString((char*)&(package->id)) % 10000;
+unsigned int hash = 1234/*hashString((char*)&(package->id)) % 10000*/;
 sprintf(hashStr, "%04d", hash);
 
 sprintf(package->pickupCode, "%s%s%s", dateStr, shelfStr, hashStr);
@@ -153,7 +153,7 @@ updateShelfCount(package->shelfId, -1);
 // 如果是特殊包裹，收取保存费
 if (package->note != PACKAGE_NOTE_NONE) {
 double fee = calculateStorageFee(package);
-addTransaction(TRANSACTION_INCOME, INCOME_STORAGE_FEE, fee, "特殊包裹保存费");
+add_Transaction(TRANSACTION_INCOME, INCOME_STORAGE_FEE, fee, "特殊包裹保存费");
 }
 
 return 1;
@@ -244,7 +244,7 @@ return baseFee * sizeFactor * weightFactor * transportFactor;
 }
 
 // 保存包裹数据到文件
-void savePackagesToFile(const char* filename) {
+void savePackages_File(const char* filename) {
 FILE* file = fopen(filename, "w");
 if (file == NULL) {
 printf("无法打开包裹数据文件 %s\n", filename);

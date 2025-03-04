@@ -51,6 +51,8 @@ void displayAllShelves();
 void handleAddShelf();
 void handleShelfManagement();
 
+void handleTransactions();
+
 // 清屏函数
 void clearScreen() {
 #ifdef _WIN32
@@ -142,7 +144,7 @@ void showAdminMenu() {
 		//handleStatistics();
 		break;
 	case 5:
-		//handleTransactions();
+		handleTransactions();
 		break;
 	case 0:
 		logout();
@@ -153,6 +155,41 @@ void showAdminMenu() {
 	}
 }
 
+void handleTransactions() {
+	int running = 1;
+    while (running) {
+        clearScreen();
+        printf("=================================\n");
+        printf("           交易记录             \n");
+        printf("=================================\n");
+        printf("1. 查看所有交易记录\n");
+        printf("2. 导出交易记录\n");
+        printf("3.add");
+        printf("0. 返回\n");
+        printf("请选择操作：");
+        int choice;
+        scanf("%d", &choice);
+        switch (choice) {
+        case 1:
+          
+            waitForKeyPress();
+            break;
+        case 2:
+            
+            break;
+        case 3:
+         
+			break;
+        case 0:
+            running = 0;
+            break;
+        default:
+            printf("无效选择，请重新输入！\n");
+            waitForKeyPress();
+        }
+        showAdminMenu();
+    }
+}
 // 显示用户菜单
 void showUserMenu() {
     int choice;
@@ -697,12 +734,12 @@ void handleAddPackage() {
     }
     else {
         printf("添加包裹成功！取件码: %s\n", newPackage->pickupCode);
-        savePackagesToFile("packages.txt");
+        savePackages_File("packages.txt");
         saveShelvesToFile("shelves.txt");
 
         // 添加计件费收入记录
         double fee = calculatePackageFee(size, weight, transportMethod);
-        addTransaction(TRANSACTION_INCOME, INCOME_PIECE_FEE, fee, "包裹计件费");
+        add_Transaction(TRANSACTION_INCOME, INCOME_PIECE_FEE, fee, "包裹计件费");
         saveTransactionsToFile("transactions.txt");
     }
 
@@ -887,7 +924,7 @@ void handleMarkPackagePickedUp() {
 
     if (markPackageAsPickedUp(packageId)) {
         printf("包裹已成功标记为已取出！\n");
-        savePackagesToFile("packages.txt");
+        savePackages_File("packages.txt");
         saveShelvesToFile("shelves.txt");
     }
     else {
@@ -913,7 +950,7 @@ void handleMarkPackageAbnormal() {
 
     if (markPackageAsAbnormal(packageId, reason)) {
         printf("包裹已成功标记为异常！\n");
-        savePackagesToFile("packages.txt");
+        savePackages_File("packages.txt");
     }
     else {
         printf("操作失败，包裹可能不存在或已经不在待取状态！\n");

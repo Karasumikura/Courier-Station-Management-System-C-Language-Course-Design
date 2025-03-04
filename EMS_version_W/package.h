@@ -38,7 +38,7 @@ double calculateStorageFee(Package* package);
 double calculateShippingFee(Package* package, User* user);
 
 // 保存包裹数据到文件
-void savePackagesToFile(const char* filename);
+void savePackages_File(const char* filename);
 
 // 从文件加载包裹数据
 void loadPackagesFromFile(const char* filename);

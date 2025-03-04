@@ -42,6 +42,9 @@
     <ClInclude Include="shelf.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="transaction.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="util.c">
@@ -65,17 +68,14 @@
     <ClCompile Include="shelf.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="packages.c">
+    <ClCompile Include="package.c">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="users.c">
+    <ClCompile Include="user.c">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="main.c">
       <Filter>源文件</Filter>
-    </ClCompile>
-    <ClCompile Include="transaction.h">
-      <Filter>头文件</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
