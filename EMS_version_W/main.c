@@ -106,6 +106,7 @@ void initSystem() {
 // 显示主菜单
 void showMainMenu() {
     clearScreen();
+    int running = 1;
     printf("=================================\n");
     printf("    欢迎使用快递驿站管理系统    \n");
     printf("=================================\n");
@@ -118,42 +119,47 @@ void showMainMenu() {
 // 显示管理员菜单
 void showAdminMenu() {
     int choice;
-    clearScreen();
-    printf("=================================\n");
-    printf("    快递驿站管理系统 - 管理员    \n");
-    printf("=================================\n");
-    printf("1. 用户管理\n");
-    printf("2. 包裹管理\n");
-    printf("3. 库存与货架管理\n");
-    printf("4. 数据分析与报表\n");
-    printf("5. 交易记录\n");
-    printf("0. 登出\n");
-    printf("请选择操作：");
-    scanf("%d", &choice);
-	switch (choice) {
-	case 1:
-		handleUserManagement();
-		break;
-	case 2:
-		handlePackageManagement();
-		break;
-	case 3:
-		handleShelfManagement();
-		break;
-	case 4:
-		//handleStatistics();
-		break;
-	case 5:
-		handleTransactions();
-		break;
-	case 0:
-		logout();
-		break;
-	default:
-		printf("无效选择，请重新输入！\n");
-		waitForKeyPress();
-	}
+    int running = 1;
+    while (running) {
+        clearScreen();
+        printf("=================================\n");
+        printf("    快递驿站管理系统 - 管理员    \n");
+        printf("=================================\n");
+        printf("1. 用户管理\n");
+        printf("2. 包裹管理\n");
+        printf("3. 库存与货架管理\n");
+        printf("4. 数据分析与报表\n");
+        printf("5. 交易记录\n");
+        printf("0. 登出\n");
+        printf("请选择操作：");
+        scanf("%d", &choice);
+        switch (choice) {
+        case 1:
+            handleUserManagement();
+            break;
+        case 2:
+            handlePackageManagement();
+            break;
+        case 3:
+            handleShelfManagement();
+            break;
+        case 4:
+            //handleStatistics();
+            break;
+        case 5:
+            handleTransactions();
+            break;
+        case 0:
+            running = 0;
+            break;
+        default:
+            printf("无效选择，请重新输入！\n");
+            waitForKeyPress();
+        }
+    }
+    showMainMenu();
 }
+
 
 void handleTransactions() {
 	int running = 1;
@@ -164,7 +170,6 @@ void handleTransactions() {
         printf("=================================\n");
         printf("1. 查看所有交易记录\n");
         printf("2. 导出交易记录\n");
-        printf("3.add");
         printf("0. 返回\n");
         printf("请选择操作：");
         int choice;
@@ -177,9 +182,7 @@ void handleTransactions() {
         case 2:
             
             break;
-        case 3:
-         
-			break;
+        
         case 0:
             running = 0;
             break;
@@ -193,47 +196,63 @@ void handleTransactions() {
 // 显示用户菜单
 void showUserMenu() {
     int choice;
-    clearScreen();
-    User* currentUser = findUserById(g_currentUserId);
+    int running = 1;
+    while (running) {
+        clearScreen();
+        User* currentUser = findUserById(g_currentUserId);
 
-    printf("=================================\n");
-    printf("    快递驿站管理系统 - 用户    \n");
-    printf("=================================\n");
-    printf("当前用户：%s (", currentUser->username);
+        printf("=================================\n");
+        printf("    快递驿站管理系统 - 用户    \n");
+        printf("=================================\n");
+        printf("当前用户：%s (", currentUser->username);
 
-    // 显示会员等级
-    switch (currentUser->memberLevel) {
-    case USER_NEW:
-        printf("新用户");
-        break;
-    case USER_SILVER:
-        printf("白银会员");
-        break;
-    case USER_GOLD:
-        printf("黄金会员");
-        break;
+        // 显示会员等级
+        switch (currentUser->memberLevel) {
+        case USER_NEW:
+            printf("新用户");
+            break;
+        case USER_SILVER:
+            printf("白银会员");
+            break;
+        case USER_GOLD:
+            printf("黄金会员");
+            break;
+        }
+        printf(")\n\n");
+
+        printf("1. 查看我的包裹\n");
+        printf("2. 取件\n");
+        printf("3. 寄件\n");
+        printf("4. 查看我的会员信息\n");
+        printf("5. 账户设置\n");
+        printf("0. 登出\n");
+        printf("请选择操作：");
+        scanf("%d", &choice);
+        switch (choice) {
+        case 1:
+            //displayMyPackages();
+            break;
+        case 2:
+            handlePickupPackage();
+            break;
+        case 3:
+            handleAddPackage();
+            break;
+        case 4:
+            //displayMyProfile();
+            break;
+        case 5:
+            //handleAccountSettings();
+            break;
+        case 0:
+            running = 0;
+            break;
+        default:
+            printf("无效选择，请重新输入！\n");
+            waitForKeyPress();
+        }
     }
-    printf(")\n\n");
-
-    printf("1. 查看我的包裹\n");
-    printf("2. 取件\n");
-    printf("3. 寄件\n");
-    printf("4. 查看我的会员信息\n");
-    printf("5. 账户设置\n");
-    printf("0. 登出\n");
-    printf("请选择操作：");
-	scanf("%d", &choice);
-    switch (choice) {
-    case 1:
-        //displayMyPackages();
-        break;
-    case 0:
-        logout();
-        break;
-    default:
-        printf("无效选择，请重新输入！\n");
-        waitForKeyPress();
-    }
+    showMainMenu();
 }
 
 // 处理登录
@@ -360,14 +379,16 @@ void handleUserManagement() {
             handleDeleteUser();
             break;
         case 0:
-            showAdminMenu();
+            running = 0;
             break;
         default:
             printf("无效选择，请重新输入！\n");
             waitForKeyPress();
         }
     }
+    showAdminMenu();
 }
+
 
 // 显示所有用户
 void displayAllUsers() {
@@ -582,13 +603,14 @@ void handlePackageManagement() {
             handleSearchPackage();
             break;
         case 0:
-            showAdminMenu();
+            running = 0;
             break;
         default:
             printf("无效选择，请重新输入！\n");
             waitForKeyPress();
         }
     }
+    showAdminMenu();
 }
 
 // 显示所有包裹
@@ -779,13 +801,14 @@ void handleShelfManagement() {
             //handleInventoryCheck();
             break;
         case 0:
-            showAdminMenu();
+            running = 0;
             break;
         default:
             printf("无效选择，请重新输入！\n");
             waitForKeyPress();
         }
     }
+    showAdminMenu();
 }
 
 // 显示所有货架
