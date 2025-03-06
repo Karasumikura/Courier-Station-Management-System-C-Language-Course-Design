@@ -44,6 +44,8 @@ void savePackages_File(const char* filename);
 void loadPackagesFromFile(const char* filename);
 
 // 释放包裹链表内存
+
 void freePackageList();
+void handlePickupPackage();
 
 #endif /* PACKAGE_H */
