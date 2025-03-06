@@ -7,13 +7,16 @@
 void initUserList();
 
 // 添加用户
-User* addUser(const char* username, const char* password, int memberLevel);
+User* addUser(const char* username, const char*phonenumber , const char* password, int memberLevel);
 
 // 查找用户（通过用户名）
 User* findUserByUsername(const char* username);
 
 // 查找用户（通过ID）
 User* findUserById(int userId);
+
+// 查找用户ByPhone
+User* findUserByPhone(const char* phonenumber);
 
 // 更新用户信息
 int updateUser(int userId, const char* password, int memberLevel, double consumptionLevel);
@@ -34,6 +37,6 @@ void saveUsersToFile(const char* filename);
 void loadUsersFromFile(const char* filename);
 
 // 释放用户链表内存
-void freeUserList();
+//void freeUserList();
 
 #endif /* USER_H */

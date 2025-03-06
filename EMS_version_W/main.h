@@ -55,6 +55,7 @@ typedef struct User {
 	int id;                  // 用户ID
 	char username[50];       // 用户名
 	char password[50];       // 密码
+	char phonenumber[12];    // 电话号码
 	int memberLevel;         // 会员等级
 	double consumptionLevel; // 消费能力等级
 	struct User* next;       // 链表下一节点

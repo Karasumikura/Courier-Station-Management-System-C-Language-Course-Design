@@ -26,10 +26,10 @@ double calculatePriceBump(int userId, double basePrice) {
 
     // 根据用户消费能力分级加价
     if (user->consumptionLevel > 1000) {
-        return basePrice * 0.1; // 高消费能力用户加价10%
+        return basePrice * 0.22; // 高消费能力用户加价22%
     }
     else if (user->consumptionLevel > 500) {
-        return basePrice * 0.05; // 中消费能力用户加价5%
+        return basePrice * 0.11; // 中消费能力用户加价11%
     }
 
     return 0.0;

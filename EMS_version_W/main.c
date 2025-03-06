@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #include "main.h"
 #include "user.h"
 #include "package.h"
@@ -13,10 +14,13 @@
 #include "storage.h"
 #include "util.h"
 
-// 临时声明
+// 临时声明（后续将移入头文件）
 int markPackageAsPickedUp(int packageId);
 int markPackageAsAbnormal(int packageId, const char* reason);
 double calculatePackageFee(int size, int weight, int transportMethod);
+
+//检查函数
+void AddUserCheck();
 
 // 系统操作函数
 void clearScreen();
@@ -96,7 +100,7 @@ void initSystem() {
 
     // 如果没有管理员账户，创建默认管理员
     if (findUserByUsername("admin") == NULL) {
-        addUser("admin", "123456", USER_ADMIN);
+        addUser("admin", "123456", "123456", USER_ADMIN);
     }
 }
 
@@ -306,42 +310,7 @@ void handleRegister() {
     printf("             注册               \n");
     printf("=================================\n");
 
-    char username[50];
-    char password[50];
-    char confirmPassword[50];
-
-    printf("用户名: ");
-    scanf("%s", username);
-
-    // 检查用户名是否存在
-    if (findUserByUsername(username) != NULL) {
-        printf("该用户名已存在！\n");
-        waitForKeyPress();
-        return;
-    }
-
-    printf("密码: ");
-    scanf("%s", password);
-    printf("确认密码: ");
-    scanf("%s", confirmPassword);
-
-    if (strcmp(password, confirmPassword) != 0) {
-        printf("两次输入的密码不一致！\n");
-        waitForKeyPress();
-        return;
-    }
-
-    // 创建新用户
-    User* newUser = addUser(username, password, USER_NEW);
-    if (newUser == NULL) {
-        printf("注册失败！\n");
-    }
-    else {
-        printf("注册成功！您可以使用新账户登录了。\n");
-        saveUsersToFile("users.txt");
-    }
-
-    waitForKeyPress();
+    AddUserCheck();
 }
 
 
@@ -396,7 +365,7 @@ void displayAllUsers() {
     printf("=================================\n");
     printf("           所有用户             \n");
     printf("=================================\n");
-    printf("%-5s %-20s %-15s %-15s\n", "ID", "用户名", "会员等级", "消费能力");
+    printf("%-5s %-20s %-15s %-15s %-20s\n", "ID", "用户名", "会员等级", "消费能力","手机号");
     printf("---------------------------------\n");
 
     User* current = g_userList;
@@ -422,7 +391,8 @@ void displayAllUsers() {
                 printf("%-15s ", "未知");
             }
 
-            printf("%-15.2f\n", current->consumptionLevel);
+            printf("%-15.2f", current->consumptionLevel);
+			printf("%-20s\n", current->phonenumber);
             count++;
         }
 
@@ -440,44 +410,7 @@ void handleAddUser() {
     printf("=================================\n");
     printf("           添加用户             \n");
     printf("=================================\n");
-
-    char username[50];
-    char password[50];
-    int memberLevel;
-
-    printf("用户名: ");
-    scanf("%s", username);
-
-    // 检查用户名是否存在
-    if (findUserByUsername(username) != NULL) {
-        printf("该用户名已存在！\n");
-        waitForKeyPress();
-        return;
-    }
-
-    printf("密码: ");
-    scanf("%s", password);
-
-    printf("会员等级 (0-新用户, 1-白银会员, 2-黄金会员): ");
-    scanf("%d", &memberLevel);
-
-    if (memberLevel < 0 || memberLevel > 2) {
-        printf("无效的会员等级！\n");
-        waitForKeyPress();
-        return;
-    }
-
-    // 创建新用户
-    User* newUser = addUser(username, password, memberLevel);
-    if (newUser == NULL) {
-        printf("添加用户失败！\n");
-    }
-    else {
-        printf("添加用户成功！\n");
-        saveUsersToFile("users.txt");
-    }
-
-    waitForKeyPress();
+    AddUserCheck();
 }
 
 // 处理编辑用户
@@ -1074,4 +1007,108 @@ void handleAddShelf() {
     }
 
     waitForKeyPress();
+}
+
+void AddUserCheck() {
+    char username[50];
+    char password[50];
+    char confirmPassword[50];
+    char phonenumber[13];
+    int memberLevel;
+    while (1) {
+        printf("用户名: ");
+        //检查输入是否合法
+        getchar();
+        if (fgets(username, sizeof(username), stdin) == NULL) {
+            printf("输入非法！！\n");
+            waitForKeyPress();
+            continue;
+        }
+        else if (strchr(username, '\n') == NULL) {
+            int buffer;
+            while ((buffer = getchar()) != '\n' && buffer != EOF);
+            printf("输入过长！！\n");
+            waitForKeyPress();
+            continue;
+        }
+        else {
+            username[strcspn(username, "\n")] = 0;
+            if (strlen(username) == 0) {
+                printf("用户名不能为空！！\n");
+                waitForKeyPress();
+                continue;
+            }
+        }
+        // 检查用户名是否存在
+        if (findUserByUsername(username) != NULL) {
+            printf("该用户名已存在！\n");
+            waitForKeyPress();
+            continue;
+        }
+        printf("用户名可行性检查通过！！\n");
+        break;
+    }
+    while (1) {
+        printf("手机号: ");
+        //检查输入是否合法
+        if (fgets(phonenumber, sizeof(phonenumber), stdin) == NULL) {
+            printf("输入非法！！\n");
+            waitForKeyPress();
+            continue;
+        }
+        else if (strchr(phonenumber, '\n') == NULL) {
+            int buffer;
+            while ((buffer = getchar()) != '\n' && buffer != EOF);
+            printf("输入过长！！中国大陆手机号为11位数字！\n");
+            waitForKeyPress();
+            continue;
+        }
+        else {
+			phonenumber[strcspn(phonenumber, "\n")] = 0;
+            char* temp = &phonenumber;
+            int count = 0;
+            while (*temp) {
+                if (!isdigit(*temp)) {
+                    printf("手机号只能包含数字！！\n");
+                    waitForKeyPress();
+                    break;
+                }
+                temp++;
+                count++;
+            }
+            if (count != 11) {
+                printf("中国大陆手机号为11位数字！！\n");
+                waitForKeyPress();
+                continue;
+            }
+            if (findUserByPhone(phonenumber) != NULL) {
+                printf("该手机号已注册！注册程序将退出\n");
+                waitForKeyPress();
+                return;
+                //返回主菜单
+            }
+			printf("手机号可行性检查通过！！\n");
+        }
+        printf("密码: ");
+        scanf("%s", password);
+        printf("确认密码: ");
+        scanf("%s", confirmPassword);
+
+        if (strcmp(password, confirmPassword) != 0) {
+            printf("两次输入的密码不一致！\n");
+            waitForKeyPress();
+            return 0;
+        }
+
+        // 创建新用户
+        User* newUser = addUser(username, phonenumber, password, USER_NEW);
+        if (newUser == NULL) {
+            printf("注册失败！\n");
+        }
+        else {
+            printf("注册成功！您可以使用新账户登录了。\n");
+            saveUsersToFile("users.txt");
+        }
+        waitForKeyPress();
+    }
 }

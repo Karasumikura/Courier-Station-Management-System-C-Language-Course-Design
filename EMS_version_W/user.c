@@ -15,7 +15,7 @@ void initUserList() {
 }
 
 // 添加用户
-User* addUser(const char* username, const char* password, int memberLevel) {
+User* addUser(const char* username, const char* phonenumber, const char* password, int memberLevel) {
     // 检查用户名是否已存在
     if (findUserByUsername(username) != NULL) {
         return NULL; // 用户名已存在
@@ -31,6 +31,8 @@ User* addUser(const char* username, const char* password, int memberLevel) {
     newUser->id = generateUniqueId();
     strncpy(newUser->username, username, sizeof(newUser->username) - 1);
     newUser->username[sizeof(newUser->username) - 1] = '\0';
+    strncpy(newUser->phonenumber, phonenumber, sizeof(newUser->phonenumber) - 1);
+    newUser->phonenumber[sizeof(newUser->phonenumber) - 1] = '\0';
     strncpy(newUser->password, password, sizeof(newUser->password) - 1);
     newUser->password[sizeof(newUser->password) - 1] = '\0';
     newUser->memberLevel = memberLevel;
@@ -55,6 +57,20 @@ User* findUserByUsername(const char* username) {
 
     while (current != NULL) {
         if (strcmp(current->username, username) == 0) {
+            return current;
+        }
+        current = current->next;
+    }
+
+    return NULL;
+}
+
+// 查找用户（通过手机号）
+User* findUserByPhone(const char* phonenumber) {
+    User* current = g_userList;
+
+    while (current != NULL) {
+        if (strcmp(current->phonenumber, phonenumber) == 0) {
             return current;
         }
         current = current->next;
