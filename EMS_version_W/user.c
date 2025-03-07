@@ -51,6 +51,112 @@ User* addUser(const char* username, const char* phonenumber, const char* passwor
     return newUser;
 }
 
+void AddUserCheck() {
+    char username[50];
+    char password[50];
+    char confirmPassword[50];
+    char phonenumber[13];
+    int memberLevel;
+
+    // 用户名输入及检查
+    while (1) {
+        printf("用户名: ");
+		getchar(); // 清理前输入缓冲区
+        if (fgets(username, sizeof(username), stdin) == NULL || strchr(username, '\n') == NULL) {
+            // 清理后输入缓冲区
+            int buffer;
+            while ((buffer = getchar()) != '\n' && buffer != EOF);
+            printf("输入非法或过长！！\n");
+            waitForKeyPress();
+            continue;
+        }
+        username[strcspn(username, "\n")] = 0; // 移除末尾的换行符
+        if (strlen(username) == 0) {
+            printf("用户名不能为空！！\n");
+            waitForKeyPress();
+            continue;
+        }
+        // 检查用户名是否存在
+        if (findUserByUsername(username) != NULL) {
+            printf("该用户名已存在！\n");
+            waitForKeyPress();
+            continue;
+        }
+        printf("用户名可行性检查通过！！\n");
+        break;
+    }
+
+    // 手机号输入及检查
+    while (1) {
+        printf("手机号: ");
+        if (fgets(phonenumber, sizeof(phonenumber), stdin) == NULL || strchr(phonenumber, '\n') == NULL) {
+            // 清理输入缓冲区
+            int buffer;
+            while ((buffer = getchar()) != '\n' && buffer != EOF);
+            printf("输入非法或过长！！中国大陆手机号为11位数字！\n");
+            waitForKeyPress();
+            continue;
+        }
+        phonenumber[strcspn(phonenumber, "\n")] = 0; // 移除末尾的换行符
+
+        char* temp = phonenumber;
+        int count = 0;
+        while (*temp) {
+            if (!isdigit(*temp)) {
+                printf("手机号只能包含数字！！\n");
+                waitForKeyPress();
+                break;
+            }
+            temp++;
+            count++;
+        }
+        if (count != 11) {
+            printf("中国大陆手机号为11位数字！！\n");
+            waitForKeyPress();
+            continue;
+        }
+        if (findUserByPhone(phonenumber) != NULL) {
+            printf("该手机号已注册！注册程序将退出\n");
+            waitForKeyPress();
+            return;
+        }
+        printf("手机号可行性检查通过！！\n");
+        break; 
+    }
+
+    // 密码输入
+    printf("密码: ");
+    if (fgets(password, sizeof(password), stdin) == NULL) {
+        printf("输入错误！\n");
+        return;
+    }
+    password[strcspn(password, "\n")] = 0;
+
+    printf("确认密码: ");
+    if (fgets(confirmPassword, sizeof(confirmPassword), stdin) == NULL) {
+        printf("输入错误！\n");
+        return;
+    }
+    confirmPassword[strcspn(confirmPassword, "\n")] = 0;
+
+    if (strcmp(password, confirmPassword) != 0) {
+        printf("两次输入的密码不一致！\n");
+        waitForKeyPress();
+        return;
+    }
+
+    // 创建新用户
+    User* newUser = addUser(username, phonenumber, password, USER_NEW);
+    if (newUser == NULL) {
+        printf("注册失败！\n");
+    }
+    else {
+        printf("注册成功！您可以使用新账户登录了。\n");
+        saveUsersToFile("users.txt");
+    }
+    waitForKeyPress();
+}
+
 // 查找用户（通过用户名）
 User* findUserByUsername(const char* username) {
     User* current = g_userList;
@@ -157,12 +263,13 @@ void saveUsersToFile(const char* filename) {
 
     User* current = g_userList;
     while (current != NULL) {
-        fprintf(file, "%d,%s,%s,%d,%.2f\n",
+        fprintf(file, "%d,%s,%s,%d,%.2f,%s\n",
             current->id,
             current->username,
             current->password,
             current->memberLevel,
-            current->consumptionLevel);
+            current->consumptionLevel,
+            current->phonenumber);
         current = current->next;
     }
 
@@ -185,16 +292,17 @@ void loadUsersFromFile(const char* filename) {
     }
 
     // 读取文件数据
-    char line[200];
+    char line[500];
     while (fgets(line, sizeof(line), file)) {
         int id;
         char username[50];
         char password[50];
         int memberLevel;
         double consumptionLevel;
+		char phonenumber[15];
 
-        if (sscanf(line, "%d,%[^,],%[^,],%d,%lf",
-            &id, username, password, &memberLevel, &consumptionLevel) == 5) {
+        if (sscanf(line, "%d,%[^,],%[^,],%d,%lf,%14s",
+            &id, username, password, &memberLevel, &consumptionLevel,phonenumber) == 6) {
             // 创建新用户节点
             User* newUser = (User*)malloc(sizeof(User));
             if (newUser != NULL) {
@@ -203,6 +311,8 @@ void loadUsersFromFile(const char* filename) {
                 newUser->username[sizeof(newUser->username) - 1] = '\0';
                 strncpy(newUser->password, password, sizeof(newUser->password) - 1);
                 newUser->password[sizeof(newUser->password) - 1] = '\0';
+                strncpy(newUser->phonenumber, phonenumber, sizeof(newUser->phonenumber) - 1);
+                newUser->phonenumber[sizeof(newUser->phonenumber) - 1] = '\0';
                 newUser->memberLevel = memberLevel;
                 newUser->consumptionLevel = consumptionLevel;
 

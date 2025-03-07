@@ -55,7 +55,7 @@ typedef struct User {
 	int id;                  // 用户ID
 	char username[50];       // 用户名
 	char password[50];       // 密码
-	char phonenumber[12];    // 电话号码
+	char phonenumber[15];    // 电话号码
 	int memberLevel;         // 会员等级
 	double consumptionLevel; // 消费能力等级
 	struct User* next;       // 链表下一节点
@@ -106,5 +106,15 @@ extern Transaction* g_transactionList;
 // 当前登录信息
 extern int g_currentUserId;
 extern int g_currentUserType;
+
+// 系统操作函数
+void clearScreen();
+void waitForKeyPress();
+void initSystem();
+void showMainMenu();
+void showAdminMenu();
+void showUserMenu();
+
+void clearInputBuffer();
 
 #endif /* MAIN_H */

@@ -55,27 +55,7 @@ updateUserConsumptionLevel(userId, value);
 
 return newPackage;
 }
-// 处理取件
-void handlePickupPackage() {
-    clearScreen();
-    printf("=================================\n");
-    printf("             取件               \n");
-    printf("=================================\n");
 
-    int packageId;
-    printf("请输入包裹ID: ");
-    scanf("%d", &packageId);
-
-    if (markPackageAsPickedUp(packageId)) {
-        printf("包裹已成功取出！\n");
-        savePackages_File("packages.txt");
-        saveShelvesToFile("shelves.txt");
-    } else {
-        printf("操作失败，包裹可能不存在或已经取出！\n");
-    }
-
-    waitForKeyPress();
-}
 
 // 生成取件码
 void generatePickupCode(Package* package) {
@@ -87,7 +67,7 @@ struct tm* tm_info = localtime(&t);
 sprintf(dateStr, "%02d", tm_info->tm_mday);
 sprintf(shelfStr, "%02d", package->shelfId % 100);
 
-unsigned int hash = 1234/*hashString((char*)&(package->id)) % 10000*/;
+unsigned int hash = hashString((char*)&(package->id)) % 10000;
 sprintf(hashStr, "%04d", hash);
 
 sprintf(package->pickupCode, "%s%s%s", dateStr, shelfStr, hashStr);

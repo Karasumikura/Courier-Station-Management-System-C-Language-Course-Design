@@ -14,7 +14,7 @@ Package* addPackage(int userId, int size, int weight, int note, int transportMet
 Package* findPackageById(int packageId);
 
 // 查找包裹（通过取件码）
-Package* findPackageByPickupCode(const char* pickupCode);
+Package* findPackageByCode(const char* pickupCode);
 
 // 查询用户的所有包裹
 Package** getUserPackages(int userId, int* count);
@@ -26,7 +26,7 @@ Package** getUserWaitingPackages(int userId, int* count);
 int updatePackageStatus(int packageId, int status);
 
 // 处理包裹出库
-int processPackagePickup(const char* pickupCode);
+void handleMarkPackagePickedUp();
 
 // 生成取件码
 void generatePickupCode(Package* package);
@@ -46,6 +46,6 @@ void loadPackagesFromFile(const char* filename);
 // 释放包裹链表内存
 
 void freePackageList();
-void handlePickupPackage();
+
 
 #endif /* PACKAGE_H */

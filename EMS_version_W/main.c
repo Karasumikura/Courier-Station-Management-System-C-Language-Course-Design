@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>
+#include <ctype.h>//_isdigit()
+#include <conio.h>//_getch()
 #include "main.h"
 #include "user.h"
 #include "package.h"
@@ -18,17 +19,6 @@
 int markPackageAsPickedUp(int packageId);
 int markPackageAsAbnormal(int packageId, const char* reason);
 double calculatePackageFee(int size, int weight, int transportMethod);
-
-//检查函数
-void AddUserCheck();
-
-// 系统操作函数
-void clearScreen();
-void waitForKeyPress();
-void initSystem();
-void showMainMenu();
-void showAdminMenu();
-void showUserMenu();
 
 // 登录和用户系统函数
 void handleRegister();
@@ -49,13 +39,20 @@ void handleEditPackage();
 void handleMarkPackagePickedUp();
 void handleMarkPackageAbnormal();
 void handleSearchPackage();
+void handlePickupPackage();
 
 // 货架管理函数
 void displayAllShelves();
 void handleAddShelf();
 void handleShelfManagement();
-
+void handleAddShelf();
 void handleTransactions();
+
+//清除缓冲区
+void clearInputBuffer() {
+    int c;
+    while ((c = getchar()) != '\n' && c != EOF);
+}
 
 // 清屏函数
 void clearScreen() {
@@ -68,9 +65,10 @@ void clearScreen() {
 
 // 等待用户按任意键继续
 void waitForKeyPress() {
-    printf("\n按任意键继续...");
-    getchar();
-    getchar(); //清输入区
+    printf("\n按任意键继续...\n");
+    _getch();  // 可以直接读取一个字符而不需要用户按下回车键
+    //并且不会将输入的字符回显到屏幕上
+	printf("\n");
 }
 
 // 初始化系统
@@ -117,7 +115,6 @@ void showMainMenu() {
     printf("1. 登录\n");
     printf("2. 注册新用户\n");
     printf("0. 退出系统\n");
-    printf("请选择操作：");
 }
 
 // 显示管理员菜单
@@ -809,12 +806,18 @@ int main() {
     initSystem();
 
     int running = 1;
+    // 显示主菜单
     while (running) {
-        // 显示主菜单
         showMainMenu();
-
+        printf("请选择操作：");
         int choice;
-        scanf("%d", &choice);
+        if (scanf("%d", &choice) != 1) { // 检查scanf是否成功读取了一个整数
+            clearInputBuffer();
+            printf("输入含有非数字，请输入数字选项！\n");
+            waitForKeyPress();
+            continue;
+        }
+
 
         switch (choice) {
         case 1:
@@ -828,8 +831,9 @@ int main() {
             printf("感谢使用快递驿站管理系统！\n");
             break;
         default:
-            printf("无效选择，请重新输入！\n");
+            printf("数字无效，请重新输入0，1或2！\n");
             waitForKeyPress();
+			clearScreen();
         }
     }
 
@@ -1009,106 +1013,26 @@ void handleAddShelf() {
     waitForKeyPress();
 }
 
-void AddUserCheck() {
-    char username[50];
-    char password[50];
-    char confirmPassword[50];
-    char phonenumber[13];
-    int memberLevel;
-    while (1) {
-        printf("用户名: ");
-        //检查输入是否合法
-        getchar();
-        if (fgets(username, sizeof(username), stdin) == NULL) {
-            printf("输入非法！！\n");
-            waitForKeyPress();
-            continue;
-        }
-        else if (strchr(username, '\n') == NULL) {
-            int buffer;
-            while ((buffer = getchar()) != '\n' && buffer != EOF);
-            printf("输入过长！！\n");
-            waitForKeyPress();
-            continue;
-        }
-        else {
-            username[strcspn(username, "\n")] = 0;
-            if (strlen(username) == 0) {
-                printf("用户名不能为空！！\n");
-                waitForKeyPress();
-                continue;
-            }
-        }
-        // 检查用户名是否存在
-        if (findUserByUsername(username) != NULL) {
-            printf("该用户名已存在！\n");
-            waitForKeyPress();
-            continue;
-        }
-        printf("用户名可行性检查通过！！\n");
-        break;
-    }
-    while (1) {
-        printf("手机号: ");
-        //检查输入是否合法
-        if (fgets(phonenumber, sizeof(phonenumber), stdin) == NULL) {
-            printf("输入非法！！\n");
-            waitForKeyPress();
-            continue;
-        }
-        else if (strchr(phonenumber, '\n') == NULL) {
-            int buffer;
-            while ((buffer = getchar()) != '\n' && buffer != EOF);
-            printf("输入过长！！中国大陆手机号为11位数字！\n");
-            waitForKeyPress();
-            continue;
-        }
-        else {
-			phonenumber[strcspn(phonenumber, "\n")] = 0;
-            char* temp = &phonenumber;
-            int count = 0;
-            while (*temp) {
-                if (!isdigit(*temp)) {
-                    printf("手机号只能包含数字！！\n");
-                    waitForKeyPress();
-                    break;
-                }
-                temp++;
-                count++;
-            }
-            if (count != 11) {
-                printf("中国大陆手机号为11位数字！！\n");
-                waitForKeyPress();
-                continue;
-            }
-            if (findUserByPhone(phonenumber) != NULL) {
-                printf("该手机号已注册！注册程序将退出\n");
-                waitForKeyPress();
-                return;
-                //返回主菜单
-            }
-			printf("手机号可行性检查通过！！\n");
-        }
-        printf("密码: ");
-        scanf("%s", password);
-        printf("确认密码: ");
-        scanf("%s", confirmPassword);
 
-        if (strcmp(password, confirmPassword) != 0) {
-            printf("两次输入的密码不一致！\n");
-            waitForKeyPress();
-            return 0;
-        }
+// 处理取件
+void handlePickupPackage() {
+    clearScreen();
+    printf("=================================\n");
+    printf("             取件               \n");
+    printf("=================================\n");
 
-        // 创建新用户
-        User* newUser = addUser(username, phonenumber, password, USER_NEW);
-        if (newUser == NULL) {
-            printf("注册失败！\n");
-        }
-        else {
-            printf("注册成功！您可以使用新账户登录了。\n");
-            saveUsersToFile("users.txt");
-        }
-        waitForKeyPress();
+    int packageId;
+    printf("请输入包裹ID: ");
+    scanf("%d", &packageId);
+
+    if (markPackageAsPickedUp(packageId)) {
+        printf("包裹已成功取出！\n");
+        savePackages_File("packages.txt");
+        saveShelvesToFile("shelves.txt");
     }
+    else {
+        printf("操作失败，包裹可能不存在或已经取出！\n");
+    }
+
+    waitForKeyPress();
 }

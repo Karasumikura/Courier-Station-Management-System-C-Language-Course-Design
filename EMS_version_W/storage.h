@@ -12,13 +12,7 @@ void saveAllData();
 // 加载所有数据
 void loadAllData();
 
-// 备份数据
-int backupData(const char* backupPath);
-
-// 恢复数据
-int restoreData(const char* backupPath);
-
 // 自动保存数据（定时调用）
-void autoSaveData();
+//void autoSaveData();
 
 #endif /* STORAGE_H */

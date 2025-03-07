@@ -9,6 +9,9 @@ void initUserList();
 // 添加用户
 User* addUser(const char* username, const char*phonenumber , const char* password, int memberLevel);
 
+//检查函数
+void AddUserCheck();
+
 // 查找用户（通过用户名）
 User* findUserByUsername(const char* username);
 
