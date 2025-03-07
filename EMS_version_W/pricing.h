@@ -9,11 +9,12 @@ double calculateMemberDiscount(int memberLevel);
 // 计算大数据杀熟加价
 double calculatePriceBump(int userId, double basePrice);
 
-// 计算特殊保存费用
-double calculateSpecialStorageFee(int packageNote, int packageSize);
+// 计算最终价格
+double calculateFinalPrice(int userId, double basePrice);
 
-// 计算运输方式费用系数
-double calculateTransportMethodFactor(int transportMethod);
+
+
+
 
 // 计算赔偿金额
 double calculateCompensationAmount(Package* package);

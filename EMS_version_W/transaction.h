@@ -15,17 +15,11 @@ Transaction* findTransactionById(int transactionId);
 // 查询时间范围内的交易记录
 Transaction** getTransactionsByDateRange(const char* startDate, const char* endDate, int* count);
 
-// 生成日报
-void generateDailyReport(const char* date, char* reportOutput);
+// 计算指定日期范围内的收入总额
+double calculateTotalIncome(const char* startDate, const char* endDate);
 
-// 生成周报
-void generateWeeklyReport(const char* startDate, char* reportOutput);
-
-// 生成月报
-void generateMonthlyReport(const char* yearMonth, char* reportOutput);
-
-// 分析盈利趋势
-void analyzeProfitTrend(const char* startDate, const char* endDate, char* analysisOutput);
+// 计算指定日期范围内的支出总额
+double calculateTotalExpense(const char* startDate, const char* endDate);
 
 // 保存交易记录到文件
 void saveTransactionsToFile(const char* filename);

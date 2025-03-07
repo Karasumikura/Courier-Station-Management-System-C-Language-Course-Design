@@ -24,8 +24,8 @@ void intToString(int value, char* str);
 // 将双精度浮点数转换为字符串
 void doubleToString(double value, char* str);
 
-// 计算字符串的哈希值
-unsigned int hashString(const char* str);
+
+
 
 // 获取下一个工作日
 void getNextWorkDay(const char* date, char* nextWorkDay);

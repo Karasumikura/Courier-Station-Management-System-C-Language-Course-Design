@@ -21,17 +21,16 @@ User* findUserById(int userId);
 // 查找用户ByPhone
 User* findUserByPhone(const char* phonenumber);
 
-// 更新用户信息
-int updateUser(int userId, const char* password, int memberLevel, double consumptionLevel);
 
 // 删除用户
 int deleteUser(int userId);
 
-// 用户身份验证
-int authenticateUser(const char* username, const char* password);
 
 // 更新用户消费等级
 void updateUserConsumptionLevel(int userId, double packageValue);
+
+// 升级用户会员等级
+void upgradeUserMemberLevel(int userId);
 
 // 保存用户数据到文件
 void saveUsersToFile(const char* filename);

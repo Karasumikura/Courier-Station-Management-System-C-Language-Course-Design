@@ -2,6 +2,26 @@
 #define STATISTICS_H
 #include "main.h"
 
+// 生成日报
+void generateDailyReport(const char* date, char* reportOutput);
+
+// 生成周报
+void generateWeeklyReport(const char* startDate, const char* endDate, char* reportOutput);
+
+// 生成月报
+void generateMonthlyReport(const char* month, char* reportOutput);
+
+// 包裹流量分析
+void analyzePackageFlow(char* analysisOutput);
+
+// 收入分析
+void analyzeIncome(char* analysisOutput);
+
+// 寻找最优货架存放
+void optimizeShelfPlacement(char* optimizationOutput);
+
+
+
 // 分析包裹分布
 void analyzePackageDistribution(char* output);
 

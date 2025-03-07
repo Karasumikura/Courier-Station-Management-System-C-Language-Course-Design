@@ -16,8 +16,6 @@ Package* findPackageById(int packageId);
 // 查找包裹（通过取件码）
 Package* findPackageByCode(const char* pickupCode);
 
-// 查询用户的所有包裹
-Package** getUserPackages(int userId, int* count);
 
 // 查询用户的待取包裹
 Package** getUserWaitingPackages(int userId, int* count);
@@ -34,8 +32,6 @@ void generatePickupCode(Package* package);
 // 计算包裹保存费
 double calculateStorageFee(Package* package);
 
-// 计算包裹邮费
-double calculateShippingFee(Package* package, User* user);
 
 // 保存包裹数据到文件
 void savePackages_File(const char* filename);
@@ -43,9 +39,8 @@ void savePackages_File(const char* filename);
 // 从文件加载包裹数据
 void loadPackagesFromFile(const char* filename);
 
-// 释放包裹链表内存
 
-void freePackageList();
+
 
 
 #endif /* PACKAGE_H */
