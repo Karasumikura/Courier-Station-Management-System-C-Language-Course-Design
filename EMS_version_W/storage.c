@@ -5,25 +5,26 @@
 #include "package.h"
 #include "shelf.h"
 #include "transaction.h"
+#include "ml_analysis.h"
 
-// 初始化数据存储
 void initDataStorage() {
 	// 确保数据目录存在
-	// 实际应用中可能需要创建目录
+	// 实际应用中可能需要创建目录，开发中
 }
 
-// 保存所有数据
 void saveAllData() {
 	saveUsersToFile("users.txt");
 	savePackages_File("packages.txt");
 	saveShelvesToFile("shelves.txt");
 	saveTransactionsToFile("transactions.txt");
+	save_model(&shelf_model, "shelf_model.bin");
 }
 
-// 加载所有数据
 void loadAllData() {
 	loadUsersFromFile("users.txt");
 	loadPackagesFromFile("packages.txt");
 	loadShelvesFromFile("shelves.txt");
 	loadTransactionsFromFile("transactions.txt");
+	load_model(&shelf_model, "shelf_model.bin");
 }
+

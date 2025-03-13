@@ -426,3 +426,13 @@ void optimizeShelfPlacement(char* optimizationOutput) {
     free(utilizations);
     free(shelfIds);
 }
+
+void showTurnoverPrediction(float prediction) {
+    clearScreen();
+    printf("===== 货架周转率预测 =====\n");
+    printf("预测周转率: %.2f次/天\n", prediction);
+    printf("建议操作:\n");
+    printf("1. 当周转率>5时: 增加补货频率\n");
+    printf("2. 当周转率<2时: 调整商品组合\n");
+    waitForKeyPress();
+}

@@ -9,6 +9,7 @@
 #include "package.h"
 #include "shelf.h"
 #include "transaction.h"
+#include "ml_analysis.h"
 #include "auth.h"
 #include "statistics.h"
 #include "pricing.h"
@@ -71,6 +72,9 @@ void waitForKeyPress() {
 	printf("\n");
 }
 
+// 添加全局模型声明
+Model shelf_model;
+
 // 初始化系统
 void initSystem() {
     // 初始化各种链表
@@ -78,6 +82,10 @@ void initSystem() {
     initPackageList();
     initShelfList();
     initTransactionList();
+
+    // 初始化机器学习模型
+    init_ml_model(&shelf_model);
+    load_model(&shelf_model, "shelf_model.bin");
 
     // 加载数据
     loadAllData();
@@ -126,11 +134,13 @@ void showAdminMenu() {
         printf("=================================\n");
         printf("    快递驿站管理系统 - 管理员    \n");
         printf("=================================\n");
+       
         printf("1. 用户管理\n");
         printf("2. 包裹管理\n");
         printf("3. 库存与货架管理\n");
         printf("4. 数据分析与报表\n");
         printf("5. 交易记录\n");
+        printf("6. 周转率预测分析\n");
         printf("0. 登出\n");
         printf("请选择操作：");
         scanf("%d", &choice);
@@ -150,6 +160,9 @@ void showAdminMenu() {
         case 5:
             handleTransactions();
             break;
+        case 6:
+            //函数实现待落地
+            break;
         case 0:
             logout();
             running = 0;
@@ -159,7 +172,6 @@ void showAdminMenu() {
             waitForKeyPress();
         }
     }
-    showMainMenu();
 }
 
 
@@ -255,7 +267,6 @@ void showUserMenu() {
             waitForKeyPress();
         }
     }
-    showMainMenu();
 }
 
 // 处理登录

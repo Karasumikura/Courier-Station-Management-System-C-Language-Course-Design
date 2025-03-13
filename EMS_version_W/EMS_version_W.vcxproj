@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ml_analysis.h" />
     <ClInclude Include="auth.h" />
     <ClInclude Include="main.h" />
     <ClInclude Include="package.h" />
@@ -138,6 +139,7 @@
     <ClInclude Include="util.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ml_analysis.c" />
     <ClCompile Include="auth.c" />
     <ClInclude Include="transaction.h" />
     <ClCompile Include="main.c" />

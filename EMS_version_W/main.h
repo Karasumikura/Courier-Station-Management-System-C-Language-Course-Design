@@ -79,12 +79,18 @@ typedef struct Package {
 
 // 货架结构体
 typedef struct Shelf {
-	int id;                  // 货架ID
-	int type;                // 类型（基于大小和特性）
-	int capacity;            // 总容量
-	int currentCount;        // 当前存放数量
-	struct Shelf* next;      // 链表下一节点
-} Shelf;
+    int id;
+    int type;
+    int capacity;
+    int currentCount;
+    // 新增机器学习分析字段
+    int turnover_count;      // 历史周转次数
+    float category_diversity; // 品类多样性指数
+    time_t last_restock_days; // 最后补货时间戳
+    int related_items_count; // 关联商品数量
+    time_t last_category_change;// 最后品类变更时间
+	struct Shelf* next;    // 链表下一节点
+}Shelf;
 
 // 业务记录结构体
 typedef struct Transaction {

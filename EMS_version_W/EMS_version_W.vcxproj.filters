@@ -45,6 +45,9 @@
     <ClInclude Include="transaction.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ml_analysis.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="util.c">
@@ -75,6 +78,9 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="main.c">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ml_analysis.c">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>
