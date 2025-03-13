@@ -151,6 +151,7 @@ void showAdminMenu() {
             handleTransactions();
             break;
         case 0:
+            logout();
             running = 0;
             break;
         default:
@@ -247,6 +248,7 @@ void showUserMenu() {
             break;
         case 0:
             running = 0;
+            logout();
             break;
         default:
             printf("无效选择，请重新输入！\n");
