@@ -1,3 +1,4 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -79,4 +80,31 @@ int isLoggedIn() {
 // 检查当前是否以管理员身份登录
 int isAdminLoggedIn() {
 	return g_currentUserType == USER_TYPE_ADMIN;
+}
+
+void changePassword() {
+	char oldPassword[50];
+	char newPassword[50];
+	char confirmPassword[50];
+	User* currentUser = findUserById(g_currentUserId);
+	printf("请输入旧密码: ");
+	scanf("%s", oldPassword);
+	if (strcmp(oldPassword, currentUser->password) != 0) {
+		printf("旧密码错误！\n");
+		waitForKeyPress();
+		return;
+	}
+	printf("请输入新密码: ");
+	scanf("%s", newPassword);
+	printf("请再次输入新密码: ");
+	scanf("%s", confirmPassword);
+	if (strcmp(newPassword, confirmPassword) != 0) {
+		printf("两次输入的密码不一致！\n");
+		waitForKeyPress();
+		return;
+	}
+	strcpy(currentUser->password, newPassword);
+	printf("密码修改成功！\n");
+	saveUsersToFile("users.txt");
+	waitForKeyPress();
 }

@@ -13,7 +13,7 @@ int adminLogin(const char* username, const char* password);
 int authenticateUser(const char* username, const char* password);
 
 // ĞŞ¸ÄÃÜÂë
-int changePassword(int userId, const char* oldPassword, const char* newPassword);
+void changePassword();
 
 
 

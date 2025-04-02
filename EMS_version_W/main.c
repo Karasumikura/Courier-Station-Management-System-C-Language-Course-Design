@@ -15,7 +15,7 @@
 #include "storage.h"
 #include "util.h"
 
-// 临时声明（后续将移入头文件）
+
 int markPackageAsPickedUp(int packageId);
 int markPackageAsAbnormal(int packageId, const char* reason);
 double calculatePackageFee(int size, int weight, int transportMethod);
@@ -30,6 +30,7 @@ void displayAllUsers();
 void handleAddUser();
 void handleEditUser();
 void handleDeleteUser();
+void displayMyProfile();
 
 // 包裹管理函数
 void handlePackageManagement();
@@ -225,8 +226,7 @@ void showUserMenu() {
         printf("1. 查看我的包裹\n");
         printf("2. 取件\n");
         printf("3. 寄件\n");
-        printf("4. 查看我的会员信息\n");
-        printf("5. 账户设置\n");
+        printf("4. 查看我的信息\n");
         printf("0. 登出\n");
         printf("请选择操作：");
         scanf("%d", &choice);
@@ -241,10 +241,7 @@ void showUserMenu() {
             handleAddPackage();
             break;
         case 4:
-            //displayMyProfile();
-            break;
-        case 5:
-            //handleAccountSettings();
+            displayMyProfile();
             break;
         case 0:
             running = 0;
@@ -257,6 +254,40 @@ void showUserMenu() {
     }
     showMainMenu();
 }
+void displayMyProfile() {
+    int choice;
+	clearScreen();
+	User* currentUser = findUserById(g_currentUserId);
+	printf("=================================\n");
+	printf("           我的信息             \n");
+	printf("=================================\n");
+	printf("用户名: %s\n", currentUser->username);
+	printf("会员等级: ");
+	switch (currentUser->memberLevel) {
+	case USER_NEW:
+		printf("新用户\n");
+		break;
+	case USER_SILVER:
+		printf("白银会员\n");
+		break;
+	case USER_GOLD:
+		printf("黄金会员\n");
+		break;
+    }
+	printf("手机号: %s\n\n", currentUser->phonenumber);
+    printf("1. 修改密码\n");
+	printf("2. 返回\n");
+    printf("请选择操作：");
+    scanf("%d", &choice);
+    switch (choice) {
+    case 1:
+		changePassword();
+		break;
+    case 2:
+		break;
+    }
+}
+
 
 // 处理登录
     
