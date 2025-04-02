@@ -15,7 +15,7 @@ void timecheck() {
     struct tm start_time = { 0 }, end_time = { 0 };
     User* currentUser = findUserById(g_currentUserId);
     start_time.tm_year = 2025 - 1900;
-    start_time.tm_mon = 2;//月份0开始！
+    start_time.tm_mon = 2;//从月份0开始！
     start_time.tm_mday = 21;
     start_time.tm_hour = 0;
     start_time.tm_min = 0;
