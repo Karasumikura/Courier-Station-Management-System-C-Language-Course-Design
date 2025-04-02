@@ -49,6 +49,8 @@ void handleShelfManagement();
 void handleAddShelf();
 void handleTransactions();
 
+void handleStatistics();
+
 //补充需求
 void displayPromotions();
 
@@ -149,7 +151,7 @@ void showAdminMenu() {
             handleShelfManagement();
             break;
         case 4:
-            //handleStatistics();
+            handleStatistics();
             break;
         case 5:
             handleTransactions();
@@ -166,6 +168,35 @@ void showAdminMenu() {
     showMainMenu();
 }
 
+void handleStatistics() {
+		clearScreen();
+		printf("=================================\n");
+		printf("    数据分析与报表    \n");
+		printf("=================================\n");
+		printf("1. 日报\n");
+		printf("2. 周报\n");
+		printf("3. 月报\n");
+		printf("0. 返回\n");
+		printf("请选择操作：");
+		int choice;
+		scanf("%d", &choice);
+		switch (choice) {
+		case 1:
+			
+			break;
+		case 2:
+			
+			break;
+		case 3:
+
+			break;
+		case 0:
+			break;
+		default:
+			printf("无效选择，请重新输入！\n");
+			waitForKeyPress();
+		}
+}
 
 void handleTransactions() {
 	int running = 1;
