@@ -9,18 +9,20 @@
 #include "package.h"
 #include "shelf.h"
 #include "util.h"
+#include "user.h"
 int Promotionstatus;
 void timecheck() {
     struct tm start_time = { 0 }, end_time = { 0 };
+    User* currentUser = findUserById(g_currentUserId);
     start_time.tm_year = 2025 - 1900;
-    start_time.tm_mon = 3;
+    start_time.tm_mon = 2;//月份0开始！
     start_time.tm_mday = 21;
     start_time.tm_hour = 0;
     start_time.tm_min = 0;
     start_time.tm_sec = 0;
 
     end_time.tm_year = 2025 - 1900;
-    end_time.tm_mon = 6;
+    end_time.tm_mon = 5;
     end_time.tm_mday = 21;
     end_time.tm_hour = 23;
     end_time.tm_min = 59;
@@ -32,8 +34,14 @@ void timecheck() {
     time_t current_time = time(NULL);
 
     if (current_time >= start_timestamp && current_time <= end_timestamp)
+    {
         Promotionstatus = 1;
-    Promotionstatus = 0;
+		currentUser->Promotionstatus_user = 1;
+    }
+    else {
+        Promotionstatus = 0;
+        currentUser->Promotionstatus_user = 0;
+    }
 
 }
 // 生成日报

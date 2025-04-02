@@ -225,6 +225,17 @@ void showUserMenu() {
             break;
         }
         printf(")\n\n");
+        if (currentUser->Promotionstatus_user) {
+            timecheck();//时效性检查
+        }
+        switch (Promotionstatus)
+        {
+        case 1:
+			printf("您处于活动中！\n");
+            break;
+        default:
+			break;
+        }
 
         printf("1. 查看我的包裹\n");
         printf("2. 取件\n");
@@ -274,7 +285,7 @@ void displayPromotions() {
 	printf("           活动信息             \n");
 	printf("=================================\n");
 	printf("驿站优惠活动时间：2025.03.21 - 2025.06.21（三个月）\n");
-	printf("活动内容：新用户5%折扣，白银会员10%折扣，黄金会员20%折扣！！！\n");
+	printf("活动内容：新用户5%%折扣，白银会员10%%折扣，黄金会员20%%折扣！！！\n");
     printf("当前时间: %s\n", buffer);
     timecheck();
 
@@ -282,13 +293,13 @@ void displayPromotions() {
         printf("活动进行中！\n");
         switch (currentUser->memberLevel) {
         case USER_NEW:
-            printf("您是新用户！送您5%折扣，即刻生效\n");
+            printf("您是新用户！送您5%%折扣，即刻生效\n");
             break;
         case USER_SILVER:
-            printf("您是白银会员！送您10%折扣，即刻生效\n");
+            printf("您是白银会员！送您10%%折扣，即刻生效\n");
             break;
         case USER_GOLD:
-            printf("您是黄金会员！送您20%折扣，即刻生效\n");
+            printf("您是黄金会员！送您20%%折扣，即刻生效\n");
             break;
         }
     }

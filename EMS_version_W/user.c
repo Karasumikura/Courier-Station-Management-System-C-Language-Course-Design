@@ -16,10 +16,6 @@ void initUserList() {
 
 // 添加用户
 User* addUser(const char* username, const char* phonenumber, const char* password, int memberLevel) {
-    // 检查用户名是否已存在
-    if (findUserByUsername(username) != NULL) {
-        return NULL; // 用户名已存在
-    }
 
     // 创建新用户节点
     User* newUser = (User*)malloc(sizeof(User));
@@ -37,6 +33,7 @@ User* addUser(const char* username, const char* phonenumber, const char* passwor
     newUser->password[sizeof(newUser->password) - 1] = '\0';
     newUser->memberLevel = memberLevel;
     newUser->consumptionLevel = 0.0;
+    newUser->Promotionstatus_user = 0;
     newUser->next = NULL;
 
     // 插入到链表头部
