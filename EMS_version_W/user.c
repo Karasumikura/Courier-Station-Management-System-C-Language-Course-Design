@@ -123,15 +123,18 @@ void AddUserCheck() {
 
     // 密码输入
     printf("密码: ");
-    if (fgets(password, sizeof(password), stdin) == NULL) {
-        printf("输入错误！\n");
+    fgets(password, sizeof(password), stdin);
+	password[strcspn(password, "\n")] = 0;
+    if (strlen(password) == 0) {
+        printf("密码不能为空！！\n");
+		waitForKeyPress();
         return;
     }
-    password[strcspn(password, "\n")] = 0;
 
     printf("确认密码: ");
     if (fgets(confirmPassword, sizeof(confirmPassword), stdin) == NULL) {
-        printf("输入错误！\n");
+        printf("输入非法！\n");
+		waitForKeyPress();
         return;
     }
     confirmPassword[strcspn(confirmPassword, "\n")] = 0;
