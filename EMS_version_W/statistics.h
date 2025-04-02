@@ -20,7 +20,7 @@ void analyzeIncome(char* analysisOutput);
 // 寻找最优货架存放
 void optimizeShelfPlacement(char* optimizationOutput);
 
-
+void timecheck();
 
 // 分析包裹分布
 void analyzePackageDistribution(char* output);

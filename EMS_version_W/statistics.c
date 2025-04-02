@@ -9,7 +9,33 @@
 #include "package.h"
 #include "shelf.h"
 #include "util.h"
+int Promotionstatus;
+void timecheck() {
+    struct tm start_time = { 0 }, end_time = { 0 };
+    start_time.tm_year = 2025 - 1900;
+    start_time.tm_mon = 3;
+    start_time.tm_mday = 21;
+    start_time.tm_hour = 0;
+    start_time.tm_min = 0;
+    start_time.tm_sec = 0;
 
+    end_time.tm_year = 2025 - 1900;
+    end_time.tm_mon = 6;
+    end_time.tm_mday = 21;
+    end_time.tm_hour = 23;
+    end_time.tm_min = 59;
+    end_time.tm_sec = 59;
+
+    time_t start_timestamp = mktime(&start_time);
+    time_t end_timestamp = mktime(&end_time);
+
+    time_t current_time = time(NULL);
+
+    if (current_time >= start_timestamp && current_time <= end_timestamp)
+        Promotionstatus = 1;
+    Promotionstatus = 0;
+
+}
 // 生成日报
 void generateDailyReport(const char* date, char* reportOutput) {
     // 获取指定日期的所有交易记录

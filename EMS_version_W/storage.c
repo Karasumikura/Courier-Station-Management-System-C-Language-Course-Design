@@ -27,3 +27,4 @@ void loadAllData() {
 	loadShelvesFromFile("shelves.txt");
 	loadTransactionsFromFile("transactions.txt");
 }
+

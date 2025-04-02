@@ -107,6 +107,8 @@ extern Transaction* g_transactionList;
 extern int g_currentUserId;
 extern int g_currentUserType;
 
+//活动状态
+extern int Promotionstatus;
 // 系统操作函数
 void clearScreen();
 void waitForKeyPress();

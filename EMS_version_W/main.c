@@ -49,6 +49,9 @@ void handleShelfManagement();
 void handleAddShelf();
 void handleTransactions();
 
+//补充需求
+void displayPromotions();
+
 //清除缓冲区
 void clearInputBuffer() {
     int c;
@@ -227,6 +230,7 @@ void showUserMenu() {
         printf("2. 取件\n");
         printf("3. 寄件\n");
         printf("4. 查看我的信息\n");
+        printf("5. 查看活动\n");
         printf("0. 登出\n");
         printf("请选择操作：");
         scanf("%d", &choice);
@@ -243,6 +247,9 @@ void showUserMenu() {
         case 4:
             displayMyProfile();
             break;
+        case 5:
+			displayPromotions();
+			break;
         case 0:
             running = 0;
             logout();
@@ -253,6 +260,43 @@ void showUserMenu() {
         }
     }
     showMainMenu();
+}
+
+void displayPromotions() {
+    User* currentUser = findUserById(g_currentUserId);
+    time_t raw_time;
+    time(&raw_time);
+    struct tm* local_time = localtime(&raw_time);
+    char buffer[80];
+    strftime(buffer, sizeof(buffer), "%Y-%m-%d %H:%M:%S", local_time);
+	clearScreen();
+	printf("=================================\n");
+	printf("           活动信息             \n");
+	printf("=================================\n");
+	printf("驿站优惠活动时间：2025.03.21 - 2025.06.21（三个月）\n");
+	printf("活动内容：新用户5%折扣，白银会员10%折扣，黄金会员20%折扣！！！\n");
+    printf("当前时间: %s\n", buffer);
+    timecheck();
+
+    if (Promotionstatus) {
+        printf("活动进行中！\n");
+        switch (currentUser->memberLevel) {
+        case USER_NEW:
+            printf("您是新用户！送您5%折扣，即刻生效\n");
+            break;
+        case USER_SILVER:
+            printf("您是白银会员！送您10%折扣，即刻生效\n");
+            break;
+        case USER_GOLD:
+            printf("您是黄金会员！送您20%折扣，即刻生效\n");
+            break;
+        }
+    }
+    else {
+        printf("活动已经超时\n");
+    }
+
+	waitForKeyPress();
 }
 void displayMyProfile() {
     int choice;

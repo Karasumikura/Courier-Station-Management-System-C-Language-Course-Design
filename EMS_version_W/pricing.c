@@ -2,6 +2,7 @@
 #include "main.h"
 #include "pricing.h"
 #include "user.h"
+#include "statistics.h"
 
 // 计算会员折扣
 double calculateMemberDiscount(int memberLevel) {
@@ -41,10 +42,20 @@ double calculateFinalPrice(int userId, double basePrice) {
     if (user == NULL) {
         return basePrice;
     }
-
+    if (Promotionstatus) {
+        timecheck;//用户领了券才查过期了没，如果他没领不会主动发折扣券，领了要保证不被多薅羊毛，主打一个省钱
+    }
     // 应用会员折扣
     double discount = calculateMemberDiscount(user->memberLevel);
-    double discountAmount = basePrice * discount;
+    double discountAmount;
+    if (Promotionstatus)
+    {
+        discountAmount = basePrice * discount;
+    }
+    else {
+        discountAmount = 0;
+    }
+    
 
     // 应用大数据杀熟加价
     double priceBump = calculatePriceBump(userId, basePrice);
