@@ -12,7 +12,8 @@
 #include "user.h"
 
 // 生成日报
-void generateDailyReport(const char* date, char* reportOutput) {
+void generateDailyReport(char* reportOutput) {
+    char* date = timeinput();
     // 获取指定日期的所有交易记录
     int count = 0;
     Transaction** transactions = getTransactionsByDateRange(date, date, &count);

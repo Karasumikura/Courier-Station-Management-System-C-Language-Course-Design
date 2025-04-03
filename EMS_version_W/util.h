@@ -18,16 +18,9 @@ int compareDates(const char* date1, const char* date2);
 // 计算两个日期之间的天数
 int daysBetweenDates(const char* date1, const char* date2);
 
-// 将整数转换为字符串
-void intToString(int value, char* str);
-
-// 将双精度浮点数转换为字符串
-void doubleToString(double value, char* str);
-
+char* timeinput();
 
 void timecheck();
 
-// 获取下一个工作日
-void getNextWorkDay(const char* date, char* nextWorkDay);
 
 #endif /* UTIL_H */

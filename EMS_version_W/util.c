@@ -68,3 +68,33 @@ unsigned int hashString(const void* key, size_t len) {
 
     return hash;
 }
+
+char* timeinput() {
+    char* timeStr = (char*)malloc(20 * sizeof(char));
+    if (timeStr == NULL) {
+        return NULL; // 内存分配失败
+    }
+    printf("请输入时间（格式：YYYY-MM-DD HH:MM:SS）：");
+    scanf("%s", timeStr);
+    // 检查日期格式是否有效
+    if (!isValidDateFormat(timeStr)) {
+        free(timeStr);
+        return NULL; // 日期格式无效
+    }
+    return timeStr;
+}
+
+int isValidDateFormat(const char* dateStr) {
+    int year, month, day, hour, minute, second;
+    if (sscanf(dateStr, "%d-%d-%d %d:%d:%d", &year, &month, &day, &hour, &minute, &second) != 6) {
+        return 0;
+    }
+
+    // 验证日期范围（可选）
+    if (year < 1900 || month < 1 || month > 12 || day < 1 || day > 31 ||
+        hour < 0 || hour > 23 || minute < 0 || minute > 59 || second < 0 || second > 59) {
+        return 0; 
+    }
+
+    return 1; 
+}

@@ -169,6 +169,7 @@ void showAdminMenu() {
 }
 
 void handleStatistics() {
+    char report[1024];
 		clearScreen();
 		printf("=================================\n");
 		printf("    数据分析与报表    \n");
@@ -182,7 +183,7 @@ void handleStatistics() {
 		scanf("%d", &choice);
 		switch (choice) {
 		case 1:
-			
+			generateDailyReport(report);
 			break;
 		case 2:
 			
@@ -196,6 +197,7 @@ void handleStatistics() {
 			printf("无效选择，请重新输入！\n");
 			waitForKeyPress();
 		}
+        printf(report);
 }
 
 void handleTransactions() {

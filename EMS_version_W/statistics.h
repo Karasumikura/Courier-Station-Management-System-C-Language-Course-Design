@@ -3,7 +3,7 @@
 #include "main.h"
 
 // 生成日报
-void generateDailyReport(const char* date, char* reportOutput);
+void generateDailyReport(char* reportOutput);
 
 // 生成周报
 void generateWeeklyReport(const char* startDate, const char* endDate, char* reportOutput);
