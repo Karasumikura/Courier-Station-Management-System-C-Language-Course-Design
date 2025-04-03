@@ -738,9 +738,11 @@ void handleAddPackage() {
     printf("选择输入方式：\n");
     printf("1.用户ID\n");
     printf("2.用户手机号\n");
-    printf("收件人用户ID: ");
-    scanf("%d", &userId);
-	if (userId == 2) {
+    printf("3.用户名");
+	printf("请选择操作：");
+    
+	scanf("%d", &choice);
+	if (choice == 2) {
 		char phonenumber[50];
 		printf("收件人手机号: ");
 		scanf("%s", phonenumber);
@@ -752,7 +754,9 @@ void handleAddPackage() {
 		}
 		userId = user->id;
 	}
-	if (userId == 1) {
+	if (choice == 1) {
+        printf("收件人用户ID: ");
+        scanf("%d", &userId);
 		User* user = findUserById(userId);
 		if (user == NULL) {
 			printf("用户不存在！\n");
@@ -760,6 +764,18 @@ void handleAddPackage() {
 			return;
 		}
         userId = user->id;
+	}
+	if (choice == 3) {
+		char username[50];
+		printf("收件人用户名: ");
+		scanf("%s", username);
+		User* user = findUserByUsername(username);
+		if (user == NULL) {
+			printf("用户不存在！\n");
+			waitForKeyPress();
+			return;
+		}
+		userId = user->id;
 	}
     
     int size;
