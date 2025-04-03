@@ -102,7 +102,7 @@ void initSystem() {
         addShelf(6, 10); // 冷鲜货架，容量10
     }
 
-    // 如果没有管理员账户，创建默认管理员
+    // 如果没有管理员，创建默认管理员
     if (findUserByUsername("admin") == NULL) {
         addUser("admin", "123456", "123456", USER_ADMIN);
     }
