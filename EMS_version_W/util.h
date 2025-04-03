@@ -26,4 +26,7 @@ void timecheck();
 
 int getDailyIncrementalNumber();//根据每天时间生成逐渐增大的数，函数在当天的第一次调用输出1，第二次调用输出2，在第二天重新从1开始输出
 
+char* getNextDay(const char* dateStr);
+
+
 #endif /* UTIL_H */

@@ -72,33 +72,51 @@ void getCurrentTimeString(char* timeStr) {
 }*/
 
 char* timeinput() {
-    char* timeStr = (char*)malloc(20 * sizeof(char));
-    if (timeStr == NULL) {
-        return NULL; // 内存分配失败
-    }
+    char timeStr[40];
+    getchar();
     printf("请输入时间（格式：YYYY-MM-DD HH:MM:SS）：");
-    scanf("%s", timeStr);
-    // 检查日期格式是否有效
-    if (!isValidDateFormat(timeStr)) {
-        free(timeStr);
-        return NULL; // 日期格式无效
+    if (fgets(timeStr, sizeof(timeStr), stdin) == NULL) {
+        printf("读取输入失败！\n");
+        waitForKeyPress();
+        return NULL;
     }
-    return timeStr;
+
+    // 去掉换行符
+    size_t len = strlen(timeStr);
+    if (len > 0 && timeStr[len - 1] == '\n') {
+        timeStr[len - 1] = '\0';
+    }
+
+    // 检查格式
+    if (!isValidDateFormat(timeStr)) {
+        printf("日期格式无效！\n");
+        waitForKeyPress();
+        return NULL;
+    }
+    return _strdup(timeStr);
 }
 
 int isValidDateFormat(const char* dateStr) {
     int year, month, day, hour, minute, second;
     if (sscanf(dateStr, "%d-%d-%d %d:%d:%d", &year, &month, &day, &hour, &minute, &second) != 6) {
-        return 0;
+        return 0; // 解析失败
     }
 
-    // 验证日期范围（可选）
-    if (year < 1900 || month < 1 || month > 12 || day < 1 || day > 31 ||
-        hour < 0 || hour > 23 || minute < 0 || minute > 59 || second < 0 || second > 59) {
-        return 0; 
+    // 验证日期范围
+    struct tm tm_date = { 0 };
+    tm_date.tm_year = year - 1900;
+    tm_date.tm_mon = month - 1;
+    tm_date.tm_mday = day;
+    tm_date.tm_hour = hour;
+    tm_date.tm_min = minute;
+    tm_date.tm_sec = second;
+
+    // 使用 mktime 验证日期有效性
+    if (mktime(&tm_date) == -1) {
+        return 0; // 日期无效
     }
 
-    return 1; 
+    return 1;
 }
 
 int getDailyIncrementalNumber() {
@@ -118,4 +136,43 @@ int getDailyIncrementalNumber() {
     }
 
     return counter;
+}
+
+char* getNextDay(const char* dateStr) {
+    struct tm tm_date = { 0 };
+    time_t raw_time;
+
+    // 解析输入日期
+    if (sscanf(dateStr, "%d-%d-%d", &tm_date.tm_year, &tm_date.tm_mon, &tm_date.tm_mday) != 3) {
+        return NULL; // 解析失败
+    }
+
+    // 调整年份和月份的偏移
+    tm_date.tm_year -= 1900;
+    tm_date.tm_mon -= 1;
+
+    // 转换为时间戳并增加一天
+    raw_time = mktime(&tm_date);
+    if (raw_time == -1) {
+        return NULL; // 转换失败
+    }
+    raw_time += 24 * 60 * 60; // 增加一天（秒数）
+
+    // 将时间戳转换回日期
+    struct tm result;
+    if (_localtime64_s(&result, (__time64_t*)&raw_time) != 0) {
+        return NULL; // 转换失败
+    }
+
+    // 格式化为字符串
+    char* nextDay = (char*)malloc(20 * sizeof(char));
+    if (nextDay == NULL) {
+        return NULL;
+    }
+    sprintf(nextDay, "%04d-%02d-%02d",
+        result.tm_year + 1900,
+        result.tm_mon + 1,
+        result.tm_mday);
+
+    return nextDay;
 }

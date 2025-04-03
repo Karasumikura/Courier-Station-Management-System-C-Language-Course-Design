@@ -14,12 +14,25 @@
 // 生成日报
 void generateDailyReport(char* reportOutput) {
     char* date = timeinput();
+    if (date == NULL) {
+		printf("日期错误,请重试");
+        waitForKeyPress();
+		return;
+    }
+    char* date2 =getNextDay(date);
+	if (date2 == NULL) {
+		printf("日期错误,请重试");
+        waitForKeyPress();
+		return;
+	}
     // 获取指定日期的所有交易记录
     int count = 0;
-    Transaction** transactions = getTransactionsByDateRange(date, date, &count);
+    Transaction** transactions = getTransactionsByDateRange(date, date2, &count);
 
     if (transactions == NULL || count == 0) {
         sprintf(reportOutput, "日期: %s\n没有交易记录。", date);
+        printf("%s", reportOutput);
+        waitForKeyPress();
         return;
     }
 
@@ -48,7 +61,9 @@ void generateDailyReport(char* reportOutput) {
         "总支出: %.2f元\n"
         "净利润: %.2f元\n",
         date, packageCount, totalIncome, totalExpense, totalIncome - totalExpense);
-
+	printf("日报生成成功！\n");
+    printf("%s", reportOutput);
+	waitForKeyPress();
     free(transactions);
 }
 
