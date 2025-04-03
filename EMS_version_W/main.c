@@ -738,7 +738,7 @@ void handleAddPackage() {
     printf("选择输入方式：\n");
     printf("1.用户ID\n");
     printf("2.用户手机号\n");
-    printf("3.用户名");
+    printf("3.用户名\n");
 	printf("请选择操作：");
     
 	scanf("%d", &choice);
