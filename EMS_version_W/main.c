@@ -766,7 +766,7 @@ void handleAddPackage() {
         userId = user->id;
 	}
 	if (choice == 3) {
-		char username[50];
+		char username[506];
 		printf("收件人用户名: ");
 		scanf("%s", username);
 		User* user = findUserByUsername(username);
@@ -1173,18 +1173,41 @@ void handlePickupPackage() {
     printf("             取件               \n");
     printf("=================================\n");
 
-    int packageId;
-    printf("请输入包裹ID: ");
-    scanf("%d", &packageId);
+    int packageInput;
+    int choice;
+    printf("选择查找方式：\n1.包裹ID\n2.取件码\n");
+    scanf("%d", &choice);
+    if (choice == 1) {
+        printf("请输入包裹ID: ");
+        scanf("%d", &packageInput);
 
-    if (markPackageAsPickedUp(packageId)) {
-        printf("包裹已成功取出！\n");
-        savePackages_File("packages.txt");
-        saveShelvesToFile("shelves.txt");
+        if (markPackageAsPickedUp(packageInput)) {
+            printf("包裹已成功取出！\n");
+            savePackages_File("packages.txt");
+            saveShelvesToFile("shelves.txt");
+        }
+        else {
+            printf("操作失败，包裹可能不存在或已经取出！\n");
+        }
     }
-    else {
-        printf("操作失败，包裹可能不存在或已经取出！\n");
+    if (choice == 2) {
+        char pickupCode[20];
+        printf("请输入取件码: ");
+        scanf("%s", pickupCode);
+        Package* package = findPackageByCode(pickupCode);
+        if (package == NULL) {
+            printf("未找到包裹！\n");
+        }
+        else {
+            if (markPackageAsPickedUp(package->id)) {
+                printf("包裹已成功取出！\n");
+                savePackages_File("packages.txt");
+                saveShelvesToFile("shelves.txt");
+            }
+            else {
+                printf("操作失败，包裹可能不存在或已经取出！\n");
+            }
+        }
+        waitForKeyPress();
     }
-
-    waitForKeyPress();
 }
