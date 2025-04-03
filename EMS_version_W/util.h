@@ -25,7 +25,7 @@ void intToString(int value, char* str);
 void doubleToString(double value, char* str);
 
 
-
+void timecheck();
 
 // 获取下一个工作日
 void getNextWorkDay(const char* date, char* nextWorkDay);
