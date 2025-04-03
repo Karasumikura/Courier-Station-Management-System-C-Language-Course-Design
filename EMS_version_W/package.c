@@ -59,7 +59,7 @@ return newPackage;
 
 // 生成取件码
 void generatePickupCode(Package* package) {
-// 格式：货架类型+日期(2位) + 货架ID(2位) + 包裹ID的哈希(3位)
+// 格式：货架类型+日期(2位) + 货架ID(2位) + 包裹ID的哈希(4位)
 char type,dateStr[3], shelfStr[3], hashStr[5];
 time_t t = time(NULL);
 struct tm* tm_info = localtime(&t);
@@ -68,7 +68,7 @@ sprintf(shelfStr, "%02d", package->shelfId % 100);
 Shelf* shelf = findShelfById(package->shelfId);
 type = shelf->type + 65;
 unsigned int hash = hashString((char*)&(package->id)) % 10000;
-sprintf(hashStr, "%03d", hash);
+sprintf(hashStr, "%04d", hash);
 
 sprintf(package->pickupCode, "%s%s%s%s%s", type,dateStr, shelfStr, hashStr);
 }
