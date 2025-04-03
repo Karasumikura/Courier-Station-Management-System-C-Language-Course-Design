@@ -7,6 +7,8 @@
 #include "util.h"
 #include "user.h"
 int Promotionstatus;
+static int lastDay = -1; // 初始化为无效值
+static int counter = 0;
 void timecheck() {
     struct tm start_time = { 0 }, end_time = { 0 };
     User* currentUser = findUserById(g_currentUserId);
@@ -58,7 +60,7 @@ void getCurrentTimeString(char* timeStr) {
 }
 
 // 字符串哈希函数
-unsigned int hashString(const void* key, size_t len) {
+/*unsigned int hashString(const void* key, size_t len) {
     const unsigned char* str = (const unsigned char*)key;
     unsigned int hash = 5381;
 
@@ -66,8 +68,8 @@ unsigned int hashString(const void* key, size_t len) {
         hash = ((hash << 5) + hash) + str[i];
     }
 
-    return hash;
-}
+    return hash;暂时不使用，备用
+}*/
 
 char* timeinput() {
     char* timeStr = (char*)malloc(20 * sizeof(char));
@@ -97,4 +99,23 @@ int isValidDateFormat(const char* dateStr) {
     }
 
     return 1; 
+}
+
+int getDailyIncrementalNumber() {
+    // 获取当前时间
+    time_t t = time(NULL);
+    struct tm* tm_info = localtime(&t);
+
+    int currentDay = tm_info->tm_yday; // tm_yday 是一年中的第几天（0-365）
+
+    // 判断是否是新的一天
+    if (currentDay != lastDay) {
+        lastDay = currentDay;
+        counter = 1;
+    }
+    else {
+        counter++;
+    }
+
+    return counter;
 }

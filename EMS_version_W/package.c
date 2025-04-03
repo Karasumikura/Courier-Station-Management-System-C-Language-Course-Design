@@ -59,18 +59,17 @@ return newPackage;
 
 // 生成取件码
 void generatePickupCode(Package* package) {
-// 格式：货架类型+日期(2位) + 货架ID(2位) + 包裹ID的哈希(4位)
-char type,dateStr[3], shelfStr[3], hashStr[5];
+// 格式：货架类型+日期(2位) + 货架ID(2位) + 今天的第几个包裹
+char type,dateStr[3], shelfStr[3];
+int dayStr;
 time_t t = time(NULL);
 struct tm* tm_info = localtime(&t);
 sprintf(dateStr, "%02d", tm_info->tm_mday);
 sprintf(shelfStr, "%02d", package->shelfId % 100);
 Shelf* shelf = findShelfById(package->shelfId);
 type = shelf->type + 65;
-unsigned int hash = hashString((char*)&(package->id)) % 10000;
-sprintf(hashStr, "%04d", hash);
-
-sprintf(package->pickupCode, "%s%s%s%s%s", type,dateStr, shelfStr, hashStr);
+dayStr = getDailyIncrementalNumber();
+sprintf(package->pickupCode, "%c%s%s%04d", type,dateStr, shelfStr, dayStr);
 }
 
 // 查找包裹（通过ID）
@@ -169,7 +168,7 @@ return 0;
 
 package->status = PACKAGE_STATUS_ABNORMAL;
 
-// 记录异常信息（在实际系统中应该添加异常原因字段）
+// 记录异常信息（待办：添加异常原因字段）
 
 return 1;
 }
