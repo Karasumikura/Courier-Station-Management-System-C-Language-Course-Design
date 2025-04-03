@@ -728,23 +728,40 @@ void displayAllPackages() {
 
 // 处理添加包裹
 void handleAddPackage() {
+    int choice;
     clearScreen();
     printf("=================================\n");
     printf("           添加包裹             \n");
     printf("=================================\n");
 
     int userId;
+    printf("选择输入方式：\n");
+    printf("1.用户ID\n");
+    printf("2.用户手机号\n");
     printf("收件人用户ID: ");
     scanf("%d", &userId);
-
-    // 验证用户是否存在
-    User* user = findUserById(userId);
-    if (user == NULL || user->memberLevel == USER_ADMIN) {
-        printf("用户不存在！\n");
-        waitForKeyPress();
-        return;
-    }
-
+	if (userId == 2) {
+		char phonenumber[50];
+		printf("收件人手机号: ");
+		scanf("%s", phonenumber);
+		User* user = findUserByPhone(phonenumber);
+		if (user == NULL) {
+			printf("用户不存在！\n");
+			waitForKeyPress();
+			return;
+		}
+		userId = user->id;
+	}
+	if (userId == 1) {
+		User* user = findUserById(userId);
+		if (user == NULL) {
+			printf("用户不存在！\n");
+			waitForKeyPress();
+			return;
+		}
+        userId = user->id;
+	}
+    
     int size;
     printf("包裹大小 (0-极小, 1-小, 2-中, 3-大, 4-极大): ");
     scanf("%d", &size);
