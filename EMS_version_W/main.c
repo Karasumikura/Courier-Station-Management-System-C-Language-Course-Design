@@ -268,7 +268,7 @@ void showUserMenu() {
 			break;
         }
         Package** userPackages;
-		int count = 0;
+		int count;
         printf("1. 查看我的包裹\n");
         printf("2. 取件\n");
         printf("3. 寄件\n");

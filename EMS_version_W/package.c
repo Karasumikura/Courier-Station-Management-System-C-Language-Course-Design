@@ -148,7 +148,7 @@ void handleMarkPackageAbnormal() {
 }
 
 Package** getUserWaitingPackages(int userId,int *count) {
-int *count = 0;
+*count = 0;
 Package* current = g_packageList;
 
 while (current != NULL) {
@@ -378,9 +378,38 @@ void printUserPackages(Package** userPackages, int count) {
     printf("找到 %d 个符合条件的包裹：\n", count);
     for (int i = 0; i < count; i++) {
         Package* package = userPackages[i];
-        printf("包裹 ID：%d，用户 ID：%d，状态：%s\n",
-            package->id,
-            package->userId,
-            package->status == PACKAGE_STATUS_WAITING ? "等待中" : "已发货");
+		char* transtypeStr;
+		char* statusStr;
+		switch (package->transportMethod) {
+		case TRANSPORT_NORMAL:
+			transtypeStr = "普通公路";
+			break;
+		case TRANSPORT_FAST_ROAD:
+			transtypeStr = "公路速运";
+			break;
+		case TRANSPORT_EXPRESS_AIR:
+			transtypeStr = "特快空运";
+			break;
+		case TRANSPORT_EXPRESS_ROAD:
+			transtypeStr = "特快公路";
+			break;
+		default:
+			transtypeStr = "未知";
+		}
+		switch (package->status) {
+		case PACKAGE_STATUS_WAITING:
+			statusStr = "待取";
+			break;
+		case PACKAGE_STATUS_PICKED:
+			statusStr = "已取";
+			break;
+		case PACKAGE_STATUS_ABNORMAL:
+			statusStr = "异常";
+			break;
+		default:
+			statusStr = "未知";
+		}
+        printf("包裹 ID：%d，状态：%s，运输方式：%s\n",
+            package->id,statusStr,transtypeStr);
     }
 }
