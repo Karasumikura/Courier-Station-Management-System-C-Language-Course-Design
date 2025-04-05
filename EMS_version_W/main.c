@@ -1142,10 +1142,12 @@ void handlePickupPackage() {
             printf("包裹已成功取出！\n");
             savePackages_File("packages.txt");
             saveShelvesToFile("shelves.txt");
+
         }
         else {
             printf("操作失败，包裹可能不存在或已经取出！\n");
         }
+		waitForKeyPress();
     }
     if (choice == 2) {
         char pickupCode[20];
