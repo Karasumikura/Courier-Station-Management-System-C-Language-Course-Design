@@ -100,31 +100,31 @@ current = current->next;
 return NULL;
 }
 
-Package** getUserWaitingPackages(int userId, int* count) {
-*count = 0;
+Package** getUserWaitingPackages(int userId) {
+int count = 0;
 Package* current = g_packageList;
 
 while (current != NULL) {
 if (current->userId == userId && current->status == PACKAGE_STATUS_WAITING) {
-    (*count)++;
+    (count)++;
 }
 current = current->next;
 }
 
-if (*count == 0) {
+if (count == 0) {
 return NULL;
 }
 
-Package** packages = (Package**)malloc(sizeof(Package*) * (*count));
+Package** packages = (Package**)malloc(sizeof(Package*) * (count));
 if (packages == NULL) {
-*count = 0;
+count = 0;
 return NULL;
 }
 
 current = g_packageList;
 int index = 0;
 
-while (current != NULL && index < *count) {
+while (current != NULL && index < count) {
 if (current->userId == userId && current->status == PACKAGE_STATUS_WAITING) {
     packages[index++] = current;
 }
@@ -187,7 +187,6 @@ default:
 double sizeFactor = 1.0 + (package->size * 0.2); // 大小调整因子
 
 // 根据保存时间计算
-// 这里简化处理，实际应计算从创建到现在的天数
 time_t now = time(NULL);
 struct tm packageTime = {0};
 sscanf(package->createTime, "%d-%d-%d %d:%d:%d", 

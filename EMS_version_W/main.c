@@ -16,8 +16,6 @@
 #include "util.h"
 
 
-int markPackageAsPickedUp(int packageId);
-int markPackageAsAbnormal(int packageId, const char* reason);
 double calculatePackageFee(int size, int weight, int transportMethod);
 
 // 登录和用户系统函数
@@ -280,7 +278,7 @@ void showUserMenu() {
         scanf("%d", &choice);
         switch (choice) {
         case 1:
-            getUserWaitingPackages(currentUser->id, int* count);
+            getUserWaitingPackages(currentUser->id);
             break;
         case 2:
             handlePickupPackage();

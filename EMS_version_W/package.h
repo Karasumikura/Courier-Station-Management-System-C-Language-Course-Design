@@ -18,10 +18,11 @@ Package* findPackageByCode(const char* pickupCode);
 
 
 // 查询用户的待取包裹
-Package** getUserWaitingPackages(int userId, int* count);
+Package** getUserWaitingPackages(int userId);
 
-// 更新包裹状态
-int updatePackageStatus(int packageId, int status);
+int markPackageAsPickedUp(int packageId);
+
+int markPackageAsAbnormal(int packageId, const char* reason);
 
 // 处理包裹出库
 void handleMarkPackagePickedUp();
