@@ -88,7 +88,6 @@ void generateWeeklyReport(const char* startDate, const char* endDate, char* repo
         free(transactions);
     }
 
-    // 生成报告
     sprintf(reportOutput,
         "===== 周报：%s 至 %s =====\n"
         "处理包裹数: %d\n"
@@ -100,18 +99,14 @@ void generateWeeklyReport(const char* startDate, const char* endDate, char* repo
         totalIncome - totalExpense, packageCount / 7.0);
 }
 
-// 生成月报
 void generateMonthlyReport(const char* month, char* reportOutput) {
-    // 这里简化实现，假设month格式为"YYYY-MM"
     char startDate[11], endDate[11];
     sprintf(startDate, "%s-01", month);
-    sprintf(endDate, "%s-31", month);  // 简化处理，使用31作为月末
+    sprintf(endDate, "%s-31", month);  
 
-    // 计算日期范围内的总收入和总支出
     double totalIncome = calculateTotalIncome(startDate, endDate);
     double totalExpense = calculateTotalExpense(startDate, endDate);
 
-    // 获取包裹处理数量和异常数量
     int packageCount = 0;
     int abnormalCount = 0;
     int count = 0;
@@ -131,11 +126,9 @@ void generateMonthlyReport(const char* month, char* reportOutput) {
         free(transactions);
     }
 
-    // 获取货架利用情况
     char shelfStatus[1024];
     getShelvesStatus(shelfStatus);
 
-    // 生成报告
     sprintf(reportOutput,
         "===== 月报：%s =====\n"
         "处理包裹数: %d\n"
