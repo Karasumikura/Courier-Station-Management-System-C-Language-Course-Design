@@ -269,7 +269,7 @@ void showUserMenu() {
         }
         Package** userPackages;
 		int count;
-        printf("1. 查看我的包裹\n");
+        printf("1. 查看我的待取包裹\n");
         printf("2. 取件\n");
         printf("3. 寄件\n");
         printf("4. 查看我的信息\n");

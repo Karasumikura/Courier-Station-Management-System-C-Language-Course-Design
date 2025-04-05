@@ -59,17 +59,18 @@ return newPackage;
 
 // 生成取件码
 void generatePickupCode(Package* package) {
-// 格式：货架类型+日期(2位) + 货架ID(2位) + 今天的第几个包裹
-char type,dateStr[3], shelfStr[3];
+// 格式：货架类型+日期(2位) + 随机数(2位) + 今天的第几个包裹
+char type,dateStr[3];
 int dayStr;
 time_t t = time(NULL);
 struct tm* tm_info = localtime(&t);
 sprintf(dateStr, "%02d", tm_info->tm_mday);
-sprintf(shelfStr, "%02d", package->shelfId % 100);
+srand((unsigned int)time(NULL));
+int random = rand() % 90 + 10;
 Shelf* shelf = findShelfById(package->shelfId);
 type = shelf->type + 65;
 dayStr = getDailyIncrementalNumber();
-sprintf(package->pickupCode, "%c%s%s%04d", type,dateStr, shelfStr, dayStr);
+sprintf(package->pickupCode, "%c%s%d%04d", type,dateStr, random, dayStr);
 }
 
 // 查找包裹（通过ID）
@@ -152,7 +153,7 @@ Package** getUserWaitingPackages(int userId,int *count) {
 Package* current = g_packageList;
 
 while (current != NULL) {
-if (current->userId == userId) {
+if (current->userId == userId && current->status == PACKAGE_STATUS_WAITING) {
     (*count)++;
 }
 current = current->next;
@@ -410,8 +411,8 @@ void printUserPackages(Package** userPackages, int count) {
 		default:
 			statusStr = "未知";
 		}
-        printf("包裹 ID：%d，状态：%s，运输方式：%s\n",
-            package->id,statusStr,transtypeStr);
+        printf("包裹 ID：%d，状态：%s，运输方式：%s，取件码：%s\n",
+            package->id,statusStr,transtypeStr,package->pickupCode);
     }
     waitForKeyPress();
 }
