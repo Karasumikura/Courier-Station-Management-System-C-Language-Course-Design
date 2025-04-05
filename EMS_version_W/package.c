@@ -100,31 +100,78 @@ current = current->next;
 return NULL;
 }
 
-Package** getUserWaitingPackages(int userId) {
-int count = 0;
+void handleMarkPackagePickedUp() {
+    clearScreen();
+    printf("=================================\n");
+    printf("         标记包裹已取出         \n");
+    printf("=================================\n");
+
+    int packageId;
+    printf("请输入包裹ID: ");
+    scanf("%d", &packageId);
+
+    if (markPackageAsPickedUp(packageId)) {
+        printf("包裹已成功标记为已取出！\n");
+        savePackages_File("packages.txt");
+        saveShelvesToFile("shelves.txt");
+    }
+    else {
+        printf("操作失败，包裹可能不存在或已经取出！\n");
+    }
+
+    waitForKeyPress();
+}
+
+void handleMarkPackageAbnormal() {
+    clearScreen();
+    printf("=================================\n");
+    printf("         标记包裹异常           \n");
+    printf("=================================\n");
+
+    int packageId;
+    printf("请输入包裹ID: ");
+    scanf("%d", &packageId);
+
+    char reason[100];
+    printf("异常原因: ");
+    scanf(" %[^\n]", reason);
+
+    if (markPackageAsAbnormal(packageId, reason)) {
+        printf("包裹已成功标记为异常！\n");
+        savePackages_File("packages.txt");
+    }
+    else {
+        printf("操作失败，包裹可能不存在或已经不在待取状态！\n");
+    }
+
+    waitForKeyPress();
+}
+
+Package** getUserWaitingPackages(int userId,int *count) {
+int *count = 0;
 Package* current = g_packageList;
 
 while (current != NULL) {
 if (current->userId == userId && current->status == PACKAGE_STATUS_WAITING) {
-    (count)++;
+    (*count)++;
 }
 current = current->next;
 }
 
-if (count == 0) {
+if (*count == 0) {
 return NULL;
 }
 
-Package** packages = (Package**)malloc(sizeof(Package*) * (count));
+Package** packages = (Package**)malloc(sizeof(Package*) * (*count));
 if (packages == NULL) {
-count = 0;
+*count = 0;
 return NULL;
 }
 
 current = g_packageList;
 int index = 0;
 
-while (current != NULL && index < count) {
+while (current != NULL && index < *count) {
 if (current->userId == userId && current->status == PACKAGE_STATUS_WAITING) {
     packages[index++] = current;
 }
@@ -320,4 +367,20 @@ if (sscanf(line, "%d,%d,%d,%d,%d,%d,%lf,%[^,],%d,%d,%[^\n]",
 }
 
 fclose(file);
+}
+
+void printUserPackages(Package** userPackages, int count) {
+    if (userPackages == NULL || count == 0) {
+        printf("没有找到符合条件的包裹。\n");
+        return;
+    }
+
+    printf("找到 %d 个符合条件的包裹：\n", count);
+    for (int i = 0; i < count; i++) {
+        Package* package = userPackages[i];
+        printf("包裹 ID：%d，用户 ID：%d，状态：%s\n",
+            package->id,
+            package->userId,
+            package->status == PACKAGE_STATUS_WAITING ? "等待中" : "已发货");
+    }
 }

@@ -16,9 +16,10 @@ Package* findPackageById(int packageId);
 // 查找包裹（通过取件码）
 Package* findPackageByCode(const char* pickupCode);
 
+void printUserPackages(Package** userPackages, int count);
 
 // 查询用户的待取包裹
-Package** getUserWaitingPackages(int userId);
+Package** getUserWaitingPackages(int userId,int* count);
 
 int markPackageAsPickedUp(int packageId);
 

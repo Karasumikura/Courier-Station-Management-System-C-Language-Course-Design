@@ -267,7 +267,8 @@ void showUserMenu() {
         default:
 			break;
         }
-
+        Package** userPackages;
+		int count = 0;
         printf("1. 查看我的包裹\n");
         printf("2. 取件\n");
         printf("3. 寄件\n");
@@ -278,7 +279,8 @@ void showUserMenu() {
         scanf("%d", &choice);
         switch (choice) {
         case 1:
-            getUserWaitingPackages(currentUser->id);
+            userPackages = getUserWaitingPackages(currentUser->id,&count);
+			printUserPackages(userPackages, count);
             break;
         case 2:
             handlePickupPackage();
@@ -1024,52 +1026,7 @@ void handleEditPackage() {
     waitForKeyPress();
 }
 
-void handleMarkPackagePickedUp() {
-    clearScreen();
-    printf("=================================\n");
-    printf("         标记包裹已取出         \n");
-    printf("=================================\n");
 
-    int packageId;
-    printf("请输入包裹ID: ");
-    scanf("%d", &packageId);
-
-    if (markPackageAsPickedUp(packageId)) {
-        printf("包裹已成功标记为已取出！\n");
-        savePackages_File("packages.txt");
-        saveShelvesToFile("shelves.txt");
-    }
-    else {
-        printf("操作失败，包裹可能不存在或已经取出！\n");
-    }
-
-    waitForKeyPress();
-}
-
-void handleMarkPackageAbnormal() {
-    clearScreen();
-    printf("=================================\n");
-    printf("         标记包裹异常           \n");
-    printf("=================================\n");
-
-    int packageId;
-    printf("请输入包裹ID: ");
-    scanf("%d", &packageId);
-
-    char reason[100];
-    printf("异常原因: ");
-    scanf(" %[^\n]", reason);
-
-    if (markPackageAsAbnormal(packageId, reason)) {
-        printf("包裹已成功标记为异常！\n");
-        savePackages_File("packages.txt");
-    }
-    else {
-        printf("操作失败，包裹可能不存在或已经不在待取状态！\n");
-    }
-
-    waitForKeyPress();
-}
 
 void handleSearchPackage() {
     clearScreen();
