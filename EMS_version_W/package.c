@@ -100,9 +100,7 @@ current = current->next;
 return NULL;
 }
 
-// 获取用户的待取包裹
 Package** getUserWaitingPackages(int userId, int* count) {
-// 计算待取包裹数量
 *count = 0;
 Package* current = g_packageList;
 
@@ -117,14 +115,12 @@ if (*count == 0) {
 return NULL;
 }
 
-// 分配内存
 Package** packages = (Package**)malloc(sizeof(Package*) * (*count));
 if (packages == NULL) {
 *count = 0;
 return NULL;
 }
 
-// 填充数组
 current = g_packageList;
 int index = 0;
 
@@ -138,7 +134,6 @@ current = current->next;
 return packages;
 }
 
-// 标记包裹为已取出
 int markPackageAsPickedUp(int packageId) {
 Package* package = findPackageById(packageId);
 if (package == NULL || package->status != PACKAGE_STATUS_WAITING) {
@@ -147,10 +142,8 @@ return 0;
 
 package->status = PACKAGE_STATUS_PICKED;
 
-// 更新货架信息
 updateShelfCount(package->shelfId, -1);
 
-// 如果是特殊包裹，收取保存费
 if (package->note != PACKAGE_NOTE_NONE) {
 double fee = calculateStorageFee(package);
 add_Transaction(TRANSACTION_INCOME, INCOME_STORAGE_FEE, fee, "特殊包裹保存费");

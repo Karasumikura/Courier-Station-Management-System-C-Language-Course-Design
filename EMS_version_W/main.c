@@ -280,7 +280,7 @@ void showUserMenu() {
         scanf("%d", &choice);
         switch (choice) {
         case 1:
-            //displayMyPackages();
+            getUserWaitingPackages(currentUser->id, int* count);
             break;
         case 2:
             handlePickupPackage();

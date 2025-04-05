@@ -42,14 +42,13 @@ void timecheck() {
     }
 
 }
-// 生成唯一ID
+
 int generateUniqueId() {
-    // 使用随机数和时间混合生成
+    
     srand((unsigned int)time(NULL) + rand());
-    return rand() % 9000 + 1000; // 1000-9999之间的ID
+    return rand() % 9000 + 1000; 
 }
 
-// 获取当前时间字符串
 void getCurrentTimeString(char* timeStr) {
     time_t t = time(NULL);
     struct tm* tm_info = localtime(&t);
@@ -58,18 +57,13 @@ void getCurrentTimeString(char* timeStr) {
         tm_info->tm_year + 1900, tm_info->tm_mon + 1, tm_info->tm_mday,
         tm_info->tm_hour, tm_info->tm_min, tm_info->tm_sec);
 }
-
-// 字符串哈希函数
-/*unsigned int hashString(const void* key, size_t len) {
-    const unsigned char* str = (const unsigned char*)key;
-    unsigned int hash = 5381;
-
-    for (size_t i = 0; i < len; i++) {
-        hash = ((hash << 5) + hash) + str[i];
-    }
-
-    return hash;暂时不使用，备用
-}*/
+//strftime 是一个用于格式化日期和时间的函数。
+// 它根据指定的格式字符串将 struct tm 类型的时间信息转换为字符串形式
+void gettimeonlyday(char *dateStr) {
+    time_t t = time(NULL);
+    struct tm* tm_info = localtime(&t);
+    strftime(dateStr, 11, "%Y-%m-%d", tm_info);
+}
 
 char* timeinput() {
     char timeStr[40];
@@ -81,13 +75,13 @@ char* timeinput() {
         return NULL;
     }
 
-    // 去掉换行符
+
     size_t len = strlen(timeStr);
     if (len > 0 && timeStr[len - 1] == '\n') {
         timeStr[len - 1] = '\0';
     }
 
-    // 检查格式
+
     if (!isValidDateFormat(timeStr)) {
         printf("日期格式无效！\n");
         waitForKeyPress();
@@ -99,7 +93,7 @@ char* timeinput() {
 int isValidDateFormat(const char* dateStr) {
     int year, month, day, hour, minute, second;
     if (sscanf(dateStr, "%d-%d-%d %d:%d:%d", &year, &month, &day, &hour, &minute, &second) != 6) {
-        return 0; // 解析失败
+        return 0; 
     }
 
     // 验证日期范围
@@ -117,25 +111,6 @@ int isValidDateFormat(const char* dateStr) {
     }
 
     return 1;
-}
-
-int getDailyIncrementalNumber() {
-    // 获取当前时间
-    time_t t = time(NULL);
-    struct tm* tm_info = localtime(&t);
-
-    int currentDay = tm_info->tm_yday; // tm_yday 是一年中的第几天（0-365）
-
-    // 判断是否是新的一天
-    if (currentDay != lastDay) {
-        lastDay = currentDay;
-        counter = 1;
-    }
-    else {
-        counter++;
-    }
-
-    return counter;
 }
 
 char* getNextDay(const char* dateStr) {
@@ -175,4 +150,77 @@ char* getNextDay(const char* dateStr) {
         result.tm_mday);
 
     return nextDay;
+}
+
+void initializedateFile() {
+    FILE* file = fopen("counter_data.txt", "w");
+    if (file == NULL) {
+        printf("无法创建文件！\n");
+        exit(1);
+    }
+    char currentDate[11];
+    gettimeonlyday(currentDate);
+    fprintf(file, "%s\n1\n", currentDate); 
+    fclose(file);
+}
+
+int readCounterData(char* lastDate, int* counter) {
+    FILE* file = fopen("counter_data.txt", "r");
+    if (file == NULL) {
+        return 0; // 文件不存在
+    }
+
+    // 读取日期和计数值
+    if (fscanf(file, "%10s\n%d", lastDate, counter) != 2) {
+        fclose(file);
+        return 0; // 文件内容无效
+    }
+
+    fclose(file);
+    return 1; // 成功读取
+}
+
+// 写入新的日期和计数值到文件
+void writeCounterData(const char* currentDate, int counter) {
+    FILE* file = fopen("counter_data.txt", "w");
+    if (file == NULL) {
+        printf("无法写入文件！\n");
+        exit(1);
+    }
+    fprintf(file, "%s\n%d\n", currentDate, counter); // 写入新的日期和计数值
+    fclose(file);
+}
+
+// 获取当天的递增计数
+int getDailyIncrementalNumber() {
+    char currentDate[11];
+    char lastDate[11];
+    int counter;
+
+    // 获取当前日期
+    gettimeonlyday(currentDate);
+
+    // 尝试读取文件中的数据
+    if (!readCounterData(lastDate, &counter)) {
+        // 文件不存在或读取失败，初始化文件
+        initializedateFile();
+        strcpy(lastDate, currentDate);
+        counter = 1;
+    }
+    else {
+        // 比较日期
+        if (strcmp(currentDate, lastDate) != 0) {
+            // 日期不同，重置计数器
+            counter = 1;
+        }
+        else {
+            // 日期相同，计数器加 1
+            counter++;
+        }
+    }
+
+    // 更新文件内容
+    writeCounterData(currentDate, counter);
+
+    return counter;
 }

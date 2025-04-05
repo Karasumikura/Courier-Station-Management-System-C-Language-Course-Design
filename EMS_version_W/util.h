@@ -12,11 +12,7 @@ int generateUniqueId();
 // 检查日期格式是否有效
 int isValidDateFormat(const char* dateStr);
 
-// 比较两个日期字符串
-int compareDates(const char* date1, const char* date2);
-
-// 计算两个日期之间的天数
-int daysBetweenDates(const char* date1, const char* date2);
+void gettimeonlyday(char *str);
 
 char* timeinput();
 
@@ -28,5 +24,6 @@ int getDailyIncrementalNumber();//根据每天时间生成逐渐增大的数，函数在当天的第一
 
 char* getNextDay(const char* dateStr);
 
+void initializedateFile();
 
 #endif /* UTIL_H */
