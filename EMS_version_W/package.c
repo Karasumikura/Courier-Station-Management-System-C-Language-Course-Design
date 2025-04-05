@@ -152,7 +152,7 @@ Package** getUserWaitingPackages(int userId,int *count) {
 Package* current = g_packageList;
 
 while (current != NULL) {
-if (current->userId == userId && current->status == PACKAGE_STATUS_WAITING) {
+if (current->userId == userId) {
     (*count)++;
 }
 current = current->next;
@@ -372,6 +372,7 @@ fclose(file);
 void printUserPackages(Package** userPackages, int count) {
     if (userPackages == NULL || count == 0) {
         printf("没有找到符合条件的包裹。\n");
+		waitForKeyPress();
         return;
     }
 
@@ -412,4 +413,5 @@ void printUserPackages(Package** userPackages, int count) {
         printf("包裹 ID：%d，状态：%s，运输方式：%s\n",
             package->id,statusStr,transtypeStr);
     }
+    waitForKeyPress();
 }
