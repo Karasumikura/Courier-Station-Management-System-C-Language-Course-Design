@@ -227,7 +227,7 @@ void showUserMenu() {
         printf("    快递驿站管理系统 - 用户    \n");
         printf("=================================\n");
         printf("当前用户：%s (", currentUser->username);
-
+        upgradeUserMemberLevel(currentUser->id);
         
         switch (currentUser->memberLevel) {
         case USER_NEW:
@@ -465,12 +465,17 @@ void handleUserManagement() {
 
 void displayAllUsers() {
     clearScreen();
+    User* temp = g_userList;
+	while (temp != NULL) {
+		upgradeUserMemberLevel(temp->id);
+        temp = temp->next;
+	}
+	free(temp);
     printf("=================================\n");
     printf("           所有用户             \n");
     printf("=================================\n");
     printf("%-5s %-20s %-15s %-15s %-20s\n", "ID", "用户名", "会员等级", "消费能力","手机号");
     printf("---------------------------------\n");
-
     User* current = g_userList;
     int count = 0;
 
