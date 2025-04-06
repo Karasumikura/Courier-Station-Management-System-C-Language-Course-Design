@@ -330,7 +330,7 @@ return;
 
 Package* current = g_packageList;
 while (current != NULL) {
-fprintf(file, "%d,%d,%d,%d,%d,%d,%.2f,%s,%d,%d,%s\n", 
+fprintf(file, "%d,%d,%d,%d,%d,%d,%.2f,%s,%d,%d,%s,%s\n", 
         current->id, 
         current->userId, 
         current->size, 
@@ -341,7 +341,8 @@ fprintf(file, "%d,%d,%d,%d,%d,%d,%.2f,%s,%d,%d,%s\n",
         current->pickupCode, 
         current->shelfId, 
         current->status, 
-        current->createTime);
+        current->createTime,
+        current->abnote);
 current = current->next;
 }
 
@@ -368,12 +369,12 @@ char line[200];
 while (fgets(line, sizeof(line), file)) {
 int id, userId, size, weight, note, transportMethod;
 double value;
-char pickupCode[20], createTime[20];
+char pickupCode[20], createTime[20],abnote[50];
 int shelfId, status;
 
-if (sscanf(line, "%d,%d,%d,%d,%d,%d,%lf,%[^,],%d,%d,%[^\n]", 
+if (sscanf(line, "%d,%d,%d,%d,%d,%d,%lf,%[^,],%d,%d,%[^,],%[^\n]", 
             &id, &userId, &size, &weight, &note, &transportMethod, 
-            &value, pickupCode, &shelfId, &status, createTime) == 11) {
+            &value, pickupCode, &shelfId, &status, abnote,createTime) == 12) {
     
     
     Package* newPackage = (Package*)malloc(sizeof(Package));
@@ -389,6 +390,8 @@ if (sscanf(line, "%d,%d,%d,%d,%d,%d,%lf,%[^,],%d,%d,%[^\n]",
         newPackage->pickupCode[sizeof(newPackage->pickupCode) - 1] = '\0';
         newPackage->shelfId = shelfId;
         newPackage->status = status;
+        strncpy(newPackage->abnote, abnote, sizeof(newPackage->abnote) - 1);
+        newPackage->abnote[sizeof(newPackage->abnote) - 1] = '\0';
         strncpy(newPackage->createTime, createTime, sizeof(newPackage->createTime) - 1);
         newPackage->createTime[sizeof(newPackage->createTime) - 1] = '\0';
         
