@@ -13,10 +13,4 @@ double calculatePriceBump(int userId, double basePrice);
 double calculateFinalPrice(int userId, double basePrice);
 
 
-
-double calculateCompensationAmount(Package* package);
-
-
-int updateUserMemberLevel(int userId);
-
 #endif /* PRICING_H */
