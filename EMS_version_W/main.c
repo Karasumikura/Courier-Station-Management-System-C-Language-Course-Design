@@ -16,7 +16,6 @@
 #include "util.h"
 
 
-double calculatePackageFee(int size, int weight, int transportMethod);
 
 // 登录和用户系统函数
 void handleRegister();
@@ -1142,8 +1141,23 @@ void handlePickupPackage() {
 			waitForKeyPress();
 			return;
 		}
-        if (markPackageAsPickedUp(packageInput)) {
+		printf("选择取件方式：\n");
+		printf("1.驿站自取\n");
+		printf("2.快递员上门取件\n");
+		printf("请选择操作：");
+		scanf("%d", &choice);
+		if (choice != 1 && choice != 2) {
+			printf("无效选择，请重新输入！\n");
+			waitForKeyPress();
+			return;
+		}
+		price = calculatePackageFee(package->size, package->weight, package->transportMethod);
+		price += calculateStorageFee(package->createTime);
+		price = calculateFinalPrice(price, package->userId,choice);
+        if (markPackageAsPickedUp(packageInput,choice)) {
             printf("包裹已成功取出！\n");
+			printf("取件方式：%s\n", choice == 1 ? "驿站自取" : "快递员上门取件");
+			printf("取件费用：%.2f元\n", price);
             savePackages_File("packages.txt");
             saveShelvesToFile("shelves.txt");
 
@@ -1161,14 +1175,29 @@ void handlePickupPackage() {
         if (package == NULL) {
             printf("未找到包裹！\n");
         }
-        if(package->status == PACKAGE_STATUS_PICKED) {
+        else if(package->status == PACKAGE_STATUS_PICKED) {
             printf("包裹在之前已被取出！\n");
             waitForKeyPress();
             return;
         }
         else {
-            if (markPackageAsPickedUp(package->id)) {
+			printf("选择取件方式：\n");
+			printf("1.驿站自取\n");
+			printf("2.快递员上门取件\n");
+			printf("请选择操作：");
+			scanf("%d", &choice);
+			if (choice != 1 && choice != 2) {
+				printf("无效选择，请重新输入！\n");
+				waitForKeyPress();
+				return;
+			}
+			price = calculatePackageFee(package->size, package->weight, package->transportMethod);
+			price += calculateStorageFee(package->createTime);
+			price = calculateFinalPrice(price, package->userId, choice);
+            if (markPackageAsPickedUp(package->id,choice)) {
                 printf("包裹已成功取出！\n");
+				printf("取件方式：%s\n", choice == 1 ? "驿站自取" : "快递员上门取件");
+				printf("取件费用：%.2f元\n", price);
                 savePackages_File("packages.txt");
                 saveShelvesToFile("shelves.txt");
             }

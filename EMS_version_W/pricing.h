@@ -14,8 +14,6 @@ double calculateFinalPrice(int userId, double basePrice,int status);
 
 
 
-
-
 // º∆À„≈‚≥•Ω∂Ó
 double calculateCompensationAmount(Package* package);
 

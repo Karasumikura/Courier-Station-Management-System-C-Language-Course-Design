@@ -110,8 +110,11 @@ void handleMarkPackagePickedUp() {
     int packageId;
     printf("请输入包裹ID: ");
     scanf("%d", &packageId);
+    int choice;
+	printf("选择取件方式：\n");
+	scanf("%d", &choice);
 
-    if (markPackageAsPickedUp(packageId)) {
+    if (markPackageAsPickedUp(packageId,choice)) {
         printf("包裹已成功标记为已取出！\n");
         savePackages_File("packages.txt");
         saveShelvesToFile("shelves.txt");
@@ -182,7 +185,7 @@ current = current->next;
 return packages;
 }
 
-int markPackageAsPickedUp(int packageId) {
+int markPackageAsPickedUp(int packageId,int choice) {
 Package* package = findPackageById(packageId);
 if (package == NULL || package->status != PACKAGE_STATUS_WAITING) {
 return 0;
@@ -194,9 +197,13 @@ updateShelfCount(package->shelfId, -1);
 
 if (package->note != PACKAGE_NOTE_NONE) {
 double fee = calculateStorageFee(package);
-add_Transaction(TRANSACTION_INCOME, INCOME_STORAGE_FEE, fee, "特殊包裹保存费");
+add_Transaction(TRANSACTION_INCOME, INCOME_STORAGE_FEE, fee, "包裹保存费");
 }
-
+if (choice = 2) {
+    double fee2;
+    fee2 = doorstepfee(package->size, package->weight,package->transportMethod);
+    add_Transaction(TRANSACTION_INCOME, INCOME_DOORSTEP_FEE, fee2, "包裹计件费");
+}
 return 1;
 }
 
@@ -252,35 +259,64 @@ double timeFactor = (daysPassed > 3) ? (1.0 + (daysPassed - 3) * 0.5) : 1.0;
 return baseFee * sizeFactor * timeFactor;
 }
 
-// 计算包裹费用
 double calculatePackageFee(int size, int weight, int transportMethod) {
-// 基础费用
-double baseFee = 5.0;
+    // 基础费用
+    double baseFee = 5.0;
 
-// 根据大小调整
-double sizeFactor = 1.0 + (size * 0.3);
+    // 根据大小调整
+    double sizeFactor = 1.0 + (size * 0.3);
 
-// 根据重量调整
-double weightFactor = 1.0 + (weight * 0.2);
+    // 根据重量调整
+    double weightFactor = 1.0 + (weight * 0.2);
 
-// 根据运输方式调整
-double transportFactor = 1.0;
-switch (transportMethod) {
-case TRANSPORT_NORMAL:
-    transportFactor = 1.0;
-    break;
-case TRANSPORT_FAST_ROAD:
-    transportFactor = 1.5;
-    break;
-case TRANSPORT_EXPRESS_AIR:
-    transportFactor = 2.5;
-    break;
-case TRANSPORT_EXPRESS_ROAD:
-    transportFactor = 2.0;
-    break;
+    // 根据运输方式调整
+    double transportFactor = 1.0;
+    switch (transportMethod) {
+    case TRANSPORT_NORMAL:
+        transportFactor = 1.0;
+        break;
+    case TRANSPORT_FAST_ROAD:
+        transportFactor = 1.5;
+        break;
+    case TRANSPORT_EXPRESS_AIR:
+        transportFactor = 2.5;
+        break;
+    case TRANSPORT_EXPRESS_ROAD:
+        transportFactor = 2.0;
+        break;
+    }
+
+    return baseFee * sizeFactor * weightFactor * transportFactor;
 }
 
-return baseFee * sizeFactor * weightFactor * transportFactor;
+double doorstepfee(int size, int weight, int transportMethod) {
+    // 基础费用
+    double baseFee = 2.0;
+
+    // 根据大小调整
+    double sizeFactor = 1.0 + (size * 0.2);
+
+    // 根据重量调整
+    double weightFactor = 1.0 + (weight * 0.1);
+
+    // 根据运输方式调整
+    double transportFactor = 1.0;
+    switch (transportMethod) {
+    case TRANSPORT_NORMAL:
+        transportFactor = 1.0;
+        break;
+    case TRANSPORT_FAST_ROAD:
+        transportFactor = 1.2;
+        break;
+    case TRANSPORT_EXPRESS_AIR:
+        transportFactor = 1.5;
+        break;
+    case TRANSPORT_EXPRESS_ROAD:
+        transportFactor = 1.4;
+        break;
+    }
+
+    return baseFee * sizeFactor * weightFactor * transportFactor;
 }
 
 // 保存包裹数据到文件

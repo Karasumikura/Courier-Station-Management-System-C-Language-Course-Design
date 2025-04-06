@@ -21,7 +21,7 @@ void printUserPackages(Package** userPackages, int count);
 // 查询用户的待取包裹
 Package** getUserWaitingPackages(int userId,int* count);
 
-int markPackageAsPickedUp(int packageId);
+int markPackageAsPickedUp(int packageId,int choice);
 
 int markPackageAsAbnormal(int packageId, const char* reason);
 
@@ -34,6 +34,10 @@ void generatePickupCode(Package* package);
 // 计算包裹保存费
 double calculateStorageFee(Package* package);
 
+
+double doorstepfee(int size, int weight, int transportMethod);
+
+double calculatePackageFee(int size, int weight, int transportMethod);
 
 // 保存包裹数据到文件
 void savePackages_File(const char* filename);

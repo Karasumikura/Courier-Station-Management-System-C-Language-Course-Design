@@ -45,6 +45,7 @@
 // 收入子类型
 #define INCOME_PIECE_FEE 0        // 计件费
 #define INCOME_STORAGE_FEE 1      // 保存费
+#define INCOME_DOORSTEP_FEE 2//送货上门
 
 // 支出子类型
 #define EXPENSE_COMPENSATION 0    // 赔偿金
