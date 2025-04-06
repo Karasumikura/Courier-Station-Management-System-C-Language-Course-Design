@@ -9,10 +9,6 @@ void initTransactionList();
 
 Transaction* add_Transaction(int type, int subType, double amount, const char* description);
 
-
-Transaction* findTransactionById(int transactionId);
-
-
 Transaction** getTransactionsByDateRange(const char* startDate, const char* endDate, int* count);
 
 //  ’»Î

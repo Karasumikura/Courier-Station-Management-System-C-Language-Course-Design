@@ -26,6 +26,7 @@ int login(const char* username, const char* password) {
 	if (userId > 0) {
 		g_currentUserId = userId;
 		g_currentUserType = USER_TYPE_NORMAL;
+		return 2;
 	}
 	else if (userId == -1) {
 		return -1; 

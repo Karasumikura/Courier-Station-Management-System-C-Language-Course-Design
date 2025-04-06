@@ -7,6 +7,7 @@
 #include "package.h"
 #include "shelf.h"
 #include "user.h"
+#include "pricing.h"
 #include "transaction.h"
 #include "util.h"
 
@@ -196,12 +197,11 @@ package->status = PACKAGE_STATUS_PICKED;
 updateShelfCount(package->shelfId, -1);
 
 if (package->note != PACKAGE_NOTE_NONE) {
-double fee = calculateStorageFee(package);
+double fee = calculateFinalPrice(packageId,calculateStorageFee(package));
 add_Transaction(TRANSACTION_INCOME, INCOME_STORAGE_FEE, fee, "包裹保存费");
 }
 if (choice = 2) {
-    double fee2;
-    fee2 = doorstepfee(package->size, package->weight,package->transportMethod);
+    double fee2 = calculateFinalPrice(packageId, doorstepfee(package->size, package->weight, package->transportMethod));
     add_Transaction(TRANSACTION_INCOME, INCOME_DOORSTEP_FEE, fee2, "包裹计件费");
 }
 return 1;

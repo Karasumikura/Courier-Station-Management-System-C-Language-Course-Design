@@ -707,7 +707,6 @@ void displayAllPackages() {
 
 void handleAddPackage() {
     int choice;
-    int correct = 0;
     clearScreen();
     printf("=================================\n");
     printf("           添加包裹             \n");
@@ -732,7 +731,6 @@ void handleAddPackage() {
 			return;
 		}
 		userId = user->id;
-        correct = 1;
 	}
 	if (choice == 1) {
         printf("收件人用户ID: ");
@@ -743,7 +741,6 @@ void handleAddPackage() {
 			waitForKeyPress();
 			return;
 		}
-        correct = 1;
         userId = user->id;
 	}
 	if (choice == 3) {
@@ -756,14 +753,9 @@ void handleAddPackage() {
 			waitForKeyPress();
 			return;
 		}
-        correct = 1;
 		userId = user->id;
 	}
-    if (!correct) {
-        printf("输入有误！\n");
-        waitForKeyPress();
-        return;
-    }
+    
     int size;
     printf("包裹大小 (0-极小, 1-小, 2-中, 3-大, 4-极大): ");
     scanf("%d", &size);
