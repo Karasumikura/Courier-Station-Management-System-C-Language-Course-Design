@@ -44,7 +44,7 @@ generatePickupCode(newPackage);
 
 getCurrentTimeString(newPackage->createTime);
 
-
+strcpy(newPackage->abnote, "нч");
 newPackage->next = g_packageList;
 g_packageList = newPackage;
 
