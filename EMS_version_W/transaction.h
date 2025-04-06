@@ -24,7 +24,4 @@ void saveTransactionsToFile(const char* filename);
 void loadTransactionsFromFile(const char* filename);
 
 
-void freeTransactionList();
-
-
 #endif /* TRANSACTION_H */
