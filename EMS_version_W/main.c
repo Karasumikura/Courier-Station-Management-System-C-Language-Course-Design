@@ -149,7 +149,6 @@ void showAdminMenu() {
             waitForKeyPress();
         }
     }
-    showMainMenu();
 }
 
 void handleStatistics() {
@@ -845,7 +844,6 @@ void handleShelfManagement() {
         printf("1. 查看所有货架\n");
         printf("2. 添加货架\n");
         printf("3. 货架库存预警\n");
-        printf("4. 库存盘点\n");
         printf("0. 返回\n");
         printf("请选择操作：");
 
@@ -862,9 +860,6 @@ void handleShelfManagement() {
             break;
         case 3:
             //handleShelfWarning();
-            break;
-        case 4:
-            //handleInventoryCheck();
             break;
         case 0:
             running = 0;

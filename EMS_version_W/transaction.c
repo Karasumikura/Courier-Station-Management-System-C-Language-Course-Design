@@ -47,8 +47,6 @@ Transaction** getTransactionsByDateRange(const char* startDate, const char* endD
     Transaction* current = g_transactionList;
 
     while (current != NULL) {
-        // 检查日期是否在范围内
-        // 这里简化实现，实际上应该解析日期进行比较
         if (strcmp(current->createTime, startDate) >= 0 &&
             strcmp(current->createTime, endDate) <= 0) {
             (*count)++;
