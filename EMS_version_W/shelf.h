@@ -21,6 +21,7 @@ void updateShelfCount(int shelfId, int countChange);
 
 float getShelfUtilization(int shelfId);
 
+void checkeveryshelf();
 
 void getShelvesStatus(char* statusReport);
 

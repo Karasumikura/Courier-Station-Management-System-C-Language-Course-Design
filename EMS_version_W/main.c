@@ -5,9 +5,9 @@
 #include <ctype.h>//_isdigit()-
 #include <conio.h>//_getch()-
 #ifdef _WIN32
-#include <windows.h>  // Windows 平台使用 SetConsoleCursorInfo
+#include <windows.h>  // Windows 平台使用
 #else
-#include <unistd.h>   // Linux/Unix 平台使用 usleep
+#include <unistd.h>   // Linux/Unix 平台使用
 #endif
 #include "main.h"
 #include "user.h"
@@ -98,8 +98,6 @@ void initSystem() {
 }
 
 
-
-
 // 各种界面的创建
 void showMainMenu() {
     clearScreen();
@@ -118,9 +116,12 @@ void showAdminMenu() {
     int running = 1;
     while (running) {
         clearScreen();
+        
         printf("=================================\n");
         printf("    快递驿站管理系统 - 管理员    \n");
         printf("=================================\n");
+        printf("当前货架预警：");
+        checkeveryshelf();
         printf("1. 用户管理\n");
         printf("2. 包裹管理\n");
         printf("3. 库存与货架管理\n");
@@ -146,8 +147,8 @@ void showAdminMenu() {
             handleTransactions();
             break;
         case 0:
-            logout();
             running = 0;
+            logout();
             break;
         default:
             printf("无效选择，请重新输入！\n");

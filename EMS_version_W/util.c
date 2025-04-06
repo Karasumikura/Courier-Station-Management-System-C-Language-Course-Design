@@ -4,9 +4,9 @@
 #include <string.h>
 #include <time.h>
 #ifdef _WIN32
-#include <windows.h>  // Windows 平台使用 SetConsoleCursorInfo
+#include <windows.h>  // Windows 平台使用
 #else
-#include <unistd.h>   // Linux/Unix 平台使用 usleep
+#include <unistd.h>   // Linux/Unix 平台使用
 #endif
 #include "main.h"
 #include "util.h"

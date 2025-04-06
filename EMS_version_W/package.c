@@ -203,7 +203,7 @@ add_Transaction(TRANSACTION_INCOME, INCOME_STORAGE_FEE, fee, "包裹保存费");
 }
 if (choice = 2) {
     double fee2 = calculateFinalPrice(packageId, doorstepfee(package->size, package->weight, package->transportMethod));
-    add_Transaction(TRANSACTION_INCOME, INCOME_DOORSTEP_FEE, fee2, "包裹计件费");
+    add_Transaction(TRANSACTION_INCOME, INCOME_DOORSTEP_FEE, fee2, "包裹上门取件费");
 }
 return 1;
 }

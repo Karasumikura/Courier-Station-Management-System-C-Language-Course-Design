@@ -76,7 +76,8 @@ typedef struct Package {
 	char pickupCode[20];     
 	int shelfId;             
 	int status;              
-	char createTime[20];     
+	char createTime[20]; 
+	char abnote[50];
 	struct Package* next;    
 } Package;
 
@@ -119,7 +120,6 @@ void initSystem();
 void showMainMenu();
 void showAdminMenu();
 void showUserMenu();
-
 void clearInputBuffer();
 
 #endif /* MAIN_H */

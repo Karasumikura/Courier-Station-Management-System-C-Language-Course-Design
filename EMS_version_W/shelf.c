@@ -200,3 +200,22 @@ void loadShelvesFromFile(const char* filename) {
 
     fclose(file);
 }
+
+void checkeveryshelf() {
+    int status = 0;
+    float utilization = 0.0;
+    Shelf* current = g_shelfList;
+    while (current != NULL) {
+        utilization = getShelfUtilization(current->id);
+        if (utilization > 0.8) {
+            printf("%d ", current->id);
+        }
+        current = current->next;
+    }
+	if (!status) {
+		printf("无\n");
+	}
+	else {
+		printf("货架使用率超过80%%\n");
+	}
+}
