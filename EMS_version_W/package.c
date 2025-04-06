@@ -232,7 +232,7 @@ case PACKAGE_NOTE_FRAGILE:
     baseFee = 2.0; // 易碎品
     break;
 case PACKAGE_NOTE_FRESH:
-    baseFee = 5.0; // 冷鲜需要冷藏费用
+    baseFee = 1.5; // 冷鲜需要冷藏费用
     break;
 default:
     return 0.0;
@@ -261,7 +261,7 @@ return baseFee * sizeFactor * timeFactor;
 
 double calculatePackageFee(int size, int weight, int transportMethod) {
     // 基础费用
-    double baseFee = 5.0;
+    double baseFee = 1.0;
 
     // 根据大小调整
     double sizeFactor = 1.0 + (size * 0.3);
@@ -291,7 +291,7 @@ double calculatePackageFee(int size, int weight, int transportMethod) {
 
 double doorstepfee(int size, int weight, int transportMethod) {
     // 基础费用
-    double baseFee = 2.0;
+    double baseFee = 1.0;
 
     // 根据大小调整
     double sizeFactor = 1.0 + (size * 0.2);
