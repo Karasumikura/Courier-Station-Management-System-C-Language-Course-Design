@@ -6,13 +6,13 @@
 #include "shelf.h"
 #include "transaction.h"
 
-// 初始化数据存储
+
 void initDataStorage() {
 	// 确保数据目录存在
-	// 实际应用中可能需要创建目录
+	
 }
 
-// 保存所有数据
+
 void saveAllData() {
 	saveUsersToFile("users.txt");
 	savePackages_File("packages.txt");
@@ -20,7 +20,6 @@ void saveAllData() {
 	saveTransactionsToFile("transactions.txt");
 }
 
-// 加载所有数据
 void loadAllData() {
 	loadUsersFromFile("users.txt");
 	loadPackagesFromFile("packages.txt");

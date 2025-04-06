@@ -11,7 +11,7 @@
 #include "util.h"
 #include "user.h"
 
-// 生成日报
+// 报表
 void generateDailyReport(char* reportOutput) {
     char* date = timeinput();
     if (date == NULL) {
@@ -25,7 +25,7 @@ void generateDailyReport(char* reportOutput) {
         waitForKeyPress();
 		return;
 	}
-    // 获取指定日期的所有交易记录
+    
     int count = 0;
     Transaction** transactions = getTransactionsByDateRange(date, date2, &count);
 
@@ -36,7 +36,7 @@ void generateDailyReport(char* reportOutput) {
         return;
     }
 
-    // 统计收入和支出
+   
     double totalIncome = 0.0;
     double totalExpense = 0.0;
     int packageCount = 0;
@@ -53,7 +53,7 @@ void generateDailyReport(char* reportOutput) {
         }
     }
 
-    // 生成报告
+
     sprintf(reportOutput,
         "===== 日报：%s =====\n"
         "处理包裹数: %d\n"
@@ -67,13 +67,13 @@ void generateDailyReport(char* reportOutput) {
     free(transactions);
 }
 
-// 生成周报
+
 void generateWeeklyReport(const char* startDate, const char* endDate, char* reportOutput) {
-    // 计算日期范围内的总收入和总支出
+    
     double totalIncome = calculateTotalIncome(startDate, endDate);
     double totalExpense = calculateTotalExpense(startDate, endDate);
 
-    // 获取包裹处理数量
+    
     int packageCount = 0;
     int count = 0;
     Transaction** transactions = getTransactionsByDateRange(startDate, endDate, &count);
@@ -142,9 +142,9 @@ void generateMonthlyReport(const char* month, char* reportOutput) {
         totalIncome - totalExpense, packageCount / 30.0, shelfStatus);
 }
 
-// 包裹流量分析
+
 void analyzePackageFlow(char* analysisOutput) {
-    // 获取当前时间
+   
     time_t now = time(NULL);
     struct tm* tm_info = localtime(&now);
 
@@ -159,17 +159,17 @@ void analyzePackageFlow(char* analysisOutput) {
     }
     strftime(prevMonth, sizeof(prevMonth), "%Y-%m", tm_info);
 
-    // 当前月起止日期
+ 
     char currentMonthStart[11], currentMonthEnd[11];
     sprintf(currentMonthStart, "%s-01", currentMonth);
     sprintf(currentMonthEnd, "%s-31", currentMonth);
 
-    // 上个月起止日期
+    
     char prevMonthStart[11], prevMonthEnd[11];
     sprintf(prevMonthStart, "%s-01", prevMonth);
     sprintf(prevMonthEnd, "%s-31", prevMonth);
 
-    // 获取当前月包裹数量
+  
     int currentMonthCount = 0;
     int count = 0;
     Transaction** transactions = getTransactionsByDateRange(currentMonthStart, currentMonthEnd, &count);
@@ -184,7 +184,7 @@ void analyzePackageFlow(char* analysisOutput) {
         free(transactions);
     }
 
-    // 获取上个月包裹数量
+    
     int prevMonthCount = 0;
     transactions = getTransactionsByDateRange(prevMonthStart, prevMonthEnd, &count);
 
@@ -198,13 +198,13 @@ void analyzePackageFlow(char* analysisOutput) {
         free(transactions);
     }
 
-    // 计算增长率
+ 
     float growthRate = 0;
     if (prevMonthCount > 0) {
         growthRate = (float)(currentMonthCount - prevMonthCount) / prevMonthCount * 100;
     }
 
-    // 生成分析报告
+    // 根据数据生成报告，方便对包裹流量等有更好的把控
     sprintf(analysisOutput,
         "===== 包裹流量分析 =====\n"
         "当前月份: %s, 包裹数量: %d\n"
@@ -217,24 +217,24 @@ void analyzePackageFlow(char* analysisOutput) {
         (float)currentMonthCount / 30);
 }
 
-// 收入分析
+
 void analyzeIncome(char* analysisOutput) {
-    // 获取当前时间
+
     time_t now = time(NULL);
     struct tm* tm_info = localtime(&now);
 
     char currentMonth[8];
     strftime(currentMonth, sizeof(currentMonth), "%Y-%m", tm_info);
 
-    // 当前月起止日期
+
     char currentMonthStart[11], currentMonthEnd[11];
     sprintf(currentMonthStart, "%s-01", currentMonth);
     sprintf(currentMonthEnd, "%s-31", currentMonth);
 
-    // 获取总收入数据
+  
     double totalIncome = calculateTotalIncome(currentMonthStart, currentMonthEnd);
 
-    // 获取各类收入明细
+    
     int count = 0;
     Transaction** transactions = getTransactionsByDateRange(currentMonthStart, currentMonthEnd, &count);
 
@@ -260,12 +260,12 @@ void analyzeIncome(char* analysisOutput) {
         free(transactions);
     }
 
-    // 计算各类收入占比
+   
     float pieceFeePercent = totalIncome > 0 ? (pieceFeeIncome / totalIncome * 100) : 0;
     float storageFeePercent = totalIncome > 0 ? (storageFeeIncome / totalIncome * 100) : 0;
     float otherPercent = totalIncome > 0 ? (otherIncome / totalIncome * 100) : 0;
 
-    // 生成分析报告
+    // 对收入数据生成报告，便于分析财政情况
     sprintf(analysisOutput,
         "===== 收入分析：%s =====\n"
         "总收入: %.2f元\n\n"
@@ -279,15 +279,15 @@ void analyzeIncome(char* analysisOutput) {
         otherIncome, otherPercent);
 }
 
-// 寻找最优货架存放
+
 void optimizeShelfPlacement(char* optimizationOutput) {
-    // 获取所有货架使用情况
+    
     Shelf* current = g_shelfList;
     int shelfCount = 0;
     float* utilizations = NULL;
     int* shelfIds = NULL;
 
-    // 计算货架数量
+    
     while (current != NULL) {
         shelfCount++;
         current = current->next;
@@ -298,7 +298,7 @@ void optimizeShelfPlacement(char* optimizationOutput) {
         return;
     }
 
-    // 分配内存
+    
     utilizations = (float*)malloc(sizeof(float) * shelfCount);
     shelfIds = (int*)malloc(sizeof(int) * shelfCount);
 
@@ -309,7 +309,7 @@ void optimizeShelfPlacement(char* optimizationOutput) {
         return;
     }
 
-    // 获取每个货架的使用率
+   
     current = g_shelfList;
     for (int i = 0; i < shelfCount; i++) {
         utilizations[i] = (float)current->currentCount / current->capacity;
@@ -317,16 +317,16 @@ void optimizeShelfPlacement(char* optimizationOutput) {
         current = current->next;
     }
 
-    // 简单的排序来找出使用率最高和最低的货架
+    
     for (int i = 0; i < shelfCount - 1; i++) {
         for (int j = 0; j < shelfCount - i - 1; j++) {
             if (utilizations[j] < utilizations[j + 1]) {
-                // 交换使用率
+               
                 float tempUtil = utilizations[j];
                 utilizations[j] = utilizations[j + 1];
                 utilizations[j + 1] = tempUtil;
 
-                // 交换ID
+                
                 int tempId = shelfIds[j];
                 shelfIds[j] = shelfIds[j + 1];
                 shelfIds[j + 1] = tempId;
@@ -334,7 +334,7 @@ void optimizeShelfPlacement(char* optimizationOutput) {
         }
     }
 
-    // 生成优化建议
+   
     sprintf(optimizationOutput,
         "===== 货架存放优化建议 =====\n\n"
         "利用率最高的货架:\n");
@@ -383,12 +383,12 @@ void optimizeShelfPlacement(char* optimizationOutput) {
         strcat(optimizationOutput, tempStr);
     }
 
-    // 添加优化建议
+   
     strcat(optimizationOutput, "\n优化建议:\n");
 
-    // 如果某类货架使用率高，建议增加
+    
     for (int i = 0; i < 3 && i < shelfCount; i++) {
-        if (utilizations[i] > 0.8) {  // 使用率超过80%
+        if (utilizations[i] > 0.8) {  
             Shelf* shelf = findShelfById(shelfIds[i]);
             char typeStr[20];
 
@@ -409,9 +409,9 @@ void optimizeShelfPlacement(char* optimizationOutput) {
         }
     }
 
-    // 如果某类货架使用率低，建议减少
+   
     for (int i = shelfCount - 1; i >= shelfCount - 3 && i >= 0; i--) {
-        if (utilizations[i] < 0.2) {  // 使用率低于20%
+        if (utilizations[i] < 0.2) { 
             Shelf* shelf = findShelfById(shelfIds[i]);
             char typeStr[20];
 
@@ -432,7 +432,6 @@ void optimizeShelfPlacement(char* optimizationOutput) {
         }
     }
 
-    // 释放内存
     free(utilizations);
     free(shelfIds);
 }

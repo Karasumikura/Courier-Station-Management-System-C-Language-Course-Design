@@ -7,7 +7,7 @@
 #include "util.h"
 #include "user.h"
 int Promotionstatus;
-static int lastDay = -1; // 初始化为无效值
+static int lastDay = -1; 
 static int counter = 0;
 void timecheck() {
     struct tm start_time = { 0 }, end_time = { 0 };
@@ -96,7 +96,7 @@ int isValidDateFormat(const char* dateStr) {
         return 0; 
     }
 
-    // 验证日期范围
+   
     struct tm tm_date = { 0 };
     tm_date.tm_year = year - 1900;
     tm_date.tm_mon = month - 1;
@@ -105,9 +105,9 @@ int isValidDateFormat(const char* dateStr) {
     tm_date.tm_min = minute;
     tm_date.tm_sec = second;
 
-    // 使用 mktime 验证日期有效性
+   
     if (mktime(&tm_date) == -1) {
-        return 0; // 日期无效
+        return 0; 
     }
 
     return 1;
@@ -117,29 +117,29 @@ char* getNextDay(const char* dateStr) {
     struct tm tm_date = { 0 };
     time_t raw_time;
 
-    // 解析输入日期
+    
     if (sscanf(dateStr, "%d-%d-%d", &tm_date.tm_year, &tm_date.tm_mon, &tm_date.tm_mday) != 3) {
-        return NULL; // 解析失败
+        return NULL; 
     }
 
-    // 调整年份和月份的偏移
+    
     tm_date.tm_year -= 1900;
     tm_date.tm_mon -= 1;
 
-    // 转换为时间戳并增加一天
+    
     raw_time = mktime(&tm_date);
     if (raw_time == -1) {
-        return NULL; // 转换失败
+        return NULL; 
     }
-    raw_time += 24 * 60 * 60; // 增加一天（秒数）
+    raw_time += 24 * 60 * 60; 
 
-    // 将时间戳转换回日期
+    
     struct tm result;
     if (_localtime64_s(&result, (__time64_t*)&raw_time) != 0) {
-        return NULL; // 转换失败
+        return NULL; 
     }
 
-    // 格式化为字符串
+    
     char* nextDay = (char*)malloc(20 * sizeof(char));
     if (nextDay == NULL) {
         return NULL;
@@ -167,59 +167,59 @@ void initializedateFile() {
 int readCounterData(char* lastDate, int* counter) {
     FILE* file = fopen("counter_data.txt", "r");
     if (file == NULL) {
-        return 0; // 文件不存在
+        return 0; 
     }
 
-    // 读取日期和计数值
+    
     if (fscanf(file, "%10s\n%d", lastDate, counter) != 2) {
         fclose(file);
-        return 0; // 文件内容无效
+        return 0; 
     }
 
     fclose(file);
-    return 1; // 成功读取
+    return 1; 
 }
 
-// 写入新的日期和计数值到文件
+
 void writeCounterData(const char* currentDate, int counter) {
     FILE* file = fopen("counter_data.txt", "w");
     if (file == NULL) {
         printf("无法写入文件！\n");
         exit(1);
     }
-    fprintf(file, "%s\n%d\n", currentDate, counter); // 写入新的日期和计数值
+    fprintf(file, "%s\n%d\n", currentDate, counter); 
     fclose(file);
 }
 
-// 获取当天的递增计数
+
 int getDailyIncrementalNumber() {
     char currentDate[11];
     char lastDate[11];
     int counter;
 
-    // 获取当前日期
+   
     gettimeonlyday(currentDate);
 
-    // 尝试读取文件中的数据
+    
     if (!readCounterData(lastDate, &counter)) {
-        // 文件不存在或读取失败，初始化文件
+        // 如果文件不存在或读取失败，那么就初始化文件
         initializedateFile();
         strcpy(lastDate, currentDate);
         counter = 1;
     }
     else {
-        // 比较日期
+        
         if (strcmp(currentDate, lastDate) != 0) {
-            // 日期不同，重置计数器
+          
             counter = 1;
         }
         else {
-            // 日期相同，计数器加 1
+           
             counter++;
         }
     }
 
-    // 更新文件内容
+    
     writeCounterData(currentDate, counter);
 
     return counter;

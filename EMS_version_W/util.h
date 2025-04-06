@@ -3,13 +3,12 @@
 
 #include "main.h"
 
-// 获取当前时间字符串
+
 void getCurrentTimeString(char* timeStr);
 
-// 生成唯一ID
 int generateUniqueId();
 
-// 检查日期格式是否有效
+
 int isValidDateFormat(const char* dateStr);
 
 void gettimeonlyday(char *str);

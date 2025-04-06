@@ -2,14 +2,12 @@
 #define STORAGE_H
 
 #include "main.h"
-
-// 初始化数据存储
+//数据的储存
 void initDataStorage();
 
-// 保存所有数据
+
 void saveAllData();
 
-// 加载所有数据
 void loadAllData();
 
 

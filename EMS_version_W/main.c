@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <ctype.h>//_isdigit()
-#include <conio.h>//_getch()
+#include <ctype.h>//_isdigit()-
+#include <conio.h>//_getch()-
 #include "main.h"
 #include "user.h"
 #include "package.h"
@@ -17,19 +17,15 @@
 
 
 
-// 登录和用户系统函数
+//定义一系列函数
 void handleRegister();
 void handleLogin();
-
-// 用户管理函数
 void handleUserManagement();
 void displayAllUsers();
 void handleAddUser();
 void handleEditUser();
 void handleDeleteUser();
 void displayMyProfile();
-
-// 包裹管理函数
 void handlePackageManagement();
 void displayAllPackages();
 void handleAddPackage();
@@ -38,8 +34,6 @@ void handleMarkPackagePickedUp();
 void handleMarkPackageAbnormal();
 void handleSearchPackage();
 void handlePickupPackage();
-
-// 货架管理函数
 void displayAllShelves();
 void handleAddShelf();
 void handleShelfManagement();
@@ -48,10 +42,9 @@ void handleTransactions();
 
 void handleStatistics();
 
-//补充需求
+
 void displayPromotions();
 
-//清除缓冲区
 void clearInputBuffer() {
     int c;
     while ((c = getchar()) != '\n' && c != EOF);
@@ -81,19 +74,19 @@ void initSystem() {
     loadAllData();
 
     if (g_shelfList == NULL) {
-        // 常规货架
+        // 不同货架的信息
         for (int i = 0; i < 5; i++) {
-            addShelf(i, 20); // 每种尺寸20个容量
+            addShelf(i, 20); 
         }
 
-        // 特殊货架易碎品
+        
         addShelf(5, 10); 
 
-        // 特殊货架冷鲜
+        
         addShelf(6, 10); 
     }
 
-    // 如果没有管理员，创建默认管理员
+    // 默认管理员的信息，方便第一次使用
     if (findUserByUsername("admin") == NULL) {
         addUser("admin", "123456", "123456", USER_ADMIN);
     }
@@ -102,7 +95,7 @@ void initSystem() {
 
 
 
-// 显示主菜单
+// 各种界面的创建
 void showMainMenu() {
     clearScreen();
     int running = 1;
@@ -114,7 +107,7 @@ void showMainMenu() {
     printf("0. 退出系统\n");
 }
 
-// 显示管理员菜单
+
 void showAdminMenu() {
     int choice;
     int running = 1;
@@ -223,7 +216,6 @@ void handleTransactions() {
         showAdminMenu();
     }
 }
-// 显示用户菜单
 void showUserMenu() {
     int choice;
     int running = 1;
@@ -236,7 +228,7 @@ void showUserMenu() {
         printf("=================================\n");
         printf("当前用户：%s (", currentUser->username);
 
-        // 显示会员等级
+        
         switch (currentUser->memberLevel) {
         case USER_NEW:
             printf("新用户");
@@ -370,7 +362,7 @@ void displayMyProfile() {
 }
 
 
-// 处理登录
+
     
     void handleLogin() {
         clearScreen();
@@ -414,7 +406,7 @@ void displayMyProfile() {
 
 
 
-// 处理注册
+
 void handleRegister() {
     clearScreen();
     printf("=================================\n");
@@ -470,7 +462,6 @@ void handleUserManagement() {
 }
 
 
-// 显示所有用户
 void displayAllUsers() {
     clearScreen();
     printf("=================================\n");
@@ -483,11 +474,11 @@ void displayAllUsers() {
     int count = 0;
 
     while (current != NULL) {
-        // 不显示管理员账户
+        // 隐藏管理员的信息
         if (current->memberLevel != USER_ADMIN) {
             printf("%-5d %-20s ", current->id, current->username);
 
-            // 会员等级
+           
             switch (current->memberLevel) {
             case USER_NEW:
                 printf("%-15s ", "新用户");
@@ -515,7 +506,7 @@ void displayAllUsers() {
     }
 }
 
-// 处理添加用户
+
 void handleAddUser() {
     clearScreen();
     printf("=================================\n");
@@ -524,7 +515,6 @@ void handleAddUser() {
     AddUserCheck();
 }
 
-// 处理编辑用户
 void handleEditUser() {
     clearScreen();
     printf("=================================\n");
@@ -554,7 +544,7 @@ void handleEditUser() {
     int newMemberLevel;
     scanf("%d", &newMemberLevel);
 
-    // 更新用户信息
+   
     if (strcmp(newPassword, "0") != 0) {
         strcpy(user->password, newPassword);
     }
@@ -568,7 +558,6 @@ void handleEditUser() {
     waitForKeyPress();
 }
 
-// 处理删除用户
 void handleDeleteUser() {
     clearScreen();
     printf("=================================\n");
@@ -606,7 +595,7 @@ void handleDeleteUser() {
     waitForKeyPress();
 }
 
-// 包裹管理
+
 void handlePackageManagement() {
     int running = 1;
     while (running) {
@@ -657,7 +646,7 @@ void handlePackageManagement() {
     showAdminMenu();
 }
 
-// 显示所有包裹
+
 void displayAllPackages() {
     clearScreen();
     printf("===========================================================\n");
@@ -674,7 +663,7 @@ void displayAllPackages() {
         printf("%-5d %-15s %-8d ",
             current->id, current->pickupCode, current->userId);
 
-        // 包裹大小
+        
         switch (current->size) {
         case PACKAGE_SIZE_TINY:
             printf("%-8s ", "极小");
@@ -695,7 +684,7 @@ void displayAllPackages() {
             printf("%-8s ", "未知");
         }
 
-        // 包裹状态
+        
         switch (current->status) {
         case PACKAGE_STATUS_WAITING:
             printf("%-12s ", "待取");
@@ -721,7 +710,7 @@ void displayAllPackages() {
     }
 }
 
-// 处理添加包裹
+
 void handleAddPackage() {
     int choice;
     clearScreen();
@@ -818,7 +807,7 @@ void handleAddPackage() {
         return;
     }
 
-    // 选择合适的货架
+    
     int shelfId = findSuitableShelf(size, note);
     if (shelfId == -1) {
         printf("没有合适的货架可用！\n");
@@ -826,7 +815,7 @@ void handleAddPackage() {
         return;
     }
 
-    // 创建新包裹
+    
     Package* newPackage = addPackage(userId, size, weight, note, transportMethod, value, shelfId);
     if (newPackage == NULL) {
         printf("添加包裹失败！\n");
@@ -836,7 +825,7 @@ void handleAddPackage() {
         savePackages_File("packages.txt");
         saveShelvesToFile("shelves.txt");
 
-        // 添加计件费收入记录
+        
         double fee = calculatePackageFee(size, weight, transportMethod);
         add_Transaction(TRANSACTION_INCOME, INCOME_PIECE_FEE, fee, "包裹计件费");
         saveTransactionsToFile("transactions.txt");
@@ -845,7 +834,7 @@ void handleAddPackage() {
     waitForKeyPress();
 }
 
-// 货架管理
+
 void handleShelfManagement() {
     int running = 1;
     while (running) {
@@ -888,7 +877,7 @@ void handleShelfManagement() {
     showAdminMenu();
 }
 
-// 显示所有货架
+
 void displayAllShelves() {
     clearScreen();
     printf("=================================\n");
@@ -903,7 +892,7 @@ void displayAllShelves() {
     while (current != NULL) {
         printf("%-5d ", current->id);
 
-        // 货架类型
+        
         switch (current->type) {
         case 0:
             printf("%-20s ", "极小包裹");
@@ -932,7 +921,7 @@ void displayAllShelves() {
 
         printf("%-10d %-10d ", current->capacity, current->currentCount);
 
-        // 计算利用率
+      
         float utilization = (float)current->currentCount / current->capacity * 100;
         printf("%-10.1f%%\n", utilization);
 
@@ -945,15 +934,15 @@ void displayAllShelves() {
     }
 }
 
-// 统计分析
 
-// 主函数
+
+
 int main() {
-    // 初始化系统
+    
     initSystem();
 
     int running = 1;
-    // 显示主菜单
+   
     while (running) {
         showMainMenu();
         printf("请选择操作：");
@@ -984,7 +973,7 @@ int main() {
         }
     }
 
-    // 保存数据
+    
     saveAllData();
 
     return 0;
@@ -1116,7 +1105,7 @@ void handleAddShelf() {
 }
 
 
-// 处理取件
+
 void handlePickupPackage() {
     clearScreen();
     printf("=================================\n");

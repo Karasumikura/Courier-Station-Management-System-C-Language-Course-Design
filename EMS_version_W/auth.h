@@ -3,27 +3,25 @@
 
 #include "main.h"
 
-// 用户登录
+// 登录系统
 int login(const char* username, const char* password);
 
-// 管理员登录
 int adminLogin(const char* username, const char* password);
 
-// 用户认证
+
 int authenticateUser(const char* username, const char* password);
 
-// 修改密码
+
 void changePassword();
 
 
 
-// 当前登录状态检查
+
 int isLoggedIn();
 
-// 当前是否为管理员
 int isAdminLoggedIn();
 
-// 登出
+
 void logout();
 
 #endif /* AUTH_H */
