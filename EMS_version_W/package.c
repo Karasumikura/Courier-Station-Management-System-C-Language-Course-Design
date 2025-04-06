@@ -374,7 +374,7 @@ int shelfId, status;
 
 if (sscanf(line, "%d,%d,%d,%d,%d,%d,%lf,%[^,],%d,%d,%[^,],%[^\n]", 
             &id, &userId, &size, &weight, &note, &transportMethod, 
-            &value, pickupCode, &shelfId, &status, abnote,createTime) == 12) {
+            &value, pickupCode, &shelfId, &status, createTime, abnote) == 12) {
     
     
     Package* newPackage = (Package*)malloc(sizeof(Package));
@@ -390,10 +390,10 @@ if (sscanf(line, "%d,%d,%d,%d,%d,%d,%lf,%[^,],%d,%d,%[^,],%[^\n]",
         newPackage->pickupCode[sizeof(newPackage->pickupCode) - 1] = '\0';
         newPackage->shelfId = shelfId;
         newPackage->status = status;
-        strncpy(newPackage->abnote, abnote, sizeof(newPackage->abnote) - 1);
-        newPackage->abnote[sizeof(newPackage->abnote) - 1] = '\0';
         strncpy(newPackage->createTime, createTime, sizeof(newPackage->createTime) - 1);
         newPackage->createTime[sizeof(newPackage->createTime) - 1] = '\0';
+        strncpy(newPackage->abnote, abnote, sizeof(newPackage->abnote) - 1);
+        newPackage->abnote[sizeof(newPackage->abnote) - 1] = '\0';
         
         
         newPackage->next = g_packageList;
