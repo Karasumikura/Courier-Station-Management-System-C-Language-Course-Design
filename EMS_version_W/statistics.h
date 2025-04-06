@@ -6,7 +6,7 @@
 void generateDailyReport(char* reportOutput);
 
 
-void generateWeeklyReport(const char* startDate, const char* endDate, char* reportOutput);
+void generateWeeklyReport(char* reportOutput);
 
 
 void generateMonthlyReport(const char* month, char* reportOutput);

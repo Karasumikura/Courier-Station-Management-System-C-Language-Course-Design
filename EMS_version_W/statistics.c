@@ -15,11 +15,9 @@
 void generateDailyReport(char* reportOutput) {
     char* date = timeinput();
     if (date == NULL) {
-		printf("日期错误,请重试");
-        waitForKeyPress();
 		return;
     }
-    char* date2 =getNextDay(date);
+    char* date2 =getNexttime(date,0);
 	if (date2 == NULL) {
 		printf("日期错误,请重试");
         waitForKeyPress();
@@ -68,8 +66,17 @@ void generateDailyReport(char* reportOutput) {
 }
 
 
-void generateWeeklyReport(const char* startDate, const char* endDate, char* reportOutput) {
-    
+void generateWeeklyReport(char* reportOutput) {
+    char* startDate = timeinput();
+	if (startDate == NULL) {
+		return;
+	}
+    char* endDate = getNexttime(startDate, 7);
+    if (endDate == NULL) {
+        printf("日期错误,请重试");
+        waitForKeyPress();
+        return;
+    }
     double totalIncome = calculateTotalIncome(startDate, endDate);
     double totalExpense = calculateTotalExpense(startDate, endDate);
 
@@ -97,6 +104,11 @@ void generateWeeklyReport(const char* startDate, const char* endDate, char* repo
         "日均包裹处理量: %.1f\n",
         startDate, endDate, packageCount, totalIncome, totalExpense,
         totalIncome - totalExpense, packageCount / 7.0);
+	printf("周报生成成功！\n");
+	printf("%s", reportOutput);
+    waitForKeyPress();
+	free(startDate);
+	free(endDate);
 }
 
 void generateMonthlyReport(const char* month, char* reportOutput) {

@@ -175,7 +175,7 @@ void handleStatistics() {
 			generateDailyReport(report);
 			break;
 		case 2:
-			
+            generateWeeklyReport(report);
 			break;
 		case 3:
 

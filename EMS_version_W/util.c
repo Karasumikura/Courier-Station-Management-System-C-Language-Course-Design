@@ -133,7 +133,7 @@ int isValidDateFormat(const char* dateStr) {
     return 1;
 }
 
-char* getNextDay(const char* dateStr) {
+char* getNexttime(const char* dateStr,int time) {
     struct tm tm_date = { 0 };
     time_t raw_time;
 
@@ -151,7 +151,7 @@ char* getNextDay(const char* dateStr) {
     if (raw_time == -1) {
         return NULL; 
     }
-    raw_time += 24 * 60 * 60; 
+    raw_time += 24 * 60 * 60 * time; 
 
     
     struct tm result;
