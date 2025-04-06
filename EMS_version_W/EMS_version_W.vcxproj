@@ -133,7 +133,6 @@
     <ClInclude Include="pricing.h" />
     <ClInclude Include="shelf.h" />
     <ClInclude Include="statistics.h" />
-    <ClInclude Include="storage.h" />
     <ClInclude Include="user.h" />
     <ClInclude Include="util.h" />
   </ItemGroup>
@@ -145,7 +144,6 @@
     <ClCompile Include="pricing.c" />
     <ClCompile Include="shelf.c" />
     <ClCompile Include="statistics.c" />
-    <ClCompile Include="storage.c" />
     <ClCompile Include="transaction.c" />
     <ClCompile Include="user.c" />
     <ClCompile Include="util.c" />

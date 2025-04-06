@@ -8,6 +8,9 @@
 // 显示光标的 ANSI 转义序列
 #define SHOW_CURSOR "\e[?25h"
 
+void saveAllData();
+
+void loadAllData();
 
 void getCurrentTimeString(char* timeStr);
 

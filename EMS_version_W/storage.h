@@ -2,8 +2,6 @@
 #define STORAGE_H
 
 #include "main.h"
-//Êý¾ÝµÄ´¢´æ
-void initDataStorage();
 
 
 void saveAllData();

@@ -14,6 +14,21 @@
 int Promotionstatus;
 static int lastDay = -1; 
 static int counter = 0;
+
+void saveAllData() {
+    saveUsersToFile("users.txt");
+    savePackages_File("packages.txt");
+    saveShelvesToFile("shelves.txt");
+    saveTransactionsToFile("transactions.txt");
+}
+
+void loadAllData() {
+    loadUsersFromFile("users.txt");
+    loadPackagesFromFile("packages.txt");
+    loadShelvesFromFile("shelves.txt");
+    loadTransactionsFromFile("transactions.txt");
+}
+
 void timecheck() {
     struct tm start_time = { 0 }, end_time = { 0 };
     User* currentUser = findUserById(g_currentUserId);
