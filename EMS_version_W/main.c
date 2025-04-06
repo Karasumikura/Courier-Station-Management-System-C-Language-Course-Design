@@ -1125,6 +1125,7 @@ void handlePickupPackage() {
 
     int packageInput;
     int choice;
+    int choice2;
     double price;
     int status;
     printf("选择查找方式：\n1.包裹ID\n2.取件码\n");
@@ -1145,21 +1146,21 @@ void handlePickupPackage() {
 		printf("1.驿站自取\n");
 		printf("2.快递员上门取件\n");
 		printf("请选择操作：");
-		scanf("%d", &choice);
-		if (choice != 1 && choice != 2) {
+		scanf("%d", &choice2);
+		if (choice2 != 1 && choice2 != 2) {
 			printf("无效选择，请重新输入！\n");
 			waitForKeyPress();
 			return;
 		}
 		price = calculatePackageFee(package->size, package->weight, package->transportMethod);
 		price += calculateStorageFee(package->createTime);
-        if (choice == 2) {
+        if (choice2 == 2) {
             price += doorstepfee(package->size, package->weight, package->transportMethod);
         }
-		price = calculateFinalPrice(price, package->userId);
-        if (markPackageAsPickedUp(packageInput,choice)) {
+		price += calculateFinalPrice(price, package->userId);
+        if (markPackageAsPickedUp(packageInput,choice2)) {
             printf("包裹已成功取出！\n");
-			printf("取件方式：%s\n", choice == 1 ? "驿站自取" : "快递员上门取件");
+			printf("取件方式：%s\n", choice2 == 1 ? "驿站自取" : "快递员上门取件");
 			printf("取件费用：%.2f元\n", price);
             savePackages_File("packages.txt");
             saveShelvesToFile("shelves.txt");
@@ -1188,21 +1189,21 @@ void handlePickupPackage() {
 			printf("1.驿站自取\n");
 			printf("2.快递员上门取件\n");
 			printf("请选择操作：");
-			scanf("%d", &choice);
-			if (choice != 1 && choice != 2) {
+			scanf("%d", &choice2);
+			if (choice2 != 1 && choice2 != 2) {
 				printf("无效选择，请重新输入！\n");
 				waitForKeyPress();
 				return;
 			}
 			price = calculatePackageFee(package->size, package->weight, package->transportMethod);
 			price += calculateStorageFee(package->createTime);
-            if (choice == 2) {
+            if (choice2 == 2) {
                 price += doorstepfee(package->size, package->weight, package->transportMethod);
             }
-			price = calculateFinalPrice(price, package->userId);
-            if (markPackageAsPickedUp(package->id,choice)) {
+			price += calculateFinalPrice(price, package->userId);
+            if (markPackageAsPickedUp(package->id,choice2)) {
                 printf("包裹已成功取出！\n");
-				printf("取件方式：%s\n", choice == 1 ? "驿站自取" : "快递员上门取件");
+				printf("取件方式：%s\n", choice2 == 1 ? "驿站自取" : "快递员上门取件");
 				printf("取件费用：%.2f元\n", price);
                 savePackages_File("packages.txt");
                 saveShelvesToFile("shelves.txt");
