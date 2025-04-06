@@ -1136,6 +1136,8 @@ void handlePickupPackage() {
         Package* package = findPackageById(packageInput);
         if (package == NULL) {
             printf("未找到包裹！\n");
+            waitForKeyPress();
+            return;
         }
 		else if (package->status == PACKAGE_STATUS_PICKED) {
 			printf("包裹在之前已被取出！\n");
@@ -1157,7 +1159,7 @@ void handlePickupPackage() {
         if (choice2 == 2) {
             price += doorstepfee(package->size, package->weight, package->transportMethod);
         }
-		price += calculateFinalPrice(price, package->userId);
+		price += calculateFinalPrice(package->userId,price);
         if (markPackageAsPickedUp(packageInput,choice2)) {
             printf("包裹已成功取出！\n");
 			printf("取件方式：%s\n", choice2 == 1 ? "驿站自取" : "快递员上门取件");
@@ -1178,6 +1180,8 @@ void handlePickupPackage() {
         Package* package = findPackageByCode(pickupCode);
         if (package == NULL) {
             printf("未找到包裹！\n");
+            waitForKeyPress();
+            return;
         }
         else if(package->status == PACKAGE_STATUS_PICKED) {
             printf("包裹在之前已被取出！\n");
@@ -1200,7 +1204,7 @@ void handlePickupPackage() {
             if (choice2 == 2) {
                 price += doorstepfee(package->size, package->weight, package->transportMethod);
             }
-			price += calculateFinalPrice(price, package->userId);
+			price += calculateFinalPrice(package->userId,price);
             if (markPackageAsPickedUp(package->id,choice2)) {
                 printf("包裹已成功取出！\n");
 				printf("取件方式：%s\n", choice2 == 1 ? "驿站自取" : "快递员上门取件");
