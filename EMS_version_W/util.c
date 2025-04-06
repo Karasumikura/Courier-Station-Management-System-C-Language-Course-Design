@@ -287,3 +287,37 @@ void loading_simulation() {
     fflush(stdout);
 #endif
 }
+
+int isValidMonthFormat(const char* month) {
+    // 检查字符串长度是否为 7
+    if (strlen(month) != 7) {
+        return 0; // 长度不符合要求
+    }
+
+    // 检查前 4 个字符是否为数字
+    for (int i = 0; i < 4; i++) {
+        if (!isdigit(month[i])) {
+            return 0; // 年份部分包含非数字字符
+        }
+    }
+
+    // 检查第 5 个字符是否为 '-'
+    if (month[4] != '-') {
+        return 0; // 分隔符错误
+    }
+
+    // 检查最后 2 个字符是否为数字
+    for (int i = 5; i < 7; i++) {
+        if (!isdigit(month[i])) {
+            return 0; // 月份部分包含非数字字符
+        }
+    }
+
+    // 提取月份并验证范围
+    int monthValue = atoi(month + 5); // 提取月份部分
+    if (monthValue < 1 || monthValue > 12) {
+        return 0; // 月份不在有效范围内
+    }
+
+    return 1; // 格式正确
+}

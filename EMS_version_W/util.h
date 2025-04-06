@@ -35,4 +35,6 @@ void set_cursor_visibility(int visible);
 
 void loading_simulation();
 
+int isValidMonthFormat(const char* month);
+
 #endif /* UTIL_H */

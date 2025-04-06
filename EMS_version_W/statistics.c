@@ -111,7 +111,15 @@ void generateWeeklyReport(char* reportOutput) {
 	free(endDate);
 }
 
-void generateMonthlyReport(const char* month, char* reportOutput) {
+void generateMonthlyReport(char* reportOutput) {
+	printf("请输入月份（格式：YYYY-MM）：");
+	char month[8];
+	scanf("%s", month);
+	if (isValidMonthFormat(month) == 0) {
+		printf("月份格式无效！\n");
+		waitForKeyPress();
+		return;
+	}
     char startDate[11], endDate[11];
     sprintf(startDate, "%s-01", month);
     sprintf(endDate, "%s-31", month);  
@@ -152,6 +160,9 @@ void generateMonthlyReport(const char* month, char* reportOutput) {
         "货架使用情况:\n%s",
         month, packageCount, abnormalCount, totalIncome, totalExpense,
         totalIncome - totalExpense, packageCount / 30.0, shelfStatus);
+	printf("月报生成成功！\n");
+	printf("%s", reportOutput);
+	waitForKeyPress();
 }
 
 

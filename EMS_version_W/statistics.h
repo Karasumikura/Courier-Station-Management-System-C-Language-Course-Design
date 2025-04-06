@@ -9,7 +9,7 @@ void generateDailyReport(char* reportOutput);
 void generateWeeklyReport(char* reportOutput);
 
 
-void generateMonthlyReport(const char* month, char* reportOutput);
+void generateMonthlyReport(char* reportOutput);
 
 
 void analyzePackageFlow(char* analysisOutput);
