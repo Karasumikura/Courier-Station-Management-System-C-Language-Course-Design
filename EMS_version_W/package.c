@@ -209,15 +209,15 @@ return 1;
 }
 
 
-int markPackageAsAbnormal(int packageId, const char* reason) {
+int markPackageAsAbnormal(int packageId, char* reason) {
 Package* package = findPackageById(packageId);
 if (package == NULL || package->status != PACKAGE_STATUS_WAITING) {
 return 0;
 }
-
+package->shelfId = -1; //将包裹从货架上移除
 package->status = PACKAGE_STATUS_ABNORMAL;
-
-// 记录异常信息（待办：添加异常原因字段）
+// 复制 reason 到 abnote,这里数组需要用strcpy而不是直接赋值
+strcpy(package->abnote, reason);
 
 return 1;
 }

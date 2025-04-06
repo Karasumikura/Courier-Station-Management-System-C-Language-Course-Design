@@ -690,7 +690,7 @@ void displayAllPackages() {
             printf("%-8s ", "未知");
         }
 
-        
+        char buffer[60];
         switch (current->status) {
         case PACKAGE_STATUS_WAITING:
             printf("%-12s ", "待取");
@@ -699,7 +699,9 @@ void displayAllPackages() {
             printf("%-12s ", "已取");
             break;
         case PACKAGE_STATUS_ABNORMAL:
-            printf("%-12s ", "异常");
+            snprintf(buffer, sizeof(buffer), "异常：%s", current->abnote);
+            //snprintf用来拼接字符串
+            printf("%-12s ", buffer);
             break;
         default:
             printf("%-12s ", "未知");
