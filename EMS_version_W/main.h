@@ -51,6 +51,7 @@
 #define EXPENSE_COMPENSATION 0    
 #define EXPENSE_MAINTENANCE 1     
 
+#define WAITING_TIME 10
 
 typedef struct User {
 	int id;                  

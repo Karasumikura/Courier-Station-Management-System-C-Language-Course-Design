@@ -4,6 +4,7 @@
 #include <string.h>
 #include <ctype.h>//_isdigit()-
 #include <conio.h>//_getch()-
+#include <Windows.h>
 #include "main.h"
 #include "user.h"
 #include "package.h"
@@ -271,6 +272,7 @@ void showUserMenu() {
             displayMyProfile();
             break;
         case 5:
+            loading_simulation();
 			displayPromotions();
 			break;
         case 0:
@@ -373,7 +375,7 @@ void displayMyProfile() {
         scanf("%s", password);
 
         int result = login(username, password);
-
+        loading_simulation();
         if (result == 1) {
             printf("管理员登录成功！\n");
             waitForKeyPress();
@@ -933,12 +935,9 @@ void displayAllShelves() {
 }
 
 
-
-
 int main() {
     
     initSystem();
-
     int running = 1;
    
     while (running) {
@@ -1136,6 +1135,7 @@ void handlePickupPackage() {
 		printf("2.快递员上门取件\n");
 		printf("请选择操作：");
 		scanf("%d", &choice2);
+        loading_simulation();
 		if (choice2 != 1 && choice2 != 2) {
 			printf("无效选择，请重新输入！\n");
 			waitForKeyPress();

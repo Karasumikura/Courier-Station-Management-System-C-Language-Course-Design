@@ -114,7 +114,7 @@ void handleMarkPackagePickedUp() {
     int choice;
 	printf("选择取件方式：\n");
 	scanf("%d", &choice);
-
+    loading_simulation();
     if (markPackageAsPickedUp(packageId,choice)) {
         printf("包裹已成功标记为已取出！\n");
         savePackages_File("packages.txt");
@@ -140,7 +140,8 @@ void handleMarkPackageAbnormal() {
     char reason[100];
     printf("异常原因: ");
     scanf(" %[^\n]", reason);
-
+    
+	loading_simulation();
     if (markPackageAsAbnormal(packageId, reason)) {
         printf("包裹已成功标记为异常！\n");
         savePackages_File("packages.txt");

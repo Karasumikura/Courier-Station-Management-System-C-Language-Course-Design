@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <Windows.h>
 #include "main.h"
 #include "util.h"
 #include "user.h"
@@ -223,4 +224,33 @@ int getDailyIncrementalNumber() {
     writeCounterData(currentDate, counter);
 
     return counter;
+}
+
+void set_cursor_visibility(int visible) {
+    HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
+    CONSOLE_CURSOR_INFO cursorInfo;
+    GetConsoleCursorInfo(hConsole, &cursorInfo);  // 获取当前光标信息
+    cursorInfo.bVisible = visible;               // 设置光标是否可见
+    SetConsoleCursorInfo(hConsole, &cursorInfo); // 应用新的光标信息
+}
+
+void loading_simulation() {
+    set_cursor_visibility(0);
+    for (int i = 0; i < WAITING_TIME; i++) {
+        switch (i % 3) {
+        case 0:
+            printf("\r加载中.  ");  // \r 回到行首
+            break;
+        case 1:
+            printf("\r加载中.. ");
+            break;
+        case 2:
+            printf("\r加载中...");
+            break;
+        }
+        fflush(stdout);  // 确保立即输出到控制台
+        Sleep(100);
+    }
+    printf("\r       \n");
+    set_cursor_visibility(1);
 }
