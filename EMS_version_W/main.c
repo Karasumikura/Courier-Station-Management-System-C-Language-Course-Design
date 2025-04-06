@@ -1153,7 +1153,10 @@ void handlePickupPackage() {
 		}
 		price = calculatePackageFee(package->size, package->weight, package->transportMethod);
 		price += calculateStorageFee(package->createTime);
-		price = calculateFinalPrice(price, package->userId,choice);
+        if (choice == 2) {
+            price += doorstepfee(package->size, package->weight, package->transportMethod);
+        }
+		price = calculateFinalPrice(price, package->userId);
         if (markPackageAsPickedUp(packageInput,choice)) {
             printf("包裹已成功取出！\n");
 			printf("取件方式：%s\n", choice == 1 ? "驿站自取" : "快递员上门取件");
@@ -1193,7 +1196,10 @@ void handlePickupPackage() {
 			}
 			price = calculatePackageFee(package->size, package->weight, package->transportMethod);
 			price += calculateStorageFee(package->createTime);
-			price = calculateFinalPrice(price, package->userId, choice);
+            if (choice == 2) {
+                price += doorstepfee(package->size, package->weight, package->transportMethod);
+            }
+			price = calculateFinalPrice(price, package->userId);
             if (markPackageAsPickedUp(package->id,choice)) {
                 printf("包裹已成功取出！\n");
 				printf("取件方式：%s\n", choice == 1 ? "驿站自取" : "快递员上门取件");
