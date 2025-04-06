@@ -191,7 +191,6 @@ void handleTransactions() {
         printf("           交易记录             \n");
         printf("=================================\n");
         printf("1. 查看所有交易记录\n");
-        printf("2. 导出交易记录\n");
         printf("0. 返回\n");
         printf("请选择操作：");
         int choice;
@@ -201,10 +200,6 @@ void handleTransactions() {
           
             waitForKeyPress();
             break;
-        case 2:
-            
-            break;
-        
         case 0:
             running = 0;
             break;
