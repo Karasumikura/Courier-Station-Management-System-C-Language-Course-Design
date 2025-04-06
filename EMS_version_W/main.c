@@ -1136,7 +1136,7 @@ void handlePickupPackage() {
         if (package == NULL) {
             printf("未找到包裹！\n");
         }
-		if (package->status == PACKAGE_STATUS_PICKED) {
+		else if (package->status == PACKAGE_STATUS_PICKED) {
 			printf("包裹在之前已被取出！\n");
 			waitForKeyPress();
 			return;
