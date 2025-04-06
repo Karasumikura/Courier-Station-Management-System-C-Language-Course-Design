@@ -58,46 +58,40 @@ void clearInputBuffer() {
     while ((c = getchar()) != '\n' && c != EOF);
 }
 
-// 清屏函数
 void clearScreen() {
 #ifdef _WIN32
     system("cls");
 #else
-    system("clear");
+    system("clear");// 支持跨平台清屏-
 #endif
 }
 
-// 等待用户按任意键继续
 void waitForKeyPress() {
     printf("\n按任意键继续...\n");
-    _getch();  // 可以直接读取一个字符而不需要用户按下回车键
-    //并且不会将输入的字符回显到屏幕上
+    _getch();  // 可以直接读取一个字符而不需要用户按下回车键-
+    //并且不会将输入的字符回显到屏幕上-
 	printf("\n");
 }
 
-// 初始化系统
 void initSystem() {
-    // 初始化各种链表
     initUserList();
     initPackageList();
     initShelfList();
     initTransactionList();
 
-    // 加载数据
     loadAllData();
 
-    // 如果货架为空，创建默认货架
     if (g_shelfList == NULL) {
-        // 创建5种尺寸的常规货架
+        // 常规货架
         for (int i = 0; i < 5; i++) {
             addShelf(i, 20); // 每种尺寸20个容量
         }
 
-        // 创建特殊货架：易碎品
-        addShelf(5, 10); // 易碎品货架，容量10
+        // 特殊货架易碎品
+        addShelf(5, 10); 
 
-        // 创建特殊货架：冷鲜
-        addShelf(6, 10); // 冷鲜货架，容量10
+        // 特殊货架冷鲜
+        addShelf(6, 10); 
     }
 
     // 如果没有管理员，创建默认管理员
@@ -1132,12 +1126,22 @@ void handlePickupPackage() {
 
     int packageInput;
     int choice;
+    double price;
+    int status;
     printf("选择查找方式：\n1.包裹ID\n2.取件码\n");
     scanf("%d", &choice);
     if (choice == 1) {
         printf("请输入包裹ID: ");
         scanf("%d", &packageInput);
-
+        Package* package = findPackageById(packageInput);
+        if (package == NULL) {
+            printf("未找到包裹！\n");
+        }
+		if (package->status == PACKAGE_STATUS_PICKED) {
+			printf("包裹在之前已被取出！\n");
+			waitForKeyPress();
+			return;
+		}
         if (markPackageAsPickedUp(packageInput)) {
             printf("包裹已成功取出！\n");
             savePackages_File("packages.txt");
@@ -1145,7 +1149,7 @@ void handlePickupPackage() {
 
         }
         else {
-            printf("操作失败，包裹可能不存在或已经取出！\n");
+            printf("操作失败！\n");
         }
 		waitForKeyPress();
     }
@@ -1156,6 +1160,11 @@ void handlePickupPackage() {
         Package* package = findPackageByCode(pickupCode);
         if (package == NULL) {
             printf("未找到包裹！\n");
+        }
+        if(package->status == PACKAGE_STATUS_PICKED) {
+            printf("包裹在之前已被取出！\n");
+            waitForKeyPress();
+            return;
         }
         else {
             if (markPackageAsPickedUp(package->id)) {

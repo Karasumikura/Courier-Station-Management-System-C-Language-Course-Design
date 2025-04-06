@@ -37,7 +37,7 @@ double calculatePriceBump(int userId, double basePrice) {
 }
 
 // 计算最终价格
-double calculateFinalPrice(int userId, double basePrice) {
+double calculateFinalPrice(int userId, double basePrice,int status) {
     User* user = findUserById(userId);
     if (user == NULL) {
         return basePrice;
