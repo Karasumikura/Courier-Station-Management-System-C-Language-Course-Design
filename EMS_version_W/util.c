@@ -3,7 +3,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
-#include <Windows.h>
+#ifdef _WIN32
+#include <windows.h>  // Windows 平台使用 SetConsoleCursorInfo
+#else
+#include <unistd.h>   // Linux/Unix 平台使用 usleep
+#endif
 #include "main.h"
 #include "util.h"
 #include "user.h"
@@ -235,7 +239,14 @@ void set_cursor_visibility(int visible) {
 }
 
 void loading_simulation() {
+#ifdef _WIN32
+    // 隐藏光标（Windows 平台）
     set_cursor_visibility(0);
+#else
+    // 隐藏光标（Linux/Unix 平台）
+    printf(HIDE_CURSOR);
+    fflush(stdout);
+#endif
     for (int i = 0; i < WAITING_TIME; i++) {
         switch (i % 3) {
         case 0:
@@ -251,6 +262,13 @@ void loading_simulation() {
         fflush(stdout);  // 确保立即输出到控制台
         Sleep(100);
     }
-    printf("\r       \n");
+    printf("\r         \r");
+#ifdef _WIN32
+    // 恢复光标（Windows 平台）
     set_cursor_visibility(1);
+#else
+    // 恢复光标（Linux/Unix 平台）
+    printf(SHOW_CURSOR);
+    fflush(stdout);
+#endif
 }

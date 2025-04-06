@@ -4,7 +4,11 @@
 #include <string.h>
 #include <ctype.h>//_isdigit()-
 #include <conio.h>//_getch()-
-#include <Windows.h>
+#ifdef _WIN32
+#include <windows.h>  // Windows 平台使用 SetConsoleCursorInfo
+#else
+#include <unistd.h>   // Linux/Unix 平台使用 usleep
+#endif
 #include "main.h"
 #include "user.h"
 #include "package.h"
