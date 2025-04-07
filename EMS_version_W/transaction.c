@@ -45,8 +45,11 @@ Transaction** getTransactionsByDateRange(const char* startDate, const char* endD
     
     *count = 0;
     Transaction* current = g_transactionList;
-
+    
     while (current != NULL) {
+        if (current->createTime == NULL || startDate == NULL || endDate == NULL) {
+            continue; // 跳过无效记录
+        }
         if (strcmp(current->createTime, startDate) >= 0 &&
             strcmp(current->createTime, endDate) <= 0) {
             (*count)++;
