@@ -24,6 +24,7 @@
 
 //定义一系列函数
 void handleRegister();
+void handleAnalysis();
 void handleLogin();
 void handleUserManagement();
 void displayAllUsers();
@@ -125,8 +126,9 @@ void showAdminMenu() {
         printf("1. 用户管理\n");
         printf("2. 包裹管理\n");
         printf("3. 库存与货架管理\n");
-        printf("4. 数据报表\n");
+        printf("4. 数据时间段报表\n");
         printf("5. 交易记录\n");
+		printf("6. 数据分析\n");
         printf("0. 登出\n");
         printf("请选择操作：");
         scanf("%d", &choice);
@@ -146,6 +148,9 @@ void showAdminMenu() {
         case 5:
             handleTransactions();
             break;
+        case 6:
+			handleAnalysis();
+			break;
         case 0:
             running = 0;
             logout();
@@ -161,7 +166,7 @@ void handleStatistics() {
     char report[1024];
 		clearScreen();
 		printf("=================================\n");
-		printf("    数据报表    \n");
+		printf("    数据时间段报表    \n");
 		printf("=================================\n");
 		printf("1. 日报\n");
 		printf("2. 周报\n");
@@ -187,6 +192,35 @@ void handleStatistics() {
 			waitForKeyPress();
 		}
         printf("%s\n",report);
+}
+
+void handleAnalysis() {
+	char optimizationOutput[1024];
+	clearScreen();
+	printf("=================================\n");
+	printf("            数据分析    \n");
+	printf("=================================\n");
+	printf("1. 分析包裹流量\n");
+	printf("2. 交易记录分析\n");
+	printf("0. 返回\n");
+	printf("请选择操作：");
+	int choice;
+	scanf("%d", &choice);
+	switch (choice) {
+	case 1:
+		analyzePackageFlow(optimizationOutput);
+        printf("%s", optimizationOutput);
+        waitForKeyPress();
+		break;
+	case 2:
+		//generateTransactionAnalysisReport(optimizationOutput);
+		break;
+	case 0:
+		break;
+	default:
+		printf("无效选择，请重新输入！\n");
+		waitForKeyPress();
+	}
 }
 
 void handleTransactions() {

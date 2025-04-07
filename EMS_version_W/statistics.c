@@ -238,6 +238,7 @@ void analyzePackageFlow(char* analysisOutput) {
         prevMonth, prevMonthCount,
         growthRate,
         (float)currentMonthCount / 30);
+	printf("包裹流量分析报告生成成功！\n");
 }
 
 
