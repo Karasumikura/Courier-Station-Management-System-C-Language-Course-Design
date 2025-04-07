@@ -201,7 +201,7 @@ void handleAnalysis() {
 	printf("            数据分析    \n");
 	printf("=================================\n");
 	printf("1. 分析包裹流量\n");
-	printf("2. 交易记录分析\n");
+	printf("2. 分析收入\n");
 	printf("0. 返回\n");
 	printf("请选择操作：");
 	int choice;
@@ -213,7 +213,9 @@ void handleAnalysis() {
         waitForKeyPress();
 		break;
 	case 2:
-		//generateTransactionAnalysisReport(optimizationOutput);
+        analyzeIncome(optimizationOutput);
+		printf("%s", optimizationOutput);
+		waitForKeyPress();
 		break;
 	case 0:
 		break;

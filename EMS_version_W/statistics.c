@@ -301,6 +301,7 @@ void analyzeIncome(char* analysisOutput) {
         pieceFeeIncome, pieceFeePercent,
         storageFeeIncome, storageFeePercent,
         otherIncome, otherPercent);
+	printf("收入分析报告生成成功！\n");
 }
 
 
