@@ -282,6 +282,7 @@ void loadUsersFromFile(const char* filename) {
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
         printf("用户数据文件 %s 不存在，将创建新文件\n", filename);
+		waitForKeyPress();
         return;
     }
 
@@ -304,9 +305,12 @@ void loadUsersFromFile(const char* filename) {
 		char phonenumber[15];
         int Promotionstatus_user;
 
-        if (sscanf(line, "%d,%[^,],%[^,],%d,%lf,%14s,%d",
-            &id, username, password, &memberLevel, &consumptionLevel,phonenumber, &Promotionstatus_user) == 7) {
-            
+        if (sscanf(line, "%d,%[^,],%[^,],%d,%lf,%11s,%d",
+            &id, username, password, &memberLevel, &consumptionLevel, phonenumber, &Promotionstatus_user) != 7) {
+			printf("读取用户数据时格式错误：%s\n", line);
+            waitForKeyPress();
+        }
+        else{
             User* newUser = (User*)malloc(sizeof(User));
             if (newUser != NULL) {
                 newUser->id = id;

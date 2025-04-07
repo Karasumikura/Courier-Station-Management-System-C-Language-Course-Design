@@ -93,7 +93,7 @@ void initSystem() {
 
     // 默认管理员的信息，方便第一次使用
     if (findUserByUsername("admin") == NULL) {
-        addUser("admin", "123456", "123456", USER_ADMIN);
+        addUser("admin", "00000000000", "123456", USER_ADMIN);
     }
 }
 
@@ -941,47 +941,6 @@ void displayAllShelves() {
     }
 }
 
-
-int main() {
-    
-    initSystem();
-    int running = 1;
-   
-    while (running) {
-        showMainMenu();
-        printf("请选择操作：");
-        int choice;
-        if (scanf("%d", &choice) != 1) { // 检查scanf是否成功读取了一个整数
-            clearInputBuffer();
-            printf("输入含有非数字，请输入数字选项！\n");
-            waitForKeyPress();
-            continue;
-        }
-
-
-        switch (choice) {
-        case 1:
-            handleLogin();
-            break;
-        case 2:
-            handleRegister();
-            break;
-        case 0:
-            running = 0;
-            printf("感谢使用快递驿站管理系统！\n");
-            break;
-        default:
-            printf("数字无效，请重新输入0，1或2！\n");
-            waitForKeyPress();
-			clearScreen();
-        }
-    }
-
-    
-    saveAllData();
-
-    return 0;
-}
 void handleEditPackage() {
     clearScreen();
     printf("=================================\n");
@@ -1216,4 +1175,44 @@ void handlePickupPackage() {
         }
         waitForKeyPress();
     }
+}
+
+int main() {
+
+    initSystem();
+    int running = 1;
+
+    while (running) {
+        showMainMenu();
+        printf("请选择操作：");
+        int choice;
+        if (scanf("%d", &choice) != 1) { // 检查scanf是否成功读取了一个整数
+            clearInputBuffer();
+            printf("输入含有非数字，请输入数字选项！\n");
+            waitForKeyPress();
+            continue;
+        }
+
+
+        switch (choice) {
+        case 1:
+            handleLogin();
+            break;
+        case 2:
+            handleRegister();
+            break;
+        case 0:
+            running = 0;
+            printf("感谢使用快递驿站管理系统！\n");
+            break;
+        default:
+            printf("数字无效，请重新输入0，1或2！\n");
+            waitForKeyPress();
+            clearScreen();
+        }
+    }
+
+    saveAllData();
+
+    return 0;
 }
