@@ -263,13 +263,14 @@ void saveUsersToFile(const char* filename) {
 
     User* current = g_userList;
     while (current != NULL) {
-        fprintf(file, "%d,%s,%s,%d,%.2f,%s\n",
+        fprintf(file, "%d,%s,%s,%d,%.2f,%s,%d\n",
             current->id,
             current->username,
             current->password,
             current->memberLevel,
             current->consumptionLevel,
-            current->phonenumber);
+            current->phonenumber,
+            current->Promotionstatus_user);
         current = current->next;
     }
 
@@ -298,11 +299,13 @@ void loadUsersFromFile(const char* filename) {
         char username[50];
         char password[50];
         int memberLevel;
+
         double consumptionLevel;
 		char phonenumber[15];
+        int Promotionstatus_user;
 
-        if (sscanf(line, "%d,%[^,],%[^,],%d,%lf,%14s",
-            &id, username, password, &memberLevel, &consumptionLevel,phonenumber) == 6) {
+        if (sscanf(line, "%d,%[^,],%[^,],%d,%lf,%14s,%d",
+            &id, username, password, &memberLevel, &consumptionLevel,phonenumber, &Promotionstatus_user) == 7) {
             
             User* newUser = (User*)malloc(sizeof(User));
             if (newUser != NULL) {
@@ -315,6 +318,7 @@ void loadUsersFromFile(const char* filename) {
                 newUser->phonenumber[sizeof(newUser->phonenumber) - 1] = '\0';
                 newUser->memberLevel = memberLevel;
                 newUser->consumptionLevel = consumptionLevel;
+				newUser->Promotionstatus_user = Promotionstatus_user;
 
                 
                 newUser->next = g_userList;
