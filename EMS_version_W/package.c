@@ -211,6 +211,9 @@ return 1;
 
 int markPackageAsAbnormal(int packageId, char* reason) {
 Package* package = findPackageById(packageId);
+int price;
+int choice;
+int running = 1;
 if (package == NULL || package->status != PACKAGE_STATUS_WAITING) {
 return 0;
 }
@@ -218,7 +221,25 @@ package->shelfId = -1; //将包裹从货架上移除
 package->status = PACKAGE_STATUS_ABNORMAL;
 // 复制 reason 到 abnote,这里数组需要用strcpy而不是直接赋值
 strcpy(package->abnote, reason);
-
+while (running) {
+    printf("选择是否需要赔款：\n");
+    printf("1.需要赔款\n");
+    printf("2.不需要赔款\n");
+    scanf("%d", &choice);
+    if (choice == 1) {
+        running = 0;
+        printf("输入异常赔款金额：");
+		scanf("%d", &price);
+		add_Transaction(TRANSACTION_EXPENSE, EXPENSE_COMPENSATION, price, "包裹赔款");
+    }
+    else if (choice == 2) {
+        running = 0;
+        return 1;
+	}
+	else {
+		printf("无效选择，请重新输入！\n");
+		continue;
+}
 return 1;
 }
 
@@ -227,7 +248,7 @@ double calculateStorageFee(Package* package) {
 
 double baseFee = 0.0;
 
-//计算异常包裹的费用的方式
+//计算特殊包裹的费用的方式
 switch (package->note) {
 case PACKAGE_NOTE_FRAGILE:
     baseFee = 2.0; 
