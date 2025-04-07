@@ -53,12 +53,12 @@ void generateDailyReport(char* reportOutput) {
 
 
     sprintf(reportOutput,
-        "===== 日报：%s =====\n"
+        "===== 日报：%s 至 %s=====\n"
         "新入库包裹数: %d\n"
         "总收入: %.2f元\n"
         "总支出: %.2f元\n"
         "净利润: %.2f元\n",
-        date, packageCount, totalIncome, totalExpense, totalIncome - totalExpense);
+        date, date2,packageCount, totalIncome, totalExpense, totalIncome - totalExpense);
 	printf("日报生成成功！\n");
     printf("%s", reportOutput);
 	waitForKeyPress();
