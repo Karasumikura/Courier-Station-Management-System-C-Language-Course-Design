@@ -1133,7 +1133,7 @@ void handlePickupPackage() {
         Package* package = findPackageById(packageInput);
         if (package == NULL) {
             printf("未找到包裹！\n");
-			while (getchar() != '\n'); // 清空输入缓冲区，不然在这里会进入界面循环
+            clearInputBuffer(); // 清空输入缓冲区，不然在这里会进入界面循环
             waitForKeyPress();
             return;
         }
@@ -1180,6 +1180,7 @@ void handlePickupPackage() {
         Package* package = findPackageByCode(pickupCode);
         if (package == NULL) {
             printf("未找到包裹！\n");
+            clearInputBuffer();
             waitForKeyPress();
             return;
         }

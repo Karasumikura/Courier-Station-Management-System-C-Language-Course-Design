@@ -54,7 +54,7 @@ void generateDailyReport(char* reportOutput) {
 
     sprintf(reportOutput,
         "===== 日报：%s =====\n"
-        "处理包裹数: %d\n"
+        "新入库包裹数: %d\n"
         "总收入: %.2f元\n"
         "总支出: %.2f元\n"
         "净利润: %.2f元\n",
@@ -97,7 +97,7 @@ void generateWeeklyReport(char* reportOutput) {
 
     sprintf(reportOutput,
         "===== 周报：%s 至 %s =====\n"
-        "处理包裹数: %d\n"
+        "新入库包裹数: %d\n"
         "总收入: %.2f元\n"
         "总支出: %.2f元\n"
         "净利润: %.2f元\n"
@@ -151,7 +151,7 @@ void generateMonthlyReport(char* reportOutput) {
 
     sprintf(reportOutput,
         "===== 月报：%s =====\n"
-        "处理包裹数: %d\n"
+        "新入库包裹数: %d\n"
         "异常包裹数: %d\n"
         "总收入: %.2f元\n"
         "总支出: %.2f元\n"
@@ -230,8 +230,8 @@ void analyzePackageFlow(char* analysisOutput) {
     // 根据数据生成报告，方便对包裹流量等有更好的把控
     sprintf(analysisOutput,
         "===== 包裹流量分析 =====\n"
-        "当前月份: %s, 包裹数量: %d\n"
-        "上个月份: %s, 包裹数量: %d\n"
+        "当前月份: %s, 入库包裹数量: %d\n"
+        "上个月份: %s, 入库包裹数量: %d\n"
         "环比增长率: %.1f%%\n"
         "日均包裹处理量: %.1f\n",
         currentMonth, currentMonthCount,
