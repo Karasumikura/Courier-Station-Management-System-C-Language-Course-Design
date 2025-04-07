@@ -245,7 +245,8 @@ void showUserMenu() {
         switch (Promotionstatus)
         {
         case 1:
-			printf("您处于活动中！\n");
+            printf("   !   特好消息   ！   \n");
+			printf("！！！您处于活动中！！！\n\n");
             break;
         default:
 			break;

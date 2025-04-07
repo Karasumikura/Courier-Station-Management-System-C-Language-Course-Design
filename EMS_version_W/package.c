@@ -236,11 +236,12 @@ while (running) {
         running = 0;
         return 1;
 	}
-	else {
-		printf("无效选择，请重新输入！\n");
-		continue;
-}
-return 1;
+    else {
+        printf("无效选择，请重新输入！\n");
+        continue;
+    }
+    }
+ return 1;
 }
 
 
