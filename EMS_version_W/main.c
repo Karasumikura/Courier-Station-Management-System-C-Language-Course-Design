@@ -190,7 +190,7 @@ void handleStatistics() {
 }
 
 void handleTransactions() {
-    int running = 1, count = 0;
+    int running = 1;
     while (running) {
         clearScreen();
         printf("=================================\n");
@@ -200,39 +200,10 @@ void handleTransactions() {
         printf("0. 返回\n");
         printf("请选择操作：");
         int choice;
-		Transaction** transactions;
-        char* date,date2;
-        int dateinput;
         scanf("%d", &choice);
         switch (choice) {
         case 1:
-            
-			printf("请输入开始日期\n");
-			date = timeinput();
-			if (date == NULL) {
-				printf("日期格式无效！\n");
-				waitForKeyPress();
-				break;
-			}
-            printf("请接下来输入所需时间范围\n");
-            if (scanf("%d",&dateinput) == 0) {
-                printf("日期格式无效！\n");
-                waitForKeyPress();
-                break;
-            }
-			date2 = getNexttime(date, dateinput);
-            transactions = getTransactionsByDateRange(date,date2,&count);//用*int获取交易记录数量
-			if (transactions == NULL) printf("没有交易记录！\n");
-			else {
-				printf("找到 %d 条交易记录：\n", count);
-				for (int i = 0; i < count; i++) {
-					printf("交易 ID：%d，类型：%s，金额：%.2f元\n",
-						transactions[i]->id,
-						transactions[i]->type == TRANSACTION_INCOME ? "收入" : "支出",
-						transactions[i]->amount);
-				}
-			}
-            waitForKeyPress();
+            printtransaction();
             break;
         case 0:
             running = 0;
