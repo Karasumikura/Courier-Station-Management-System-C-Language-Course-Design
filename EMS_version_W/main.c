@@ -860,7 +860,6 @@ void handleShelfManagement() {
         printf("=================================\n");
         printf("1. 查看所有货架\n");
         printf("2. 添加货架\n");
-        printf("3. 货架库存预警\n");
         printf("0. 返回\n");
         printf("请选择操作：");
 
@@ -876,7 +875,7 @@ void handleShelfManagement() {
             handleAddShelf();
             break;
         case 3:
-            //handleShelfWarning();
+            
             break;
         case 0:
             running = 0;
@@ -1158,7 +1157,7 @@ void handlePickupPackage() {
         if (choice2 == 2) {
             price += doorstepfee(package->size, package->weight, package->transportMethod);
         }
-		price += calculateFinalPrice(package->userId,price);
+		price = calculateFinalPrice(package->userId,price);
         if (markPackageAsPickedUp(packageInput,choice2)) {
             printf("包裹已成功取出！\n");
 			printf("取件方式：%s\n", choice2 == 1 ? "驿站自取" : "快递员上门取件");
@@ -1203,7 +1202,7 @@ void handlePickupPackage() {
             if (choice2 == 2) {
                 price += doorstepfee(package->size, package->weight, package->transportMethod);
             }
-			price += calculateFinalPrice(package->userId,price);
+			price = calculateFinalPrice(package->userId,price);
             if (markPackageAsPickedUp(package->id,choice2)) {
                 printf("包裹已成功取出！\n");
 				printf("取件方式：%s\n", choice2 == 1 ? "驿站自取" : "快递员上门取件");

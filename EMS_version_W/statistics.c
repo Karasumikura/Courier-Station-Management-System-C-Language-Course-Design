@@ -17,7 +17,7 @@ void generateDailyReport(char* reportOutput) {
     if (date == NULL) {
 		return;
     }
-    char* date2 =getNexttime(date,0);
+    char* date2 =getNexttime(date,1);
 	if (date2 == NULL) {
 		printf("ÈÕÆÚ´íÎó,ÇëÖØÊÔ");
         waitForKeyPress();
