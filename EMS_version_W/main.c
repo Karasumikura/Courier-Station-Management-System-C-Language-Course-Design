@@ -128,7 +128,7 @@ void showAdminMenu() {
         printf("3. 库存与货架管理\n");
         printf("4. 数据时间段报表\n");
         printf("5. 交易记录\n");
-		printf("6. 数据分析\n");
+		printf("6. 数据分析与建议\n");
         printf("0. 登出\n");
         printf("请选择操作：");
         scanf("%d", &choice);
@@ -166,7 +166,7 @@ void handleStatistics() {
     char report[1024];
 		clearScreen();
 		printf("=================================\n");
-		printf("    数据时间段报表    \n");
+		printf("         数据时间段报表    \n");
 		printf("=================================\n");
 		printf("1. 日报\n");
 		printf("2. 周报\n");
@@ -198,10 +198,11 @@ void handleAnalysis() {
 	char optimizationOutput[1024];
 	clearScreen();
 	printf("=================================\n");
-	printf("            数据分析    \n");
+	printf("         数据分析与建议    \n");
 	printf("=================================\n");
 	printf("1. 分析包裹流量\n");
 	printf("2. 分析收入\n");
+	printf("3. 分析货架并给出优化建议\n");
 	printf("0. 返回\n");
 	printf("请选择操作：");
 	int choice;
@@ -214,6 +215,11 @@ void handleAnalysis() {
 		break;
 	case 2:
         analyzeIncome(optimizationOutput);
+		printf("%s", optimizationOutput);
+		waitForKeyPress();
+		break;
+    case 3:
+		optimizeShelfPlacement(optimizationOutput);
 		printf("%s", optimizationOutput);
 		waitForKeyPress();
 		break;
