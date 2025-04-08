@@ -105,6 +105,7 @@ typedef struct {
 	char timestamp[20]; 
 	double price;
 	int status;
+	int ifnewpackage;
 } Record;
 
 extern User* g_userList;

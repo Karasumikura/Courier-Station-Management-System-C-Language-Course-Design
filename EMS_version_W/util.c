@@ -342,22 +342,31 @@ int dataprepocessing(const char* filename, Record records[]) {
         return 0;
     }
 
-    int count = 0;
+    int count = 0;//数据数量
     char line[256];
     while (fgets(line, sizeof(line), file)) {
-        char* token = strtok(line, ",");//strtok类似python的.split
-        int fieldIndex = 0;//记录索引，分辨数据类型
-        while (token != NULL && fieldIndex < 5) {
-            if (fieldIndex == 3) { // 提取价格
-                records[count].price = atof(token);
-                //atof将字符串转换为double
+		char* token = strtok(line, ",");//strtok类似python的.split,但是只存储第一个分割的字符串
+        int index = 0;//记录索引，分辨数据类型
+        while (token != NULL && index < 5) {
+            if (index == 1) {
+				records[count].status = atoi(token);//收入or支出
+                //atoi,atof将字符串转换为int,double
             }
-            else if (fieldIndex == 4) { // 提取时间
+            else if (index == 2) {//是否计算为包裹
+                if (atoi(token) == INCOME_PIECE_FEE) {
+					records[count].ifnewpackage = 1;
+                }
+                else records[count].ifnewpackage = 0;
+            }
+            else if (index == 3) { // 提取价格
+                records[count].price = atof(token);
+            }
+            else if (index == 4) { // 提取时间
                 strncpy(records[count].timestamp, token, 19);
                 records[count].timestamp[19] = '\0';
             }
-            token = strtok(NULL, ",");
-            fieldIndex++;
+			token = strtok(NULL, ",");//继续分割
+            index++;
         }
         count++;
     }
