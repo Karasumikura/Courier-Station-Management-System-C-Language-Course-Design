@@ -586,7 +586,7 @@ void handleEditUser() {
     char newPassword[50];
     scanf("%s", newPassword);
 
-    printf("新会员等级 (0-新用户, 1-白银会员, 2-黄金会员, 不修改请输入'-1'): ");
+    printf("给予临时会员等级认证 (0-新用户, 1-白银会员, 2-黄金会员, 不修改请输入'-1'): ");
     int newMemberLevel;
     scanf("%d", &newMemberLevel);
 
