@@ -23,6 +23,6 @@ void saveTransactionsToFile(const char* filename);
 // 读取文件中的数据
 void loadTransactionsFromFile(const char* filename);
 
-void printtransactions();
+void printtransaction();
 
 #endif /* TRANSACTION_H */
