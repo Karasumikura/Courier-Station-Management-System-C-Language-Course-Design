@@ -1278,7 +1278,7 @@ void handlePickupPackage() {
         if (markPackageAsPickedUp(packageInput,choice2)) {
             printf("包裹已成功取出！\n");
 			printf("取件方式：%s\n", choice2 == 1 ? "驿站自取" : "快递员上门取件");
-			printf("取件费用：%.2f元\n", price);
+			printf("取件费用：%.2lf元\n", price);
             savePackages_File("packages.txt");
             saveShelvesToFile("shelves.txt");
 
