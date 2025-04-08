@@ -11,6 +11,7 @@
 #include "main.h"
 #include "util.h"
 #include "user.h"
+#define MAX_RECORDS 10000
 int Promotionstatus;
 static int lastDay = -1; 
 static int counter = 0;
@@ -421,4 +422,25 @@ int daysummary(Record records[], int recordCount, DailySummary summaries[]) {
     }
 
     return summaryCount;
+}
+
+void predictFuture(int summaryCount, DailySummary summaries[]) {
+    double x[MAX_RECORDS], y1[MAX_RECORDS],y2[MAX_RECORDS],y3[MAX_RECORDS];
+
+    for (int i = 0; i < summaryCount; i++) {
+        x[i] = i + 1; // 时间序号
+        y1[i] = summaries[i].totalincome;
+    }
+
+    double a, b;
+    linearRegression(summaryCount, x, y1, &a, &b);
+
+    printf("\n收入线性回归方程：y = %.2fx + %.2f\n", a, b);
+
+    int futureDays = 7; // 预测未来 7 天
+    printf("\n预测未来 %d 天的总收入：\n", futureDays);
+    for (int i = 0; i < futureDays; i++) {
+        double predicted_y = a * (summaryCount + i + 1) + b;
+        printf("第 %d 天：%d, 总收入：%.2f\n", summaryCount + i + 1, (int)(predicted_y / a), predicted_y);
+    }
 }

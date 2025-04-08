@@ -41,4 +41,5 @@ void linearRegression(int n, double x[], double y[], double* a, double* b);
 
 int dataprepocessing(Record records[]);
 
+int daysummary(Record records[], int recordCount, DailySummary summaries[]);
 #endif /* UTIL_H */

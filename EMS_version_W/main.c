@@ -45,7 +45,7 @@ void handleAddShelf();
 void handleShelfManagement();
 void handleAddShelf();
 void handleTransactions();
-
+void handleMachineLearning();
 void handleStatistics();
 
 
@@ -129,6 +129,7 @@ void showAdminMenu() {
         printf("4. 数据时间段报表\n");
         printf("5. 交易记录\n");
 		printf("6. 数据分析与建议\n");
+		printf("7. 机器学习数据预测\n");
         printf("0. 登出\n");
         printf("请选择操作：");
         scanf("%d", &choice);
@@ -150,6 +151,9 @@ void showAdminMenu() {
             break;
         case 6:
 			handleAnalysis();
+			break;
+		case 7:
+			handleMachineLearning();
 			break;
         case 0:
             running = 0;
@@ -1331,6 +1335,10 @@ void handlePickupPackage() {
         }
         waitForKeyPress();
     }
+}
+
+void handleMachineLearning() {
+
 }
 
 int main() {
