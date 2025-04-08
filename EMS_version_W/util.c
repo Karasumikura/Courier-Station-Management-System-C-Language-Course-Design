@@ -335,10 +335,10 @@ void linearRegression(int n, double x[], double y[], double* a, double* b) {
     *b = (sum_y - (*a) * sum_x) / n;
 }//用来算线性回归的函数
 
-int dataprepocessing(const char* filename, Record records[]) {
-    FILE* file = fopen(filename, "r");
+int dataprepocessing(Record records[]) {
+    FILE* file = fopen("transactions.txt", "r");
     if (file == NULL) {
-        printf("无法打开文件 %s！\n", filename);
+        printf("无法打开文件 transactions.txt！\n");
         return 0;
     }
 
@@ -373,3 +373,52 @@ int dataprepocessing(const char* filename, Record records[]) {
     fclose(file);
     return count;
 }//数据工程函数
+
+int daysummary(Record records[], int recordCount, DailySummary summaries[]) {
+    int summaryCount = 0;
+
+    for (int i = 0; i < recordCount; i++) {
+        char currentDate[11];
+        strncpy(currentDate, records[i].timestamp, 10);//读取时间到日
+        currentDate[10] = '\0';
+
+        int found = 0;
+        for (int j = 0; j < summaryCount; j++) {
+            if (strcmp(summaries[j].date, currentDate) == 0) {//查找到对应时间
+				if (records[i].status == TRANSACTION_INCOME) {
+					summaries[j].totalincome += records[i].price;
+				}
+				else {
+					summaries[j].totaloutcome += records[i].price;
+				}
+                found = 1;
+                if (records[i].ifnewpackage == 1) {
+                    summaries[summaryCount].totalPackages++;
+                }
+                break;
+            }
+        }
+
+        if (!found) {
+            strncpy(summaries[summaryCount].date, currentDate, 10);//新建一个对应时间
+            summaries[summaryCount].date[10] = '\0';
+            if (records[i].status == TRANSACTION_INCOME) {
+                summaries[summaryCount].totalincome = records[i].price;
+				summaries[summaryCount].totaloutcome = 0;
+            }
+            else {
+                summaries[summaryCount].totaloutcome = records[i].price;
+                summaries[summaryCount].totalincome = 0;
+            }
+			if (records[i].ifnewpackage == 1) {
+				summaries[summaryCount].totalPackages = 1;
+			}
+			else {
+				summaries[summaryCount].totalPackages = 0;
+			}
+            summaryCount++;
+        }
+    }
+
+    return summaryCount;
+}

@@ -108,6 +108,14 @@ typedef struct {
 	int ifnewpackage;
 } Record;
 
+typedef struct {
+	char date[11]; 
+	double totalincome; 
+	double totaloutcome;
+	int totalPackages;
+} DailySummary;
+
+
 extern User* g_userList;
 extern Package* g_packageList;
 extern Shelf* g_shelfList;
