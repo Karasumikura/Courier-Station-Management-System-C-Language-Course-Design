@@ -1268,7 +1268,10 @@ void handlePickupPackage() {
 			waitForKeyPress();
 			return;
 		}
-        if ((price = markPackageAsPickedUp(package->id, choice2))) {
+        price = markPackageAsPickedUp(package->id, choice2);
+        if ((int)price) {
+            price += calculateFinalPrice(package->userId, calculatePackageFee(package->size,
+                package->weight, package->transportMethod));
             printf("包裹已成功取出！\n");
             printf("取件方式：%s\n", choice2 == 1 ? "驿站自取" : "快递员上门取件");
             printf("取件费用：%.2lf元\n", price);
@@ -1307,7 +1310,10 @@ void handlePickupPackage() {
 				waitForKeyPress();
 				return;
 			}
-            if ((price = markPackageAsPickedUp(package->id,choice2))) {
+            price = markPackageAsPickedUp(package->id, choice2);
+            if ((int)price) {
+                price += calculateFinalPrice(package->userId, calculatePackageFee(package->size,
+                    package->weight, package->transportMethod));//合成最终价格
                 printf("包裹已成功取出！\n");
 				printf("取件方式：%s\n", choice2 == 1 ? "驿站自取" : "快递员上门取件");
 				printf("取件费用：%.2lf元\n", price);

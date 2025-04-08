@@ -187,7 +187,7 @@ current = current->next;
 return packages;
 }
 
-int markPackageAsPickedUp(int packageId,int choice) {
+double markPackageAsPickedUp(int packageId,int choice) {
 Package* package = findPackageById(packageId);
 if (package == NULL || package->status != PACKAGE_STATUS_WAITING) {
 return 0;
