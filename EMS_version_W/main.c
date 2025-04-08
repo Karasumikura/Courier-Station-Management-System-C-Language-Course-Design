@@ -876,7 +876,10 @@ void handleAddPackage() {
         printf("添加包裹失败！\n");
     }
     else {
-        printf("添加包裹成功！取件码: %s\n", newPackage->pickupCode);
+        printf("添加包裹成功！");
+        if (g_currentUserType == USER_TYPE_ADMIN) {
+            printf("取件码: %s\n", newPackage->pickupCode);
+        }
         savePackages_File("packages.txt");
         saveShelvesToFile("shelves.txt");
 
