@@ -4,7 +4,7 @@
 #include "main.h"
 #include "shelf.h"
 #include "transaction.h"
-#define MAX_RECORDS 10000
+#define MAX_RECORDS 1000
 // 隐藏光标的 ANSI 转义序列
 #define HIDE_CURSOR "\e[?25l"
 // 显示光标的 ANSI 转义序列
