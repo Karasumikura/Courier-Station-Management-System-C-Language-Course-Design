@@ -1,7 +1,9 @@
 #ifndef UTIL_H
 #define UTIL_H
-
+#include "package.h"
 #include "main.h"
+#include "shelf.h"
+#include "transaction.h"
 #define MAX_RECORDS 10000
 // 隐藏光标的 ANSI 转义序列
 #define HIDE_CURSOR "\e[?25l"

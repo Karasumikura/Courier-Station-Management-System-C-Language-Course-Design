@@ -1338,6 +1338,7 @@ void handlePickupPackage() {
 }
 
 void handleMachineLearning() {
+    clearScreen();
     Record records[MAX_RECORDS];
     DailySummary summaries[MAX_RECORDS];
 
