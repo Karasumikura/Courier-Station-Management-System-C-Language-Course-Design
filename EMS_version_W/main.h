@@ -6,7 +6,7 @@
 #include <string.h>
 #include <time.h>
 
-// 定义各种数据
+// 露篓脪氓赂梅脰脰脢媒戮脻
 #define USER_NEW 0       
 #define USER_SILVER 1    
 #define USER_GOLD 2      
@@ -49,7 +49,7 @@
 
 
 #define EXPENSE_COMPENSATION 0    
-//#define EXPENSE_MAINTENANCE 1  留作备用   
+//#define EXPENSE_MAINTENANCE 1  脕么脳梅卤赂脫脙   
 
 #define WAITING_TIME 10
 
@@ -63,8 +63,8 @@ typedef struct User {
 	int Promotionstatus_user;
 	struct User* next;       
 } User;
-
-
+//author:Wang injured
+//time:2025.4.8
 typedef struct Package {
 	int id;                  
 	int userId;              
