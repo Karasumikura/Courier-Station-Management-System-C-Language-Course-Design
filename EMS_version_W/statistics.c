@@ -53,7 +53,7 @@ void generateDailyReport(char* reportOutput) {
 
 
     sprintf(reportOutput,
-        "===== 日报：%s 至 %s=====\n"
+        "===== 日报：%s 至 %s 00:00:00=====\n"
         "新入库包裹数: %d\n"
         "总收入: %.2f元\n"
         "总支出: %.2f元\n"
@@ -96,7 +96,7 @@ void generateWeeklyReport(char* reportOutput) {
     }
 
     sprintf(reportOutput,
-        "===== 周报：%s 至 %s =====\n"
+        "===== 周报：%s 至 %s 00:00:00=====\n"
         "新入库包裹数: %d\n"
         "总收入: %.2f元\n"
         "总支出: %.2f元\n"
