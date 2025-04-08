@@ -39,4 +39,6 @@ int isValidMonthFormat(const char* month);
 
 void linearRegression(int n, double x[], double y[], double* a, double* b);
 
+int dataprepocessing(const char* filename, Record records[]);
+
 #endif /* UTIL_H */

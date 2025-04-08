@@ -345,14 +345,14 @@ int dataprepocessing(const char* filename, Record records[]) {
     int count = 0;
     char line[256];
     while (fgets(line, sizeof(line), file)) {
-        // 提取时间戳和价格字段
-        char* token = strtok(line, ",");
-        int fieldIndex = 0;
+        char* token = strtok(line, ",");//strtok类似python的.split
+        int fieldIndex = 0;//记录索引，分辨数据类型
         while (token != NULL && fieldIndex < 5) {
-            if (fieldIndex == 3) { // 第4列为价格
+            if (fieldIndex == 3) { // 提取价格
                 records[count].price = atof(token);
+                //atof将字符串转换为double
             }
-            else if (fieldIndex == 4) { // 第5列为时间戳
+            else if (fieldIndex == 4) { // 提取时间
                 strncpy(records[count].timestamp, token, 19);
                 records[count].timestamp[19] = '\0';
             }
@@ -363,4 +363,4 @@ int dataprepocessing(const char* filename, Record records[]) {
     }
     fclose(file);
     return count;
-}
+}//数据工程函数
