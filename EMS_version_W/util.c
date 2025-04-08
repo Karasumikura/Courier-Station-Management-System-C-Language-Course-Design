@@ -11,7 +11,7 @@
 #include "main.h"
 #include "util.h"
 #include "user.h"
-#define MAX_RECORDS 10000
+
 int Promotionstatus;
 static int lastDay = -1; 
 static int counter = 0;
@@ -443,4 +443,5 @@ void predictFuture(int summaryCount, DailySummary summaries[]) {
         double predicted_y = a * (summaryCount + i + 1) + b;
         printf("第 %d 天：%d, 总收入：%.2f\n", summaryCount + i + 1, (int)(predicted_y / a), predicted_y);
     }
+    waitForKeyPress();
 }
