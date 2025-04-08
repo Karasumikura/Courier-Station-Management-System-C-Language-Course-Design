@@ -37,4 +37,6 @@ void loading_simulation();
 
 int isValidMonthFormat(const char* month);
 
+void linearRegression(int n, double x[], double y[], double* a, double* b);
+
 #endif /* UTIL_H */

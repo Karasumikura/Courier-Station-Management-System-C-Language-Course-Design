@@ -320,3 +320,17 @@ int isValidMonthFormat(const char* month) {
 
     return 1; // 格式正确
 }
+
+void linearRegression(int n, double x[], double y[], double* a, double* b) {
+    double sum_x = 0, sum_y = 0, sum_xy = 0, sum_x2 = 0;
+
+    for (int i = 0; i < n; i++) {
+        sum_x += x[i];
+        sum_y += y[i];
+        sum_xy += x[i] * y[i];
+        sum_x2 += x[i] * x[i];
+    }
+
+    *a = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x);
+    *b = (sum_y - (*a) * sum_x) / n;
+}//用来算线性回归的函数
