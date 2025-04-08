@@ -324,11 +324,12 @@ void showUserMenu() {
             displayMyProfile();
             break;
         case 5:
-            loading_simulation();
+            loading_simulation();//好东西要等待（笑）
 			displayPromotions();
 			break;
         case 0:
             running = 0;
+			Promotionstatus = 0;//重置
             logout();
             break;
         default:
@@ -359,18 +360,18 @@ void displayPromotions() {
         printf("活动进行中！\n");
         switch (currentUser->memberLevel) {
         case USER_NEW:
-            printf("您是新用户！送您5%%折扣，即刻生效\n");
+            printf("您是新用户！送您5%%折扣，即刻生效！\n");
             break;
         case USER_SILVER:
-            printf("您是白银会员！送您10%%折扣，即刻生效\n");
+            printf("您是白银会员！送您10%%折扣，即刻生效！\n");
             break;
         case USER_GOLD:
-            printf("您是黄金会员！送您20%%折扣，即刻生效\n");
+            printf("您是黄金会员！送您20%%折扣，即刻生效！\n");
             break;
         }
     }
     else {
-        printf("活动已经超时\n");
+        printf("抱歉，活动已经超时\n");
     }
 
 	waitForKeyPress();
