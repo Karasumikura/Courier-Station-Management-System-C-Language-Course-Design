@@ -436,12 +436,18 @@ void predictFuture(int summaryCount, DailySummary summaries[]) {
     for (int i = 0; i < summaryCount; i++) {
         x[i] = i + 1; // 时间序号
         y1[i] = summaries[i].totalincome;
+		y2[i] = summaries[i].totaloutcome;
+		y3[i] = summaries[i].totalPackages;
     }
 
-    double a, b;
-    linearRegression(summaryCount, x, y1, &a, &b);
-    printf("经过自动分析：\n");
-    printf("\n收入线性回归方程：y = %.2fx + %.2f\n", a, b);
+    double a1, b1,a2,b2,a3,b3;
+    linearRegression(summaryCount, x, y1, &a1, &b1);
+	linearRegression(summaryCount, x, y2, &a2, &b2);
+	linearRegression(summaryCount, x, y3, &a3, &b3);
+    printf("\n经过自动分析：\n");
+    printf("收入线性回归方程：y = %.2fx + %.2f\n", a1, b1);
+	printf("支出线性回归方程：y = %.2fx + %.2f\n", a2, b2);
+	printf("包裹数量线性回归方程：y = %.2fx + %.2f\n", a3, b3);
 
     int futureDays;
 	printf("请输入预测天数：");
@@ -450,10 +456,15 @@ void predictFuture(int summaryCount, DailySummary summaries[]) {
 		waitForKeyPress();
 		return;
 	}
-    printf("\n预测未来 %d 天的总收入：\n", futureDays);
+    printf("\n=================================\n");
+    printf("           预测未来 %d 天", futureDays);
+    printf("\n=================================\n");
     for (int i = 0; i < futureDays; i++) {
-        double predicted_y = a * (summaryCount + i + 1) + b;
-        printf("第 %d 天：%d, 总收入：%.2f元\n", summaryCount + i + 1, (int)(predicted_y / a), predicted_y);
+        double predicted_y1 = a1 * (summaryCount + i + 1) + b1;
+		double predicted_y2 = a2 * (summaryCount + i + 1) + b2;
+		double predicted_y3 = a3 * (summaryCount + i + 1) + b3;
+        printf("第 %d 天：总收入：%.2lf元，总支出：%.2lf元，总包裹处理量：%d个\n", 
+            summaryCount + i + 1, predicted_y1,predicted_y2,predicted_y3);
     }
     waitForKeyPress();
 }
