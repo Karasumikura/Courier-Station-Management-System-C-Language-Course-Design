@@ -196,16 +196,16 @@ return 0;
 package->status = PACKAGE_STATUS_PICKED;
 
 updateShelfCount(package->shelfId, -1);
-
+double fee = 0, fee2 = 0;
 if (package->note != PACKAGE_NOTE_NONE) {//特殊快递收取保存费
-double fee = calculateFinalPrice(packageId,calculateStorageFee(package));
+fee = calculateFinalPrice(packageId,calculateStorageFee(package));
 add_Transaction(TRANSACTION_INCOME, INCOME_STORAGE_FEE, fee, "特殊包裹保存费");
 }
 if (choice == 2) {
-    double fee2 = calculateFinalPrice(packageId, doorstepfee(package->size, package->weight, package->transportMethod));
+    fee2 = calculateFinalPrice(packageId, doorstepfee(package->size, package->weight, package->transportMethod));
     add_Transaction(TRANSACTION_INCOME, INCOME_DOORSTEP_FEE, fee2, "包裹上门取件费");
 }
-return 1;
+return (fee + fee2);
 }
 
 

@@ -1268,20 +1268,12 @@ void handlePickupPackage() {
 			waitForKeyPress();
 			return;
 		}
-		price = calculateFinalPrice(package->userId, calculatePackageFee(package->size, package->weight, package->transportMethod));
-        if (package->note != PACKAGE_NOTE_NONE) {
-            price += calculateFinalPrice(package->userId, calculateStorageFee(package->createTime));
-        }
-        if (choice2 == 2) {
-            price += calculateFinalPrice(package->userId, doorstepfee(package->size, package->weight, package->transportMethod));
-        }
-        if (markPackageAsPickedUp(packageInput,choice2)) {
+        if ((price = markPackageAsPickedUp(package->id, choice2))) {
             printf("包裹已成功取出！\n");
-			printf("取件方式：%s\n", choice2 == 1 ? "驿站自取" : "快递员上门取件");
-			printf("取件费用：%.2lf元\n", price);
+            printf("取件方式：%s\n", choice2 == 1 ? "驿站自取" : "快递员上门取件");
+            printf("取件费用：%.2lf元\n", price);
             savePackages_File("packages.txt");
             saveShelvesToFile("shelves.txt");
-
         }
         else {
             printf("操作失败！\n");
@@ -1315,17 +1307,10 @@ void handlePickupPackage() {
 				waitForKeyPress();
 				return;
 			}
-            price = calculateFinalPrice(package->userId, calculatePackageFee(package->size, package->weight, package->transportMethod));
-            if (package->note != PACKAGE_NOTE_NONE) {
-                price += calculateFinalPrice(package->userId, calculateStorageFee(package->createTime));
-            }
-            if (choice2 == 2) {
-                price += calculateFinalPrice(package->userId, doorstepfee(package->size, package->weight, package->transportMethod));
-            }
-            if (markPackageAsPickedUp(package->id,choice2)) {
+            if ((price = markPackageAsPickedUp(package->id,choice2))) {
                 printf("包裹已成功取出！\n");
 				printf("取件方式：%s\n", choice2 == 1 ? "驿站自取" : "快递员上门取件");
-				printf("取件费用：%.2f元\n", price);
+				printf("取件费用：%.2lf元\n", price);
                 savePackages_File("packages.txt");
                 saveShelvesToFile("shelves.txt");
             }
