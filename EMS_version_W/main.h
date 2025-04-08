@@ -101,6 +101,11 @@ typedef struct Transaction {
 	struct Transaction* next;
 } Transaction;
 
+typedef struct {
+	char timestamp[20]; 
+	double price;
+	int status;
+} Record;
 
 extern User* g_userList;
 extern Package* g_packageList;

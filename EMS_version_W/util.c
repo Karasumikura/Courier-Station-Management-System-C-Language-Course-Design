@@ -334,3 +334,33 @@ void linearRegression(int n, double x[], double y[], double* a, double* b) {
     *a = (n * sum_xy - sum_x * sum_y) / (n * sum_x2 - sum_x * sum_x);
     *b = (sum_y - (*a) * sum_x) / n;
 }//用来算线性回归的函数
+
+int dataprepocessing(const char* filename, Record records[]) {
+    FILE* file = fopen(filename, "r");
+    if (file == NULL) {
+        printf("无法打开文件 %s！\n", filename);
+        return 0;
+    }
+
+    int count = 0;
+    char line[256];
+    while (fgets(line, sizeof(line), file)) {
+        // 提取时间戳和价格字段
+        char* token = strtok(line, ",");
+        int fieldIndex = 0;
+        while (token != NULL && fieldIndex < 5) {
+            if (fieldIndex == 3) { // 第4列为价格
+                records[count].price = atof(token);
+            }
+            else if (fieldIndex == 4) { // 第5列为时间戳
+                strncpy(records[count].timestamp, token, 19);
+                records[count].timestamp[19] = '\0';
+            }
+            token = strtok(NULL, ",");
+            fieldIndex++;
+        }
+        count++;
+    }
+    fclose(file);
+    return count;
+}
