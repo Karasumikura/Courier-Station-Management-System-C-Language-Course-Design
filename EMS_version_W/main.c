@@ -1338,6 +1338,7 @@ void handleMachineLearning() {
         printf("没有加载到任何数据！\n");
         return;
     }
+    if (recordCount == -1) return;
 	int sumcount = daysummary(records, recordCount, summaries);
 	if (sumcount == 0) {
 		printf("没有加载到任何数据！\n");

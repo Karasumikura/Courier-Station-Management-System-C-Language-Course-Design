@@ -371,6 +371,12 @@ int dataprepocessing(Record records[]) {
         }
         count++;
     }
+	if (count > MAX_RECORDS) {
+		printf("数据超过最大限制，无法处理！\n");
+		waitForKeyPress();
+		fclose(file);
+		return -1;
+	}
     fclose(file);
     return count;
 }//数据工程函数
@@ -434,14 +440,20 @@ void predictFuture(int summaryCount, DailySummary summaries[]) {
 
     double a, b;
     linearRegression(summaryCount, x, y1, &a, &b);
-
+    printf("经过自动分析：\n");
     printf("\n收入线性回归方程：y = %.2fx + %.2f\n", a, b);
 
-    int futureDays = 7; // 预测未来 7 天
+    int futureDays;
+	printf("请输入预测天数：");
+	if (scanf("%d", &futureDays) != 1 || futureDays <= 0) {
+		printf("无效的输入！\n");
+		waitForKeyPress();
+		return;
+	}
     printf("\n预测未来 %d 天的总收入：\n", futureDays);
     for (int i = 0; i < futureDays; i++) {
         double predicted_y = a * (summaryCount + i + 1) + b;
-        printf("第 %d 天：%d, 总收入：%.2f\n", summaryCount + i + 1, (int)(predicted_y / a), predicted_y);
+        printf("第 %d 天：%d, 总收入：%.2f元\n", summaryCount + i + 1, (int)(predicted_y / a), predicted_y);
     }
     waitForKeyPress();
 }
