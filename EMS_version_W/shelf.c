@@ -108,7 +108,8 @@ void updateShelfCount(int shelfId, int delta) {
 
         
         if (shelf->currentCount > shelf->capacity) {
-            shelf->currentCount = shelf->capacity;
+            printf("»õ¼Ü´¦ÓÚ³¬ÈÝ×´Ì¬£¡\n");
+            waitForKeyPress();
         }
     }
 }
@@ -209,6 +210,7 @@ void checkeveryshelf() {
         utilization = getShelfUtilization(current->id);
         if (utilization > 0.8) {
             printf("%d ", current->id);
+            status = 1;
         }
         current = current->next;
     }

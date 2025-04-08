@@ -306,7 +306,6 @@ int isValidMonthFormat(const char* month) {
         return 0; // 分隔符错误
     }
 
-    // 检查最后 2 个字符是否为数字
     for (int i = 5; i < 7; i++) {
         if (!isdigit(month[i])) {
             return 0; // 月份部分包含非数字字符

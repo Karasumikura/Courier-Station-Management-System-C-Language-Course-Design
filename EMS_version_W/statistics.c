@@ -459,4 +459,4 @@ void optimizeShelfPlacement(char* optimizationOutput) {
 
     free(utilizations);
     free(shelfIds);
-}
+}//用冒泡排序进行降序排列
