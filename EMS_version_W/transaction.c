@@ -197,8 +197,6 @@ void printtransaction() {
     printf("请输入开始日期\n");
     char* date = timeinput();
     if (date == NULL) {
-        printf("日期格式无效！\n");
-        waitForKeyPress();
         return;
     }
     int dateinput;
@@ -214,11 +212,12 @@ void printtransaction() {
     else {
         printf("找到 %d 条交易记录：\n", count);
         for (int i = 0; i < count; i++) {
-            printf("交易 ID：%d，类型：%s，描述：%s，金额：%.2f元\n",
+            printf("交易 ID：%d，类型：%s，描述：%s，金额：%.2f元，时间：%s\n",
                 transactions[i]->id,
                 transactions[i]->type == TRANSACTION_INCOME ? "收入" : "支出",
 				transactions[i]->description,
-                transactions[i]->amount);
+                transactions[i]->amount,
+                transactions[i]->createTime);
         }
     }
     waitForKeyPress();
