@@ -49,7 +49,7 @@
 
 
 #define EXPENSE_COMPENSATION 0    
-#define EXPENSE_MAINTENANCE 1     
+//#define EXPENSE_MAINTENANCE 1  Áô×÷±¸ÓÃ   
 
 #define WAITING_TIME 10
 

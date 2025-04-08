@@ -1004,13 +1004,97 @@ void handleEditPackage() {
     printf("用户ID: %d\n", package->userId);
     printf("大小: %d\n", package->size);
     printf("重量: %d\n", package->weight);
-    printf("备注: %d\n", package->note);
+    printf("包裹特殊标签: %d\n", package->note);
     printf("运输方式: %d\n", package->transportMethod);
     printf("价值: %.2f\n", package->value);
-    printf("状态: %d\n\n", package->status);
 
-    printf("功能开发中...\n");
+    printf("请选择需要编辑的内容\n");
+	printf("1. 大小\n");
+	printf("2. 重量\n");
+	printf("3. 包裹特殊标签\n");
+	printf("4. 运输方式\n");
+	printf("5. 价值\n");
+	printf("请选择操作：");
+	int choice;
+	scanf("%d", &choice);
+	int size;
+    double fee1,fee2;
+    fee1 = calculateFinalPrice(package->userId, 
+        calculatePackageFee(package->size,package->weight,package->transportMethod));
+	switch (choice) {
+	case 1:
+		printf("包裹大小 (0-极小, 1-小, 2-中, 3-大, 4-极大): ");
+		scanf("%d", &size);
+        if (size < 0 || size > 4) {
+            printf("无效的包裹大小！\n");
+        }
+        else {
+            package->size = size;
+            printf("包裹大小修改成功！\n");
+        }
+		break;
+	case 2:
+		printf("包裹重量级别 (0-4): ");
+		scanf("%d", &size);
+		if (size < 0 || size > 4) {
+			printf("无效的包裹重量！\n");
+		}
+		else {
+			package->weight = size;
+			printf("包裹重量修改成功！\n");
+		}
+		break;
+    case 3:
+		printf("包裹备注 (0-无, 1-易碎, 2-冷鲜): ");
+		scanf("%d", &size);
+		if (size < 0 || size > 2) {
+			printf("无效的包裹备注！\n");
+		}
+		else {
+			package->note = size;
+			printf("包裹备注修改成功！\n");
+		}
+		break;
+    case 4:
+		printf("运输方式 (0-正常货车, 1-加快公路, 2-特快空运, 3-特快公路): ");
+		scanf("%d", &size);
+		if (size < 0 || size > 3) {
+			printf("无效的运输方式！\n");
+		}
+		else {
+			package->transportMethod = size;
+			printf("运输方式修改成功！\n");
+		}
+		break;
+	case 5:
+		printf("内容物价值: ");
+		scanf("%lf", &package->value);
+		if (package->value < 0) {
+			printf("无效的价值！\n");
+		}
+		else {
+			package->value = size;
+			printf("包裹价值修改成功！\n");
+		}
+		break;
+	default:
+		printf("无效选择，请重新输入！\n");
+        break;
+	}
     waitForKeyPress();
+	fee2 = calculateFinalPrice(package->userId,
+		calculatePackageFee(package->size, package->weight, package->transportMethod));
+    if (fee2 - fee1 > 0) {
+		add_Transaction(TRANSACTION_INCOME, INCOME_PIECE_FEE, fee2 - fee1, "包裹费用修改");
+		printf("交易记录已经同步修改！费用变化：%.2f元\n", fee2 - fee1);
+	}
+	else if (fee2 - fee1 < 0) {
+		add_Transaction(TRANSACTION_EXPENSE, EXPENSE_COMPENSATION, fee1 - fee2, "包裹费用修改");
+		printf("交易记录已经同步修改！费用变化：%.2f元\n", fee1 - fee2);
+	}
+	savePackages_File("packages.txt");
+	saveShelvesToFile("shelves.txt");
+	waitForKeyPress();
 }
 
 
