@@ -303,6 +303,8 @@ void showUserMenu() {
         printf("0. 登出\n");
         printf("请选择操作：");
         scanf("%d", &choice);
+        int choice2,choice3;
+        double fee;
         switch (choice) {
         case 1:
             userPackages = getUserWaitingPackages(currentUser->id,&count);
@@ -847,6 +849,7 @@ void handleAddPackage() {
     int transportMethod;
     printf("运输方式 (0-正常货车, 1-加快公路, 2-特快空运, 3-特快公路): ");
     scanf("%d", &transportMethod);
+
     if (transportMethod < 0 || transportMethod > 3) {
         printf("无效的运输方式！\n");
         waitForKeyPress();
@@ -869,7 +872,28 @@ void handleAddPackage() {
         waitForKeyPress();
         return;
     }
-
+    double fee0;
+    if (g_currentUserType == USER_TYPE_NORMAL) {
+        int choice2, choice3 = 0;
+        printf("请选择寄件方式：\n");
+        printf("1. 驿站自行寄件\n");
+        printf("2. 上门取件\n");
+        scanf("%d", &choice2);
+        if (choice2 == 1);
+        else {
+			fee0 = calculateFinalPrice(userId, doorstepfee(size, weight, transportMethod));
+            printf("您需要支付上门取件费用%.2lf元，是否继续？\n",fee0);
+            printf("1. 是\n");
+            printf("2. 否\n");
+            scanf("%d", &choice3);
+            if (choice3 == 1);
+            else {
+                printf("将退出寄件页面\n");
+                waitForKeyPress();
+                return;
+            }
+        }
+    } // 本函数同时用于用户寄件和管理员入库，这里是寄件判断
     
     Package* newPackage = addPackage(userId, size, weight, note, transportMethod, value, shelfId);
     if (newPackage == NULL) {
@@ -879,7 +903,10 @@ void handleAddPackage() {
         printf("添加包裹成功！");
         if (g_currentUserType == USER_TYPE_ADMIN) {
             printf("取件码: %s\n", newPackage->pickupCode);
-        }
+        }//本函数同时用于用户寄件和管理员入库，取件码显示判断来应对是否需要显示取件码
+		if (g_currentUserType == USER_TYPE_NORMAL && fee0 != 0.0) {
+            add_Transaction(TRANSACTION_INCOME, INCOME_DOORSTEP_FEE, fee0, "包裹上门寄件费");
+		}
         savePackages_File("packages.txt");
         saveShelvesToFile("shelves.txt");
 
