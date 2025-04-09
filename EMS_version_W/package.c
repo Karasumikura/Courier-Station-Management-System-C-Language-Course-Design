@@ -111,6 +111,12 @@ void handleMarkPackagePickedUp() {
     int packageId;
     printf("请输入包裹ID: ");
     scanf("%d", &packageId);
+	Package* package = findPackageById(packageId);
+	if (package == NULL || package->status != PACKAGE_STATUS_WAITING) {
+		printf("包裹不存在或已取出！\n");
+		waitForKeyPress();
+		return;
+	}
     int choice;
 	printf("选择取件方式：\n");
 	printf("1. 驿站自取\n");
@@ -124,7 +130,7 @@ void handleMarkPackagePickedUp() {
         saveShelvesToFile("shelves.txt");
     }
     else {
-        printf("操作失败，包裹可能不存在或已经取出！\n");
+        printf("操作失败！\n");
     }
 
     waitForKeyPress();
