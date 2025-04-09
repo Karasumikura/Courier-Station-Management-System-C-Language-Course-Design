@@ -113,6 +113,9 @@ void handleMarkPackagePickedUp() {
     scanf("%d", &packageId);
     int choice;
 	printf("选择取件方式：\n");
+	printf("1. 驿站自取\n");
+	printf("2. 上门取件\n");
+	printf("请选择操作：");
 	scanf("%d", &choice);
     loading_simulation();
     if (markPackageAsPickedUp(packageId,choice)) {
