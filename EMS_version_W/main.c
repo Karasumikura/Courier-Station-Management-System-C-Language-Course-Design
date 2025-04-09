@@ -766,7 +766,7 @@ void displayAllPackages() {
 
 
 void handleAddPackage() {
-    int choice;
+    int choice = 0;
     int correct = 0;
     clearScreen();
     printf("=================================\n");
@@ -822,6 +822,7 @@ void handleAddPackage() {
     if (!correct) {
         printf(" ‰»Î”–ŒÛ£°\n");
         waitForKeyPress();
+        clearInputBuffer();
         return;
     }
     int size;
