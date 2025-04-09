@@ -1188,8 +1188,8 @@ void handleSearchPackage() {
     else {
         printf("无效的选择！\n");
     }
-
     waitForKeyPress();
+    clearInputBuffer();
 }
 
 void handleAddShelf() {
