@@ -128,6 +128,7 @@ void handleMarkPackagePickedUp() {
     }
 
     waitForKeyPress();
+    clearInputBuffer();
 }
 
 void handleMarkPackageAbnormal() {
