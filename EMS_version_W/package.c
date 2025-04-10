@@ -273,7 +273,11 @@ while (running) {
     if (choice == 1) {
         running = 0;
         printf("输入异常赔款金额：");
-		scanf("%d", &price);
+        while (scanf("%d", &price) != 1 || price < 0) {
+			printf("无效输入！\n");
+            printf("输入异常赔款金额：");
+			clearInputBuffer();
+        }
 		add_Transaction(TRANSACTION_EXPENSE, EXPENSE_COMPENSATION, price, "包裹赔款");
     }
     else if (choice == 2) {
@@ -533,25 +537,9 @@ void printUserAbnormalPackages(Package** userPackages, int count) {
     printf("有 %d 条符合条件的通知：\n", count);
     for (int i = 0; i < count; i++) {
         Package* package = userPackages[i];
-        char* transtypeStr;
-        switch (package->transportMethod) {
-        case TRANSPORT_NORMAL:
-            transtypeStr = "普通公路";
-            break;
-        case TRANSPORT_FAST_ROAD:
-            transtypeStr = "公路速运";
-            break;
-        case TRANSPORT_EXPRESS_AIR:
-            transtypeStr = "特快空运";
-            break;
-        case TRANSPORT_EXPRESS_ROAD:
-            transtypeStr = "特快公路";
-            break;
-        default:
-            transtypeStr = "未知";
-        }
-        printf("包裹 ID：%d，运输方式：%s，取件码：%s\n",
-            package->id,  transtypeStr, package->abnote);
+
+        printf("包裹 ID：%d，异常原因：%s\n",
+            package->id, package->abnote);
     }
     waitForKeyPress();
 }

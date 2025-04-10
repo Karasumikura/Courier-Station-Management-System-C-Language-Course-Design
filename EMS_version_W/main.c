@@ -127,7 +127,7 @@ void showAdminMenu() {
         printf("2. 包裹管理\n");
         printf("3. 库存与货架管理\n");
         printf("4. 数据时间段报表\n");
-        printf("5. 交易记录\n");
+        printf("5. 交易记录（时间关键字排序）\n");
 		printf("6. 数据分析与建议\n");
 		printf("7. 机器学习数据预测\n");
         printf("0. 登出\n");
