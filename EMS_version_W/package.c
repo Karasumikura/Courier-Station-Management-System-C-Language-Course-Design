@@ -197,6 +197,40 @@ current = current->next;
 return packages;
 }
 
+Package** getUserAbnormalPackages(int userId, int* count) {
+    *count = 0;
+    Package* current = g_packageList;
+
+    while (current != NULL) {
+        if (current->userId == userId && current->status == PACKAGE_STATUS_ABNORMAL) {
+            (*count)++;
+        }
+        current = current->next;
+    }
+
+    if (*count == 0) {
+        return NULL;
+    }
+
+    Package** packages = (Package**)malloc(sizeof(Package*) * (*count));
+    if (packages == NULL) {
+        *count = 0;
+        return NULL;
+    }
+
+    current = g_packageList;
+    int index = 0;
+
+    while (current != NULL && index < *count) {
+        if (current->userId == userId && current->status == PACKAGE_STATUS_WAITING) {
+            packages[index++] = current;
+        }
+        current = current->next;
+    }
+
+    return packages;
+}
+
 double markPackageAsPickedUp(int packageId,int choice) {
 Package* package = findPackageById(packageId);
 if (package == NULL || package->status != PACKAGE_STATUS_WAITING) {
@@ -444,12 +478,12 @@ fclose(file);
 
 void printUserPackages(Package** userPackages, int count) {
     if (userPackages == NULL || count == 0) {
-        printf("没有找到符合条件的包裹。\n");
+        printf("没有相关通知。\n");
 		waitForKeyPress();
         return;
     }
 
-    printf("找到 %d 个符合条件的包裹：\n", count);
+    printf("有 %d 条符合条件的通知：\n", count);
     for (int i = 0; i < count; i++) {
         Package* package = userPackages[i];
 		char* transtypeStr;
@@ -485,6 +519,39 @@ void printUserPackages(Package** userPackages, int count) {
 		}
         printf("包裹 ID：%d，状态：%s，运输方式：%s，取件码：%s\n",
             package->id,statusStr,transtypeStr,package->pickupCode);
+    }
+    waitForKeyPress();
+}
+
+void printUserAbnormalPackages(Package** userPackages, int count) {
+    if (userPackages == NULL || count == 0) {
+        printf("没有相关通知。\n");
+        waitForKeyPress();
+        return;
+    }
+
+    printf("有 %d 条符合条件的通知：\n", count);
+    for (int i = 0; i < count; i++) {
+        Package* package = userPackages[i];
+        char* transtypeStr;
+        switch (package->transportMethod) {
+        case TRANSPORT_NORMAL:
+            transtypeStr = "普通公路";
+            break;
+        case TRANSPORT_FAST_ROAD:
+            transtypeStr = "公路速运";
+            break;
+        case TRANSPORT_EXPRESS_AIR:
+            transtypeStr = "特快空运";
+            break;
+        case TRANSPORT_EXPRESS_ROAD:
+            transtypeStr = "特快公路";
+            break;
+        default:
+            transtypeStr = "未知";
+        }
+        printf("包裹 ID：%d，运输方式：%s，取件码：%s\n",
+            package->id,  transtypeStr, package->abnote);
     }
     waitForKeyPress();
 }

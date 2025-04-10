@@ -23,6 +23,10 @@ Package** getUserWaitingPackages(int userId,int* count);
 
 double markPackageAsPickedUp(int packageId,int choice);
 
+Package** getUserAbnormalPackages(int userId, int* count);
+
+void printUserAbnormalPackages(Package** userPackages, int count);
+
 int markPackageAsAbnormal(int packageId, const char* reason);
 
 void handleMarkPackagePickedUp();

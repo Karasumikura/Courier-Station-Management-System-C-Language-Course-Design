@@ -300,11 +300,12 @@ void showUserMenu() {
         }
         Package** userPackages;
 		int count;
-        printf("1. 查看我的待取包裹\n");
+        printf("1. 待取件通知系统\n");
         printf("2. 取件\n");
         printf("3. 寄件\n");
         printf("4. 查看我的信息\n");
         printf("5. 查看活动\n");
+        printf("6. 异常通知系统\n");
         printf("0. 登出\n");
         printf("请选择操作：");
         scanf("%d", &choice);
@@ -328,6 +329,9 @@ void showUserMenu() {
             loading_simulation();//好东西要等待（笑）
 			displayPromotions();
 			break;
+		case 6:
+			userPackages = getUserAbnormalPackages(currentUser->id, &count);
+			printUserAbnormalPackages(userPackages, count);
         case 0:
             running = 0;
 			Promotionstatus = 0;//重置
