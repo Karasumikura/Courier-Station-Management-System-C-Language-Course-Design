@@ -892,7 +892,7 @@ void handleAddPackage() {
         waitForKeyPress();
         return;
     }
-    double fee0;
+    double fee0 =0.0;
     if (g_currentUserType == USER_TYPE_NORMAL) {
         int choice2, choice3 = 0;
         printf("请选择寄件方式：\n");

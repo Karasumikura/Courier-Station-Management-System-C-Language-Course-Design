@@ -256,10 +256,10 @@ void set_cursor_visibility(int visible) {
 
 void loading_simulation() {
 #ifdef _WIN32
-    // 隐藏光标（Windows 平台）
+    // 隐藏光标（Win）
     set_cursor_visibility(0);
 #else
-    // 隐藏光标（Linux/Unix 平台）
+    // 隐藏光标（Linux）
     printf(HIDE_CURSOR);
     fflush(stdout);
 #endif
