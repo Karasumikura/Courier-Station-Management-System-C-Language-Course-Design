@@ -389,7 +389,7 @@ int daysummary(Record records[], int recordCount, DailySummary summaries[]) {
         char currentDate[11];
         strncpy(currentDate, records[i].timestamp, 10);//读取时间到日
         currentDate[10] = '\0';
-		printf("%s\n", currentDate);
+		//printf("%s\n", currentDate);
         int found = 0;
         for (int j = 0; j < summaryCount; j++) {
             if (strcmp(summaries[j].date, currentDate) == 0) {//查找到对应时间
