@@ -434,7 +434,7 @@ void predictFuture(int summaryCount, DailySummary summaries[]) {
     double x[MAX_RECORDS], y1[MAX_RECORDS],y2[MAX_RECORDS],y3[MAX_RECORDS];
 
     for (int i = 0; i < summaryCount; i++) {
-        x[i] = i + 1; // 时间序号
+        x[i] = i;
         y1[i] = summaries[i].totalincome;
 		y2[i] = summaries[i].totaloutcome;
 		y3[i] = summaries[i].totalPackages;
@@ -454,6 +454,7 @@ void predictFuture(int summaryCount, DailySummary summaries[]) {
 	if (scanf("%d", &futureDays) != 1 || futureDays <= 0) {
 		printf("无效的输入！\n");
 		waitForKeyPress();
+        clearInputBuffer();
 		return;
 	}
     printf("\n=================================\n");
@@ -463,16 +464,18 @@ void predictFuture(int summaryCount, DailySummary summaries[]) {
         double predicted_y1 = a1 * (summaryCount + i + 1) + b1;
 		double predicted_y2 = a2 * (summaryCount + i + 1) + b2;
 		double predicted_y3 = a3 * (summaryCount + i + 1) + b3;
-		if (predicted_y2 > 0.0) predicted_y2 = 0.0;
+        int finaly3 = 0;
+        if (predicted_y2 < 0.0) predicted_y2 = 0.0;
 		if (predicted_y1 < 0.0) predicted_y1 = 0.0;
+		if (predicted_y3 < 0.0) predicted_y3 = 0.0;
         if ((predicted_y3 - (int)predicted_y3) >= 0.5) {
-            predicted_y3 = (int)predicted_y3 + 1;
+            finaly3 = (int)predicted_y3 + 1;
 		}
 		else {
-			predicted_y3 = (int)predicted_y3;
+            finaly3 = (int)predicted_y3;
 		}
         printf("未来第 %d 天：总收入：%.2lf元，总支出：%.2lf元，总包裹处理量：%d个\n", 
-            i + 1, predicted_y1,predicted_y2, predicted_y3);
+            i + 1, predicted_y1,predicted_y2, finaly3);
     }
     waitForKeyPress();
 }
