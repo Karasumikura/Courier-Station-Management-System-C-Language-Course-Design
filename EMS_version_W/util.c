@@ -348,7 +348,7 @@ int dataprepocessing(Record records[]) {
     while (fgets(line, sizeof(line), file)) {
 		char* token = strtok(line, ",");//strtok类似python的.split,但是只存储第一个分割的字符串
         int index = 0;//记录索引，分辨数据类型
-        while (token != NULL && index < 5) {
+        while (token != NULL && index < 6) {
             if (index == 1) {
 				records[count].status = atoi(token);//收入or支出
                 //atoi,atof将字符串转换为int,double
@@ -362,9 +362,10 @@ int dataprepocessing(Record records[]) {
             else if (index == 3) { // 提取价格
                 records[count].price = atof(token);
             }
-            else if (index == 4) { // 提取时间
+            else if (index == 5) { // 提取时间
                 strncpy(records[count].timestamp, token, 19);
                 records[count].timestamp[19] = '\0';
+				//printf("%s\n", records[count].timestamp);
             }
 			token = strtok(NULL, ",");//继续分割
             index++;
@@ -388,7 +389,7 @@ int daysummary(Record records[], int recordCount, DailySummary summaries[]) {
         char currentDate[11];
         strncpy(currentDate, records[i].timestamp, 10);//读取时间到日
         currentDate[10] = '\0';
-
+		printf("%s\n", currentDate);
         int found = 0;
         for (int j = 0; j < summaryCount; j++) {
             if (strcmp(summaries[j].date, currentDate) == 0) {//查找到对应时间
@@ -400,7 +401,7 @@ int daysummary(Record records[], int recordCount, DailySummary summaries[]) {
 				}
                 found = 1;
                 if (records[i].ifnewpackage == 1) {
-                    summaries[summaryCount].totalPackages++;
+                    summaries[j].totalPackages++;
                 }
                 break;
             }
@@ -426,7 +427,7 @@ int daysummary(Record records[], int recordCount, DailySummary summaries[]) {
             summaryCount++;
         }
     }
-
+    //printf("%d", summaryCount);
     return summaryCount;
 }
 
@@ -434,7 +435,7 @@ void predictFuture(int summaryCount, DailySummary summaries[]) {
     double x[MAX_RECORDS], y1[MAX_RECORDS],y2[MAX_RECORDS],y3[MAX_RECORDS];
 
     for (int i = 0; i < summaryCount; i++) {
-        x[i] = i;
+        x[i] = i + 1;
         y1[i] = summaries[i].totalincome;
 		y2[i] = summaries[i].totaloutcome;
 		y3[i] = summaries[i].totalPackages;
