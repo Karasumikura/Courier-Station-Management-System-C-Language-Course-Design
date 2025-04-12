@@ -471,8 +471,8 @@ void predictFuture(int summaryCount, DailySummary summaries[]) {
 		else {
 			predicted_y3 = (int)predicted_y3;
 		}
-        printf("第 %d 天：总收入：%.2lf元，总支出：%.2lf元，总包裹处理量：%d个\n", 
-            summaryCount + i + 1, predicted_y1,predicted_y2, predicted_y3);
+        printf("未来第 %d 天：总收入：%.2lf元，总支出：%.2lf元，总包裹处理量：%d个\n", 
+            i + 1, predicted_y1,predicted_y2, predicted_y3);
     }
     waitForKeyPress();
 }
