@@ -477,6 +477,7 @@ void handleUserManagement() {
     int running = 1;
     while (running) {
         clearScreen();
+        clearInputBuffer();
         printf("=================================\n");
         printf("           用户管理             \n");
         printf("=================================\n");
@@ -488,12 +489,16 @@ void handleUserManagement() {
         printf("请选择操作：");
 
         int choice;
-        scanf("%d", &choice);
+        if(scanf("%d", &choice) == 1);
+        else {
+            printf("\n无效选择，请重新输入！\n");
+            clearInputBuffer();
+            waitForKeyPress();
+        }
 
         switch (choice) {
         case 1:
             displayAllUsers();
-            waitForKeyPress();
             break;
         case 2:
             handleAddUser();
@@ -509,7 +514,9 @@ void handleUserManagement() {
             break;
         default:
             printf("无效选择，请重新输入！\n");
+            clearInputBuffer();
             waitForKeyPress();
+            break;
         }
     }
 }
@@ -562,6 +569,8 @@ void displayAllUsers() {
     if (count == 0) {
         printf("暂无普通用户记录\n");
     }
+    waitForKeyPress();
+    clearInputBuffer();
 }
 
 

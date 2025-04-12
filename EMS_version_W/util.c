@@ -457,7 +457,7 @@ void predictFuture(int summaryCount, DailySummary summaries[]) {
 		return;
 	}
     printf("\n=================================\n");
-    printf("           预测未来 %d 天", futureDays);
+    printf("          预测未来 %d 天", futureDays);
     printf("\n=================================\n");
     for (int i = 0; i < futureDays; i++) {
         double predicted_y1 = a1 * (summaryCount + i + 1) + b1;
