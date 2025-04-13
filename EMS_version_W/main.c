@@ -1352,12 +1352,14 @@ void handleMachineLearning() {
     int recordCount = dataprepocessing(records);
     if (recordCount == 0) {
         printf("没有加载到任何数据！\n");
+		waitForKeyPress();
         return;
     }
     if (recordCount == -1) return;
 	int sumcount = daysummary(records, recordCount, summaries);
 	if (sumcount == 0) {
 		printf("没有加载到任何数据！\n");
+		waitForKeyPress();
 		return;
 	}
 	printf("=================================\n");

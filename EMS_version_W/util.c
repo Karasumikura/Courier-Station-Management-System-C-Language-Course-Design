@@ -339,7 +339,9 @@ void linearRegression(int n, double x[], double y[], double* a, double* b) {
 int dataprepocessing(Record records[]) {
     FILE* file = fopen("transactions.txt", "r");
     if (file == NULL) {
+        clearInputBuffer();
         printf("无法打开文件 transactions.txt！\n");
+		waitForKeyPress();
         return 0;
     }
 
