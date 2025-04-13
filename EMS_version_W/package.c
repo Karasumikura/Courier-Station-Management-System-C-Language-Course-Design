@@ -159,7 +159,7 @@ void handleMarkPackageAbnormal() {
     else {
         printf("操作失败，包裹可能不存在或已经不在待取状态！\n");
     }
-
+	clearInputBuffer();
     waitForKeyPress();
 }
 
