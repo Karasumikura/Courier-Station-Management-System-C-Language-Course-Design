@@ -316,6 +316,7 @@ void showUserMenu() {
         case 1:
             userPackages = getUserWaitingPackages(currentUser->id,&count);
 			printUserPackages(userPackages, count);
+            count = 0;
             break;
         case 2:
             handlePickupPackage();
@@ -333,6 +334,8 @@ void showUserMenu() {
 		case 6:
 			userPackages = getUserAbnormalPackages(currentUser->id, &count);
 			printUserAbnormalPackages(userPackages, count);
+            count = 0;
+            break;
         case 0:
             running = 0;
 			Promotionstatus = 0;//重置
@@ -341,6 +344,7 @@ void showUserMenu() {
         default:
             printf("无效选择，请重新输入！\n");
             waitForKeyPress();
+            break;
         }
     }
     showMainMenu();
