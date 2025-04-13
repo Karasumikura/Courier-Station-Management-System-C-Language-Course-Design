@@ -477,7 +477,6 @@ void handleUserManagement() {
     int running = 1;
     while (running) {
         clearScreen();
-        clearInputBuffer();
         printf("=================================\n");
         printf("           用户管理             \n");
         printf("=================================\n");
@@ -570,7 +569,7 @@ void displayAllUsers() {
         printf("暂无普通用户记录\n");
     }
     waitForKeyPress();
-    clearInputBuffer();
+    //clearInputBuffer();
 }
 
 
