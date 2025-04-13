@@ -222,7 +222,7 @@ Package** getUserAbnormalPackages(int userId, int* count) {
     int index = 0;
 
     while (current != NULL && index < *count) {
-        if (current->userId == userId && current->status == PACKAGE_STATUS_WAITING) {
+        if (current->userId == userId && current->status == PACKAGE_STATUS_ABNORMAL) {
             packages[index++] = current;
         }
         current = current->next;
