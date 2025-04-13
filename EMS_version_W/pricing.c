@@ -55,11 +55,6 @@ double calculateFinalPrice(int userId, double basePrice) {
     else {
         discountAmount = 0;
     }
-    
-
-    
     double priceBump = calculatePriceBump(userId, basePrice);
-
-    
     return basePrice - discountAmount + priceBump;
 }

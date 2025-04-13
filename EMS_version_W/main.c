@@ -163,6 +163,7 @@ void showAdminMenu() {
             printf("无效选择，请重新输入！\n");
             waitForKeyPress();
             clearInputBuffer();
+            break;
         }
     }
 }
@@ -257,9 +258,10 @@ void handleTransactions() {
             break;
         default:
             printf("无效选择，请重新输入！\n");
-            waitForKeyPress();
+   
         }
         clearInputBuffer();
+        waitForKeyPress();
     }
 }
 void showUserMenu() {
