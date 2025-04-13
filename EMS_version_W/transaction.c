@@ -148,9 +148,12 @@ void saveTransactionsToFile(const char* filename) {
 
 // 读取文件的数据
 void loadTransactionsFromFile(const char* filename) {
+    int status = 1;
     FILE* file = fopen(filename, "r");
     if (file == NULL) {
         printf("交易记录数据文件 %s 不存在，将创建新文件\n", filename);
+        waitForKeyPress();
+        status = 0;
     }
 
     
@@ -162,7 +165,7 @@ void loadTransactionsFromFile(const char* filename) {
 
     
     char line[200];
-    while (fgets(line, sizeof(line), file)) {
+    while (status == 1 && fgets(line, sizeof(line), file)) {
         int id, type, subType;
         double amount;
         char description[100], createTime[20];
@@ -189,7 +192,9 @@ void loadTransactionsFromFile(const char* filename) {
         }
     }
 
-    fclose(file);
+    if (file != NULL) {
+        fclose(file);
+    }
 }
 
 void printtransaction() {
