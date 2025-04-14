@@ -258,10 +258,10 @@ void handleTransactions() {
             break;
         default:
             printf("无效选择，请重新输入！\n");
-   
+			waitForKeyPress();
+            break;
         }
         clearInputBuffer();
-        waitForKeyPress();
     }
 }
 void showUserMenu() {
