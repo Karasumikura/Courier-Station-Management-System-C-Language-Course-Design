@@ -124,13 +124,18 @@ void handleMarkPackagePickedUp() {
 	printf("请选择操作：");
 	scanf("%d", &choice);
     loading_simulation();
-    if (markPackageAsPickedUp(packageId,choice)) {
-        printf("包裹已成功标记为已取出！\n");
-        savePackages_File("packages.txt");
-        saveShelvesToFile("shelves.txt");
+    if ((choice == 1 || choice == 2)) {
+        if (markPackageAsPickedUp(packageId, choice)) {
+            printf("包裹已成功标记为已取出！\n");
+            savePackages_File("packages.txt");
+            saveShelvesToFile("shelves.txt");
+        }
+        else {
+			printf("取出操作失败！\n");
+        }
     }
     else {
-        printf("操作失败！\n");
+        printf("输入非法！\n");
     }
 
     waitForKeyPress();
