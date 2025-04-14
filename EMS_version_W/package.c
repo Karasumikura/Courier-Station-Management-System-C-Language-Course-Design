@@ -107,6 +107,7 @@ void handleMarkPackagePickedUp() {
     printf("=================================\n");
     printf("         标记包裹已取出         \n");
     printf("=================================\n");
+	printf("注：此功能仅提供给管理员，仅修改包裹状态，不涉及交易记录\n如需取件，请在用户端取件！\n");
 
     int packageId;
     printf("请输入包裹ID: ");
