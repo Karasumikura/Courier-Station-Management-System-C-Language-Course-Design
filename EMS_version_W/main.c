@@ -1263,12 +1263,13 @@ void handlePickupPackage() {
     double price;
     int status;
     printf("选择查找方式：\n1.包裹ID\n2.取件码\n");
-	if (choice != 1 && choice != 2) {
-		printf("无效选择，请重新输入！\n");
-		waitForKeyPress();
-		return;
-	}
+	printf("请选择操作：");
     scanf("%d", &choice);
+    if (choice != 1 && choice != 2) {
+        printf("无效选择，请重新输入！\n");
+        waitForKeyPress();
+        return;
+    }
     if (choice == 1) {
         printf("请输入包裹ID: ");
         scanf("%d", &packageInput);
